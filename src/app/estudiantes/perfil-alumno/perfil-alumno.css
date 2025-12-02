@@ -1,0 +1,61 @@
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            position: relative; /* Necesario para el posicionamiento del botón de logout */
+        }
+        .profile-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+        .tabs {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .tabs button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            margin: 0 5px;
+        }
+        .tabs button.active {
+            background-color: #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .course-item, .my-course-item, .profile-info {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+        }
+        .progress {
+            width: 60%; /* Ejemplo de progreso */
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+        }
+        .course-actions {
+            margin-top: 10px;
+        }
+        .course-actions button {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .btn-ver { background-color: #007bff; color: white; border-color: #007bff; }
+        .btn-pago { background-color: #fd7e14; color: white; border-color: #fd7e14; }
