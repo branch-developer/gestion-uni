@@ -1,0 +1,24 @@
+<div class="curso-container">
+
+  <div class="top-bar">
+    <h1>{{ curso.titulo }}</h1>
+
+    <button class="btn-regresar" routerLink="/estudiantes/perfil-alumno">
+      ← Regresar al Perfil
+    </button>
+  </div>
+
+  <div class="pagina" *ngFor="let pagina of curso.paginas">
+    <h2>{{ pagina.titulo }}</h2>
+    <p>{{ pagina.contenido }}</p>
+    <hr>
+  </div>
+
+  <!-- BOTÓN EVALUACIÓN -->
+<button class="btn-evaluacion" routerLink="/estudiantes/evaluacion">
+  Evaluación
+</button>
+  
+</div>
+
+<!-- Aquí luego puedes cargar info real según el id -->

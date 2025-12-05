@@ -1,34 +1,18 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-alumno',
   standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './perfil-alumno.html',
   styleUrls: ['./perfil-alumno.css']
 })
-
-export class PerfilAlumnoComponent {  // ← Corregido: nombre completo
-
-  showContent(sectionId: string): void {
-    // Ocultar todas las secciones
-    document.querySelectorAll<HTMLElement>('.content-section').forEach(section => 
-      section.classList.remove('active')
-    );
-    
-    document.querySelectorAll<HTMLButtonElement>('.tabs button').forEach(button => 
-      button.classList.remove('active')
-    );
-    
-    // Mostrar la sección y el botón seleccionados
-    const section = document.getElementById(sectionId);
-    const button = document.getElementById('btn-' + sectionId);
-
-    if (section) {
-      section.classList.add('active');
-    }
-    if (button) {
-      button.classList.add('active');
-    }
-  }
+export class PerfilAlumnoComponent {
+  nombreAlumno = 'Juan Pérez';
+  correo = 'juan@email.com';
+  fechaInscripcion = '2024-02-10';
+  descripcion = 'Estudiante de la universidad';
+  gustos = 'Programación, música';
 }
-

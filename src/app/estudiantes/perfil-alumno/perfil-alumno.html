@@ -1,59 +1,33 @@
+<!-- Botón para cerrar sesión -->
+<button class="btn-logout" routerLink="/login">
+  Cerrar Sesión
+</button>
 
-    <!-- Botón para cerrar sesión -->
-    <button class="btn-logout" onclick="window.location.href='login ARI.html'">Cerrar Sesión</button>
+<!-- Encabezado del perfil -->
+<div class="profile-header">
+  <h1>Bienvenido, {{ nombreAlumno }}</h1>
+</div>
 
-    <!-- Encabezado del perfil -->
-    <div class="profile-header">
-        <h1>Bienvenido, [Nombre del Alumno]</h1>
-    </div>
+<div class="tabs">
+  <button routerLink="/estudiantes/perfil-alumno">
+    Mi Perfil
+  </button>
+  <button routerLink="/estudiantes/mis-cursos">
+    Mis Cursos
+  </button>
+  <button routerLink="/estudiantes/cursos-disponibles">
+    Cursos Disponibles
+  </button>
+</div>
 
-    <div class="tabs">
-        <button onclick="showContent('perfil')" id="btn-perfil">Mi Perfil</button>
-        <button onclick="showContent('mis-cursos')" id="btn-mis-cursos">Mis Cursos</button>
-        <button onclick="showContent('cursos-disponibles')" id="btn-cursos-disponibles" class="active">Cursos Disponibles</button>
-    </div>
-
-    <!-- Sección de Mi Perfil -->
-    <div id="perfil" class="content-section">
-        <h2>Mi Perfil</h2>
-        <div class="profile-info">
-            <p><strong>Nombre:</strong> [Nombre del Alumno]</p>
-            <p><strong>Correo Electrónico:</strong> [email@alumno.com]</p>
-            <p><strong>Fecha de Inscripción:</strong> [Fecha]</p>
-            <p><strong>Descripción:</strong> [Añade una breve descripción sobre ti]</p>
-            <p><strong>Gustos:</strong> [Menciona algunos de tus gustos o hobbies]</p>
-        </div>
-    </div>
-
-    <!-- Sección de Mis Cursos -->
-    <div id="mis-cursos" class="content-section">
-        <h2>Mis Cursos y Progreso</h2>
-        <div class="my-course-item" onclick="window.location.href='curso_detalle.html'" style="cursor: pointer;">
-            <h3>Matemática Avanzada</h3>
-            <p>Progreso del curso:</p>
-            <div class="progress-bar">
-                <div class="progress" style="width: 60%;">60%</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sección de Cursos Disponibles -->
-    <div id="cursos-disponibles" class="content-section active">
-        <h2>Cursos Disponibles</h2>
-        <div class="course-item">
-            <h3>Introducción a la Programación</h3>
-            <p>Aprende los fundamentos de la programación desde cero.</p>
-            <div class="course-actions">
-                <button class="btn-ver" onclick="window.location.href='curso_detalle.html'">Ver</button>
-                <button class="btn-pago" onclick="window.location.href='forma_pago.html'">Método de Pago</button>
-            </div>
-        </div>
-        <div class="course-item">
-            <h3>Historia Universal</h3>
-            <p>Un recorrido por los eventos más importantes de la historia.</p>
-            <div class="course-actions">
-                <button class="btn-ver" onclick="window.location.href='curso_detalle.html'">Ver</button>
-                <button class="btn-pago" onclick="window.location.href='forma_pago.html'">Método de Pago</button>
-            </div>
-        </div>
-    </div>
+<!-- Solo contenido de perfil aquí -->
+<div class="content-section">
+  <h2>Mi Perfil</h2>
+  <div class="profile-info">
+    <p><strong>Nombre:</strong> {{ nombreAlumno }}</p>
+    <p><strong>Correo Electrónico:</strong> {{ correo }}</p>
+    <p><strong>Fecha de Inscripción:</strong> {{ fechaInscripcion }}</p>
+    <p><strong>Descripción:</strong> {{ descripcion }}</p>
+    <p><strong>Gustos:</strong> {{ gustos }}</p>
+  </div>
+</div>
