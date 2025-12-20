@@ -7,10 +7,11 @@ import { EvaluacionComponent } from './estudiantes/evaluacion/evaluacion';
 import { LoginComponent } from './login/login';
 
 export const routes: Routes = [
-  // Ruta por defecto: que vaya al login
+  // Ruta por defecto: LOGIN
   { 
     path: '', 
-    redirectTo: 'login', pathMatch: 'full' 
+    redirectTo: 'login', 
+    pathMatch: 'full' 
   },
 
   // Login
@@ -18,33 +19,22 @@ export const routes: Routes = [
     path: 'login', 
     component: LoginComponent 
   },
+
+  // Rutas de estudiantes
   {
-    path: 'estudiantes/perfil-alumno',
-    component: PerfilAlumnoComponent
+    path: 'estudiantes',
+    children: [
+      { path: 'perfil-alumno', component: PerfilAlumnoComponent },
+      { path: 'mis-cursos', component: MisCursosComponent },
+      { path: 'cursos-disponibles', component: CursosDisponiblesComponent },
+      { path: 'evaluacion', component: EvaluacionComponent },
+      { path: 'detalle-curso', component: DetalleCursoComponent }
+    ]
   },
-  {
-    path: 'estudiantes/mis-cursos',
-    component: MisCursosComponent
-  },
-  {
-    path: 'estudiantes/cursos-disponibles',
-    component: CursosDisponiblesComponent
-  },
-  { 
-    path: 'curso', 
-    component: DetalleCursoComponent 
-  },
-  { 
-    path: 'estudiantes/evaluacion', 
-    component: EvaluacionComponent 
-  },
-  {
-    path: '',
-    redirectTo: 'estudiantes/perfil-alumno',
-    pathMatch: 'full'
-  },
+
+  // Wildcard al login
   {
     path: '**',
-    redirectTo: 'estudiantes/perfil-alumno'
+    redirectTo: 'login'
   }
-]; 
+];

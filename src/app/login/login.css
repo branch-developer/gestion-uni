@@ -77,32 +77,61 @@
         z-index: 10; /* Asegura que el botón esté por encima de otros elementos */
     }
 
-.title {
-    text-align: center;
-    color: #fff;
-    font-size: 36px;
-    margin-bottom: 40px;
-}
+    .title {
+        text-align: center;
+        color: #fff;
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
 
-        .role-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        .role-button {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 5px;
-        }
-        .role-button.active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
+   
+    .role-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    gap: 10px;
+    flex-wrap: wrap; /* Para responsividad */
+    }
+
+    .role-button {
+    flex: 1;
+    min-width: 80px;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    }
+
+    .role-button:hover {
+    background-color: #e9ecef;
+    border-color: #007bff;
+    transform: translateY(-2px);
+    }
+
+    .role-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    }
+
+    .role-button:first-child.active { text-transform: capitalize; } /* Capitaliza Alumno */
+
+    /* Responsivo */
+    @media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .role-buttons {
+        flex-direction: column;
+    }
+    }
+
 
 
