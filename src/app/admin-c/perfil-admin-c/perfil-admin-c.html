@@ -1,0 +1,61 @@
+<div>
+    <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+
+    <header class="header-container">
+        <h1>Panel de Admin (AdminC)</h1>
+        <p>Función: Gestión de curso, progreso, eliminación o recordatorio del mismo.</p>
+    </header>
+
+    <main>
+        <section class="gestion-alumnos">
+            <h2>Progreso de Estudiantes</h2>
+
+            <ul class="lista-alumnos">
+                <li>
+                    <span>Nombre del Estudiante 1</span>
+                    <div class="acciones">
+                        <button class="btn-progreso" (click)="verProgreso('Nombre del Estudiante 1')">Ver Progreso</button>
+                        <button class="btn-recordar" (click)="enviarRecordatorio('Nombre del Estudiante 1')">Recordar</button>
+                        <button class="btn-eliminar" (click)="eliminarCurso('Nombre del Estudiante 1')">Eliminar Curso</button>
+                    </div>
+                </li>
+
+                <li>
+                    <span>Nombre del Estudiante 2</span>
+                    <div class="acciones">
+                        <button class="btn-progreso" (click)="verProgreso('Nombre del Estudiante 2')">Ver Progreso</button>
+                        <button class="btn-recordar" (click)="enviarRecordatorio('Nombre del Estudiante 2')">Recordar</button>
+                        <button class="btn-eliminar" (click)="eliminarCurso('Nombre del Estudiante 2')">Eliminar Curso</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="gestion-usuarios">
+            <h2>Gestión de Usuarios</h2>
+
+            <div class="lista-usuarios-header">
+                <span style="flex: 2; text-align: left;">Usuario</span>
+                <span class="header-item">Acción</span>
+                <span class="header-item">Estatus</span>
+            </div>
+
+            <ul class="lista-usuarios">
+                <li>
+                    <span class="usuario-info">Usuario: admin@ejemplo.com (Rol: Admin)</span>
+                    <div class="acciones">
+                        <button class="btn-editar btn-progreso" (click)="editarUsuario('admin@ejemplo.com')">Editar</button>
+                        <div class="control-estatus">
+                            <span id="status-text-admin" class="status-text activo">Activo</span>
+                            <label class="switch">
+                        <input
+                         type="checkbox" checked (change)="activarUsuario('admin@ejemplo.com', $any($event.target).checked, 'status-text-admin')">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
