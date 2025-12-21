@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminPRoutingModule } from './admin-p-routing-module';
-
+import { PerfilAdminPComponent } from './perfil-admin-p/perfil-admin-p';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
-    AdminPRoutingModule
+    AdminPRoutingModule,
+    PerfilAdminPComponent
   ]
 })
-export class AdminPModule { }
+export class AdminPModule {}

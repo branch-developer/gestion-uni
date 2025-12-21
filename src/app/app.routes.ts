@@ -9,6 +9,6 @@ export const routes: Routes = [
     children: [
       { path: 'perfil-profesor', component: PerfilProfesorComponent},
     ]
-    }
-];
-  
+  },
+  { path: 'admin-p', loadChildren: () => import('./admin-p/admin-p-module').then(m => m.AdminPModule) }
+  ];
