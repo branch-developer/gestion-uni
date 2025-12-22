@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-contacto',
-  imports: [],
   templateUrl: './contacto.html',
-  styleUrl: './contacto.css'
+  styleUrls: ['./contacto.css'],
+  standalone: false
 })
-export class Contacto {
-
-}
+export class ContactoComponent {}

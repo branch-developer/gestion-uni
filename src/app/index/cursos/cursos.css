@@ -1,0 +1,116 @@
+/* src/app/cursos/cursos.css */
+
+/* Estilos personalizados para la lista de cursos */
+body {
+  background-color: #f9f9f9;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.courses-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.course-card {
+  display: flex;
+  background-color: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Alternar la posición de la imagen (izquierda/derecha) */
+.course-card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.course-content {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.course-content h3 {
+  color: #274ebb;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  margin-top: 0;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.course-content h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(to right, #274ebb, #00c6ff);
+  border-radius: 2px;
+}
+
+.course-content p {
+  color: #444;
+  line-height: 1.9;
+  font-size: 1.15rem;
+  margin-bottom: 25px;
+}
+
+.btn-inscribete {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: #274ebb;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-inscribete:hover {
+  background-color: #1a3a8f;
+}
+
+.course-image {
+  flex: 1;
+  min-height: 350px;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .course-card,
+  .course-card:nth-child(even) {
+    flex-direction: column;
+  }
+
+  .course-image {
+    height: 250px;
+  }
+
+  .course-content {
+    padding: 30px;
+  }
+}

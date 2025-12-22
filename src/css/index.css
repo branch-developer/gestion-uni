@@ -33,13 +33,13 @@ body {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
 }
 
 .logo {
   font-size: 20px;
-  color: #ffffff;
+  color: #fafafa;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -55,13 +55,13 @@ body {
 .menu .navbar ul li a {
   font-size: 18px;
   padding: 20px;
-  color: #dedede;
+  color: #fafafa;
   display: block;
   font-weight: bold;
 }
 
 .menu .navbar ul li a:hover {
-  color: #ffff;
+  color: #fafafa;
 }
 
 #menu {

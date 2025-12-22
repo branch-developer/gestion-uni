@@ -1,0 +1,5 @@
+- [x] Add SobrenosotrosComponent to declarations in index-module.ts
+- [x] Add InscripcionComponent to declarations in index-module.ts
+- [x] Move IndexComponent and CursosComponent from imports to declarations in index-module.ts
+- [x] Import SobrenosotrosComponent in index-routing-module.ts
+- [x] Add route for sobrenosotros in index-routing-module.ts

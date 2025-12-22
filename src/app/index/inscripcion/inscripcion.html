@@ -1,1 +1,63 @@
-<p>inscripcion works!</p>
+<div class="form-container">
+  <h2>Registro de Usuario</h2>
+
+  <form>
+    <!-- Grupo de datos personales -->
+    <div class="form-grid form-grid-2-cols">
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" name="correo" class="form-input" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono"
+               class="form-input" required placeholder="(ej: 123-456-7890)">
+      </div>
+    </div>
+
+    <!-- Clave y curso -->
+    <div class="form-grid mt-6">
+      <div class="form-group">
+        <label for="clave">Clave (Contraseña)</label>
+        <input type="password" id="clave" name="clave"
+               class="form-input" required minlength="8">
+      </div>
+
+      <div class="form-group">
+        <label for="curso">Curso de Interés</label>
+        <select id="curso" name="curso" class="form-select" required>
+          <option value="" disabled selected>Seleccione un curso</option>
+          <option value="estetica">Estética</option>
+          <option value="desarrollo_web">Desarrollo Web Full Stack</option>
+          <option value="presupuesto_administracion">Presupuesto y Administración Financiera</option>
+          <option value="programacion_python">Programación en Python</option>
+          <option value="comunicacion">Comunicación Organizacional</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Mensaje -->
+    <div class="form-group mt-6">
+      <label for="mensaje">Mensaje (Opcional)</label>
+      <textarea id="mensaje" name="mensaje" class="form-textarea"
+                placeholder="Escriba aquí sus comentarios o preguntas..."></textarea>
+    </div>
+
+    <!-- Botón -->
+    <button type="submit" class="submit-button">
+      Registrarse
+    </button>
+  </form>
+</div>

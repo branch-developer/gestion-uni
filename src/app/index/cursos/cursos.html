@@ -1,1 +1,102 @@
-<p>cursos works!</p>
+<header>
+  <div class="content">
+    <div class="menu container">
+      <a routerLink="/index" class="logo">Rodriguez Academia Integral</a>
+      <input type="checkbox" id="menu" />
+      <label for="menu">
+        <img
+          src="assets/fotos/cover-rodriguez-academia.png"
+          class="menu-icono"
+          alt="Menú"
+        />
+      </label>
+      <nav class="navbar">
+        <ul>
+          <li><a routerLink="/cursos">Cursos</a></li>
+          <li><a routerLink="/contacto">Contacto</a></li>
+          <li><a routerLink="/sobrenosotros">Sobre Nosotros</a></li>
+          <li><a routerLink="/inscripcion">Inscripción</a></li>
+          <li><a routerLink="/login">Inicio de Sesión</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="courses-container">
+
+  <!-- Curso 1 -->
+  <article class="course-card">
+    <div class="course-content">
+      <h3>Comunicación Organizacional</h3>
+      <p>
+        Tiene como objetivo principal evidenciar el potencial que tiene la
+        Comunicación en las organizaciones y que los participantes cuenten con los
+        conceptos base y metodologías que pueda aplicar en todo tipo de
+        organizaciones, empresas, instituciones, fundaciones y Ongs.
+      </p>
+      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+    </div>
+    <div class="course-image">
+      <img src="assets/fotos/comunicacion-organizacional.jpeg"
+           alt="Comunicación Organizacional" />
+    </div>
+  </article>
+
+  <!-- Curso 2 -->
+  <article class="course-card">
+    <div class="course-content">
+      <h3>Estética</h3>
+      <p>
+        Ofrecemos un curso de belleza integral diseñado para proporcionar a los
+        participantes las herramientas y conocimientos necesarios para
+        desarrollarse en el mundo de la belleza.
+      </p>
+      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+    </div>
+    <div class="course-image">
+      <img src="assets/fotos/estetica.jpeg" alt="Estética" />
+    </div>
+  </article>
+
+  <!-- Curso 3 -->
+  <article class="course-card">
+    <div class="course-content">
+      <h3>Presupuesto y Administración Financiera</h3>
+      <p>
+        Equipate con habilidades para llevar a cabo reuniones efectivas y
+        productivas. Los cursos cubren el establecimiento de agendas, la
+        facilitación de debates y la gestión de reuniones remotas.
+      </p>
+      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+    </div>
+    <div class="course-image">
+      <img src="assets/fotos/presupuesto-y-administracion-financiera.jpeg"
+           alt="Presupuesto y Administración Financiera" />
+    </div>
+  </article>
+
+</div>
+
+<div class="content-wrapper"></div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h1 class="logo-text"><span>Rodriguez</span> Academia Integral</h1>
+        <p>
+          Tu éxito es nuestra prioridad. Ofrecemos cursos de alta calidad para ayudarte
+          a alcanzar tus metas académicas y profesionales.
+        </p>
+        <div class="contact">
+          <span><i class="fas fa-phone"></i> &nbsp; TLF: 0424-973-5868</span>
+          <span><i class="fas fa-envelope"></i> &nbsp; @rodriguez.academiaintegral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Rodriguez Academia Integral | Todos los derechos reservados
+  </div>
+</footer>

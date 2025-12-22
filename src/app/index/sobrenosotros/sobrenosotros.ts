@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sobrenosotros',
-  imports: [],
   templateUrl: './sobrenosotros.html',
-  styleUrl: './sobrenosotros.css'
+  styleUrls: ['./sobrenosotros.css']
 })
-export class Sobrenosotros {
-
-}
+export class SobrenosotrosComponent {}

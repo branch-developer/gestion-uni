@@ -1,1 +1,71 @@
-<p>contacto works!</p>
+<header>
+  <div class="content">
+    <div class="menu container">
+      <a routerLink="/index" class="logo">Rodriguez Academia Integral</a>
+      <input type="checkbox" id="menu" />
+      <label for="menu">
+        <img src="assets/fotos/cover rodriguez academia.png" class="menu-icono" alt="Menú" />
+      </label>
+      <nav class="navbar">
+        <ul>
+          <li><a routerLink="/cursos">Cursos</a></li>
+          <li><a routerLink="/contacto">Contacto</a></li>
+          <li><a routerLink="/sobrenosotros">Sobre Nosotros</a></li>
+          <li><a routerLink="/inscripcion">Inscripción</a></li>
+          <li><a routerLink="/login">Inicio de Sesión</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="contact-section">
+  <div class="contact-container">
+    <h2>Contáctanos</h2>
+    <p class="contact-description">
+      Estamos aquí para ayudarte. Completa el formulario y nos pondremos en contacto contigo a la brevedad.
+    </p>
+    <form>
+      <div class="form-group">
+        <label for="nombre">Nombre Completo:</label>
+        <input type="text" id="nombre" name="nombre" required placeholder="Ingrese su nombre">
+      </div>
+      <div class="form-group">
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required placeholder="Ingrese su correo">
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="Ingrese su teléfono">
+      </div>
+      <div class="form-group">
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" required placeholder="Hola, quisiera saber más sobre..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Enviar</button>
+    </form>
+  </div>
+</section>
+
+<div class="content-wrapper"></div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section about">
+        <h1 class="logo-text"><span>Rodriguez</span> Academia Integral</h1>
+        <p>
+          Tu éxito es nuestra prioridad. Ofrecemos cursos de alta calidad para ayudarte
+          a alcanzar tus metas académicas y profesionales.
+        </p>
+        <div class="contact">
+          <span><i class="fas fa-phone"></i> &nbsp; TLF: 0424-973-5868</span>
+          <span><i class="fas fa-envelope"></i> &nbsp; @rodriguez.academiaintegral</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Rodriguez Academia Integral | Todos los derechos reservados
+  </div>
+</footer>
