@@ -20,11 +20,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {} 
 
   ngOnInit(): void {
-    document.body.classList.add('login-background');
+    if (typeof document !== 'undefined') {
+      document.body.classList.add('login-background');
+    }
   }
 
   ngOnDestroy(): void {
-    document.body.classList.remove('login-background');
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('login-background');
+    }
   }
 
   seleccionarRol(rol: string): void {
@@ -48,13 +52,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate(['/estudiantes/perfil-alumno']);
         break;
       case 'profesor':
-        this.router.navigate(['']);
+        this.router.navigate(['/profesor/perfil-profesor']);
         break;
       case 'adminC':
-        this.router.navigate(['']);
+        this.router.navigate(['/admin-c']);
         break;
       case 'adminP':
-        this.router.navigate(['']);
+        this.router.navigate(['/admin-p']);
         break;
       default:
         alert('Rol no reconocido');

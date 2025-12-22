@@ -1,0 +1,41 @@
+<!-- perfil-admin-p.component.html -->
+
+<header class="header-container">
+  <div class="header-text">
+    <h1>Panel de Admin de Pagos (AdminP)</h1>
+    <p>Función: Verificar pagos de tarjeta, pago móvil, etc.</p>
+  </div>
+  <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+</header>
+
+<main>
+  <section class="gestion-pagos">
+    <h2>Pagos Pendientes de Verificación</h2>
+
+    <ul class="lista-pagos">
+      <li *ngFor="let pago of pagosPendientes">
+        <span>
+          Pago de "{{ pago.alumno }}" para "{{ pago.curso }}"
+        </span>
+        <div class="acciones">
+          <button class="btn-detalles" (click)="verDetalles(pago)">
+            Ver Detalles
+          </button>
+          <button class="btn-autorizar" (click)="autorizarPago(pago)">
+            Autorizar
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <h2>Pagos Aprobados</h2>
+    <ul class="lista-pagos">
+      <li *ngFor="let pago of pagosAprobados" class="aprobado">
+        <span>
+          Pago de "{{ pago.alumno }}" para "{{ pago.curso }}"
+        </span>
+      </li>
+    </ul>
+  </section>
+</main>
+

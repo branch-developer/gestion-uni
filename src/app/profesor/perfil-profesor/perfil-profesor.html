@@ -1,0 +1,53 @@
+<header class="perfil-profesor">
+  <div class="perfil-foto">
+    <img [src]="foto">
+    <input type="file" accept="image/*" #fileInput style="display:none" (change)="cambiarFoto($event)">
+    <button (click)="fileInput.click()">Subir foto</button>
+  </div>
+  <div class="perfil-info">
+    <h1>{{ profesor.nombre }}</h1>
+    <p><strong>Especialidad:</strong> {{ profesor.especialidad }}</p>
+  </div>
+  <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button>
+</header>
+
+<section>
+  <h2>Gestión de Cursos</h2>
+  <button class="bg-green" (click)="crearCurso()">+ Añadir Nuevo Curso</button>
+  <ul class="lista-cursos">
+    <li *ngFor="let curso of cursos; let i = index">
+      <span>{{ curso.nombre }}</span>
+      <span>Estudiantes: {{ contarEstudiantes(curso.nombre) }}</span>
+      <div>
+        <button class="bg-blue" (click)="editarCurso(i)">Editar</button>
+        <button class="bg-red" (click)="eliminarCurso(i)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Estado de los Estudiantes</h2>
+  <div class="lista-estudiantes-header">
+    <span>Correo</span>
+    <span>Curso</span>
+    <span>Asistencia</span>
+    <span>Estatus</span>
+    <span>Certificación</span>
+  </div>
+  <ul class="lista-estudiantes">
+    <li *ngFor="let e of estudiantes">
+      <span>{{ e.correo }}</span>
+      <span>{{ e.curso }}</span>
+      <span [class.asistencia-si]="e.asistencia" [class.asistencia-no]="!e.asistencia">
+        {{ e.asistencia ? '✔' : '✖' }}
+      </span>
+      <span>{{ e.estado }}</span>
+      <span>
+        <button class="btn-certificacion" [disabled]="e.estado !== 'Aprobado'" (click)="autorizarCertificacion(e.correo)">
+          Autorizar
+        </button>
+      </span>
+    </li>
+  </ul>
+</section>

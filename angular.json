@@ -95,6 +95,10 @@
     }
   },
   "cli": {
+<<<<<<< HEAD
     "analytics": "9ae6aac5-3f41-4873-a5ac-2a7e5aa6428c"
+=======
+    "analytics": "9c8b543f-0998-4b8e-9455-68fea2e8ed97"
+>>>>>>> deiberlyn
   }
 }

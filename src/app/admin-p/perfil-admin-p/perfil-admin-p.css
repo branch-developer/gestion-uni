@@ -1,0 +1,74 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+/* Header layout */
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-text h1 {
+  margin: 0 0 4px 0;
+}
+
+.header-text p {
+  margin: 0;
+  color: #555;
+}
+
+/* Botón cerrar sesión alineado a la derecha */
+.btn-logout {
+  margin-left: auto;
+  padding: 0.4rem 0.8rem;
+  background-color: #ef4444; /* rojo */
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  background-color: #dc2626;
+}
+
+.header-container h1 {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.header-container p {
+  font-style: italic;
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.gestion-pagos h2 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-top: 30px;
+}
+
+.lista-pagos {
+  list-style-type: none;
+  padding: 0;
+}
+
+.lista-pagos li {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.aprobado {
+  background-color: #e9f7ef;
+  border-left: 5px solid #28a745;
+}
