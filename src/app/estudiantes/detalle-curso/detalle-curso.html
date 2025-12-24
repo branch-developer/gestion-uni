@@ -1,22 +1,48 @@
-<div class="curso-container">
+<div class="curso-container max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-8 text-gray-800">
 
-  <div class="top-bar">
-    <h1>{{ curso.titulo }}</h1>
+  <!-- HEADER -->
+  <div class="flex justify-between items-start mb-8">
+    <h1 class="text-4xl font-bold">
+      {{ curso.titulo }}
+    </h1>
 
-    <button class="btn-regresar" routerLink="/estudiantes/perfil-alumno">
+    <button
+      class="btn-regresar
+             bg-red-500 hover:bg-red-600
+             text-white px-4 py-2
+             rounded-lg text-sm
+             transition-colors duration-200"
+      routerLink="/estudiantes/perfil-alumno">
       ← Regresar al Perfil
     </button>
   </div>
 
-  <div class="pagina" *ngFor="let pagina of curso.paginas">
-    <h2>{{ pagina.titulo }}</h2>
-    <p>{{ pagina.contenido }}</p>
-    <hr>
+  <!-- PÁGINAS -->
+  <div class="pagina mb-10" *ngFor="let pagina of curso.paginas">
+    <h2 class="text-2xl font-semibold mb-3">
+      {{ pagina.titulo }}
+    </h2>
+
+    <p class="text-base leading-relaxed text-gray-700">
+      {{ pagina.contenido }}
+    </p>
+
+    <hr class="mt-8 border-gray-200">
   </div>
 
   <!-- BOTÓN EVALUACIÓN -->
-<button class="btn-evaluacion" routerLink="/estudiantes/evaluacion">
-  Evaluación
-</button>
-  
+  <div class="mt-10">
+    <button
+      class="btn-evaluacion
+             w-full py-4
+             bg-blue-600 hover:bg-blue-700
+             text-white text-lg font-semibold
+             rounded-lg
+             transition-colors duration-200"
+      routerLink="/estudiantes/evaluacion">
+      Evaluación
+    </button>
+  </div>
+
 </div>
+<!-- MODAL DE EVALUACIÓN -->

@@ -1,33 +1,47 @@
-<!-- Botón para cerrar sesión -->
-<button class="btn-logout" routerLink="/login">
-  Cerrar Sesión
-</button>
+<div class="relative min-h-screen p-5 font-sans bg-gray-50">
 
-<!-- Encabezado del perfil -->
-<div class="profile-header">
-  <h1>Bienvenido, {{ nombreAlumno }}</h1>
-</div>
+  <!-- Botón para cerrar sesión -->
+  <button 
+    class="absolute top-5 right-5 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+    routerLink="/login">
+    Cerrar Sesión
+  </button>
 
-<div class="tabs">
-  <button routerLink="/estudiantes/perfil-alumno">
-    Mi Perfil
-  </button>
-  <button routerLink="/estudiantes/mis-cursos">
-    Mis Cursos
-  </button>
-  <button routerLink="/estudiantes/cursos-disponibles">
-    Cursos Disponibles
-  </button>
-</div>
-
-<!-- Solo contenido de perfil aquí -->
-<div class="content-section">
-  <h2>Mi Perfil</h2>
-  <div class="profile-info">
-    <p><strong>Nombre:</strong> {{ nombreAlumno }}</p>
-    <p><strong>Correo Electrónico:</strong> {{ correo }}</p>
-    <p><strong>Fecha de Inscripción:</strong> {{ fechaInscripcion }}</p>
-    <p><strong>Descripción:</strong> {{ descripcion }}</p>
-    <p><strong>Gustos:</strong> {{ gustos }}</p>
+  <!-- Encabezado del perfil -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold">Bienvenido, {{ nombreAlumno }}</h1>
   </div>
+
+  <!-- Tabs -->
+  <div class="flex justify-center space-x-4 mb-8">
+    <button 
+      class="px-5 py-2 rounded-t-lg border-b-2 border-blue-600 bg-blue-100 text-blue-800 font-medium"routerLink="/estudiantes/perfil-alumno">
+      Mi Perfil
+      
+    </button>
+    <button 
+      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium"routerLink="/estudiantes/mis-cursos">
+      Mis Cursos
+       
+    </button>
+    <button 
+      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium"routerLink="/estudiantes/cursos-disponibles">
+      Cursos Disponibles 
+       
+    </button>
+    
+  </div>
+
+  <!-- Contenido del perfil -->
+  <div class="max-w-2xl mx-auto space-y-4">
+    <h2 class="text-2xl font-semibold mb-2">Mi Perfil</h2>
+    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5 space-y-2">
+      <p><strong>Nombre:</strong> {{ nombreAlumno }}</p>
+      <p><strong>Correo Electrónico:</strong> {{ correo }}</p>
+      <p><strong>Fecha de Inscripción:</strong> {{ fechaInscripcion }}</p>
+      <p><strong>Descripción:</strong> {{ descripcion }}</p>
+      <p><strong>Gustos:</strong> {{ gustos }}</p>
+    </div>
+
+   
 </div>

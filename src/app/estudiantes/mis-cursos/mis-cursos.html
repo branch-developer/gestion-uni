@@ -1,10 +1,20 @@
-<h2>Mis Cursos y Progreso</h2>
+<div class="flex items-center justify-between m-5">
+  <h2 class="text-2xl font-bold">Mis Cursos y Progreso</h2>
 
-<div class="my-course-item">
-  <h3>Matemática Avanzada</h3>
-  <p>Progreso del curso:</p>
+  <a
+    [routerLink]="['../perfil-alumno']"
+    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+    Regresar al perfil
+  </a>
+</div>
 
-  <div class="progress-bar">
-    <div class="progress" style="width: 60%">60%</div>
+<div class="bg-gray-100 rounded p-5 m-5 shadow-sm">
+  <h3 class="text-2xl mb-4">Matemática Avanzada</h3>
+  <p class="mb-2 text-base">Progreso del curso:</p>
+
+  <div class="w-full bg-gray-200 rounded overflow-hidden mb-4">
+    <div class="h-5 bg-green-600 text-white text-center font-bold leading-5" style="width: 60%;">
+      60%
+    </div>
   </div>
 </div>

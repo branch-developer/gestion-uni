@@ -7,6 +7,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],  
   templateUrl: './cursos-disponibles.html',
-  styleUrls: ['./cursos-disponibles.css']
+ 
 })
 export class CursosDisponiblesComponent {}

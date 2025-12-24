@@ -1,41 +1,91 @@
-<!-- perfil-admin-p.component.html -->
-
-<header class="header-container">
-  <div class="header-text">
-    <h1>Panel de Admin de Pagos (AdminP)</h1>
-    <p>Función: Verificar pagos de tarjeta, pago móvil, etc.</p>
+<!-- Header del panel de admin de pagos -->
+<header class="flex items-center gap-4 p-4">
+  <div class="flex flex-col">
+    <h1 class="text-xl font-bold border-b border-gray-300 pb-2 mb-1">
+      Panel de Admin de Pagos (AdminP)
+    </h1>
+    <p class="italic text-gray-600 m-0 mb-5">
+      Función: Verificar pagos de tarjeta, pago móvil, etc.
+    </p>
   </div>
-  <button class="btn-logout" (click)="cerrarSesion()">Cerrar Sesión</button>
+  <button 
+    (click)="cerrarSesion()" 
+    class="ml-auto px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
+    Cerrar Sesión
+  </button>
 </header>
 
-<main>
-  <section class="gestion-pagos">
-    <h2>Pagos Pendientes de Verificación</h2>
+<main class="p-4">
 
-    <ul class="lista-pagos">
-      <li *ngFor="let pago of pagosPendientes">
+  <!-- Pagos Pendientes -->
+  <section>
+    <h2 class="text-lg font-semibold border-b border-gray-200 pb-2 mt-8 mb-4">
+      Pagos Pendientes de Verificación
+    </h2>
+
+    <ul class="space-y-2">
+      <!-- Ejemplo fijo de Pedro Pérez -->
+      <li class="bg-gray-100 border border-gray-300 p-4 flex justify-between items-center rounded">
+        <span>
+          Pago de "Pedro Pérez" para "Matemática Avanzada"
+        </span>
+        <div class="flex space-x-4 items-center">
+          <span>Monto: $120</span>
+          <span>Fecha: 24/12/2025</span>
+          <span>Autorizado: ❌</span>
+          <div class="flex space-x-2">
+            <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+              Ver Detalles
+            </button>
+            <button class="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition">
+              Autorizar
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <!-- Pagos pendientes dinámicos -->
+      <li *ngFor="let pago of pagosPendientes" class="bg-gray-100 border border-gray-300 p-4 flex justify-between items-center rounded">
         <span>
           Pago de "{{ pago.alumno }}" para "{{ pago.curso }}"
         </span>
-        <div class="acciones">
-          <button class="btn-detalles" (click)="verDetalles(pago)">
+        <div class="flex space-x-2">
+          <button (click)="verDetalles(pago)" class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
             Ver Detalles
           </button>
-          <button class="btn-autorizar" (click)="autorizarPago(pago)">
+          <button (click)="autorizarPago(pago)" class="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition">
             Autorizar
           </button>
         </div>
       </li>
     </ul>
+  </section>
 
-    <h2>Pagos Aprobados</h2>
-    <ul class="lista-pagos">
-      <li *ngFor="let pago of pagosAprobados" class="aprobado">
+  <!-- Pagos Aprobados -->
+  <section>
+    <h2 class="text-lg font-semibold border-b border-gray-200 pb-2 mt-8 mb-4">
+      Pagos Aprobados
+    </h2>
+
+    <ul class="space-y-2">
+      <!-- Ejemplo fijo de Pedro Pérez aprobado -->
+      <li class="bg-green-100 border-l-4 border-green-600 p-4 rounded flex justify-between items-center">
+        <span>
+          Pago de "Pedro Pérez" para "Matemática Avanzada"
+        </span>
+        <div class="flex space-x-4 text-gray-700">
+          <span>Monto: $120</span>
+          <span>Fecha: 24/12/2025</span>
+          <span>Autorizado: ✔</span>
+        </div>
+      </li>
+
+      <!-- Pagos aprobados dinámicos -->
+      <li *ngFor="let pago of pagosAprobados" class="bg-green-100 border-l-4 border-green-600 p-4 rounded flex justify-between items-center">
         <span>
           Pago de "{{ pago.alumno }}" para "{{ pago.curso }}"
         </span>
-      </li>
-    </ul>
-  </section>
-</main>
-
+        <div class="flex space-x-4 text-gray-700">
+          <span>Monto: {{ pago.monto }}</span>
+          <span>Fecha: {{ pago.fecha }}</span>
+          <span>Autorizado: ✔</span>

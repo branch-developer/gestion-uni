@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-mis-cursos',
   standalone: true,
-  imports: [CommonModule],   // <--- ESTO ARREGLA EL *ngFor
+  imports: [CommonModule, RouterLink],   // <--- ESTO ARREGLA EL *ngFor
   templateUrl: './mis-cursos.html',
-  styleUrls: ['./mis-cursos.css']
+ 
 })
 export class MisCursosComponent {
 

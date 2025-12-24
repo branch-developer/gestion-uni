@@ -1,61 +1,49 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Pago {
+  id: number;
   alumno: string;
   curso: string;
-  banco: string;
-  referencia: string;
-  cedula: string;
+  monto: string;
+  fecha: string;
 }
 
 @Component({
   selector: 'app-perfil-admin-p',
   standalone: true,
-  imports: [CommonModule],
-  encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule], // Necesario para usar *ngFor en el HTML
   templateUrl: './perfil-admin-p.html',
-  styleUrls: ['./perfil-admin-p.css']
+  
 })
 export class PerfilAdminPComponent {
+
+  // Datos de ejemplo para que la vista funcione
   pagosPendientes: Pago[] = [
-    {
-      alumno: 'Nombre del Alumno 1',
-      curso: 'Curso de JavaScript Avanzado',
-      banco: 'Ejemplo Banco',
-      referencia: '123456',
-      cedula: 'V-12345678'
-    }
+    { id: 2, alumno: 'Ana Gómez', curso: 'JavaScript Avanzado', monto: '$95', fecha: '21/12/2025' }
   ];
 
-  pagosAprobados: Pago[] = [];
-
-  verDetalles(pago: Pago): void {
-    alert(
-      `Mostrando detalles del pago de ${pago.alumno}:\n` +
-      `- Banco: ${pago.banco}\n` +
-      `- Referencia: ${pago.referencia}\n` +
-      `- Cédula: ${pago.cedula}\n(Simulación)`
-    );
-  }
-
-  autorizarPago(pago: Pago): void {
-    const ok = confirm(
-      `¿Estás seguro de que quieres autorizar este pago?\n` +
-      `Pago de "${pago.alumno}" para "${pago.curso}"`
-    );
-    if (!ok) return;
-
-    this.pagosPendientes = this.pagosPendientes.filter(p => p !== pago);
-    this.pagosAprobados.push(pago);
-    alert('Pago autorizado. El alumno ahora tiene acceso al curso. (Simulación)');
-  }
+  pagosAprobados: Pago[] = [
+    // La vista ya tiene un ejemplo estático, este array puede estar vacío inicialmente
+  ];
 
   cerrarSesion() {
     if (confirm('¿Deseas cerrar sesión?')) {
-      try { localStorage.clear(); sessionStorage.clear(); } catch (e) {}
-      window.location.href = '/';
+      window.location.href = '/login';
+    }
+  }
+
+  verDetalles(pago: any) {
+    alert(`Viendo detalles del pago de ${pago.alumno} para el curso ${pago.curso}.`);
+  }
+
+  autorizarPago(pago: any) {
+    if (confirm(`¿Autorizar el pago de ${pago.alumno} para ${pago.curso}?`)) {
+      // Mover el pago a la lista de aprobados
+      this.pagosAprobados.push(pago);
+      // Eliminar el pago de la lista de pendientes
+      this.pagosPendientes = this.pagosPendientes.filter(p => p.id !== pago.id);
+      alert('Pago autorizado.');
     }
   }
 }
-

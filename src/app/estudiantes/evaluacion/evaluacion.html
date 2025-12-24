@@ -1,64 +1,13 @@
-<div class="contenedor">
-
-  <h1>Evaluación del Curso</h1>
-
-  <form (ngSubmit)="enviar()">
-
-    <div class="pregunta" *ngFor="let p of preguntas; let i = index">
-
-      <h3>{{ i + 1 }}. {{ p.texto }}</h3>
-
-      <div class="opcion" *ngFor="let opcion of p.opciones; let j = index">
-        <label>
-          <input
-            type="radio"
-            [name]="'pregunta' + i"
-            [value]="j"
-            [(ngModel)]="p.respuesta"
-            required
-          >
-          {{ opcion }}
-        </label>
-      </div>
-
-    </div>
-
-    <button class="btn-enviar" type="submit">
-      Enviar Evaluación
-    </button>
-
-  </form>
-
+<div class="flex items-center justify-between mb-6 mt-5">
+  <h2 class="text-3xl font-bold text-gray-800">Evaluaciones</h2>
+  
+  <a
+    [routerLink]="['../perfil-alumno']"
+    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+    Regresar al perfil
+  </a>
 </div>
 
-
-<!-- MODAL CENTRADO -->
-<div class="overlay" *ngIf="mostrarResultado">
-
-  <div class="modal-resultado" *ngIf="!mensajeFinal">
-
-    <h2>Resultado de la Evaluación</h2>
-    <p>Por favor, indica el resultado de tu evaluación.</p>
-
-    <p style="font-weight: bold; margin-bottom: 20px;">
-      {{ resultado }}
-    </p>
-
-    <div class="botones-resultado">
-      <button class="btn-paso" (click)="pasar()">Pasaste</button>
-      <button class="btn-no-paso" (click)="reprobar()">No Pasaste</button>
-    </div>
-
-  </div>
-
-
-  <!-- MENSAJE FINAL -->
-  <div class="modal-resultado" *ngIf="mensajeFinal">
-    <h2>Resultado</h2>
-
-    <p style="white-space: pre-line; font-size: 17px;">
-      {{ mensajeFinal }}
-    </p>
-  </div>
-
+<div class="bg-gray-100 rounded-lg p-6 shadow-sm">
+  <p class="text-gray-700">No hay evaluaciones pendientes por el momento.</p>
 </div>

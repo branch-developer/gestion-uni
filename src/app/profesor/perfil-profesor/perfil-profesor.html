@@ -1,53 +1,72 @@
-<header class="perfil-profesor">
-  <div class="perfil-foto">
-    <img [src]="foto">
-    <input type="file" accept="image/*" #fileInput style="display:none" (change)="cambiarFoto($event)">
-    <button (click)="fileInput.click()">Subir foto</button>
+<!-- Header del perfil del profesor -->
+<header class="flex items-center gap-6 p-6 bg-white shadow-md rounded-md mt-10 relative">
+  <!-- Foto y botón de subir -->
+  <div class="flex flex-col items-center gap-2">
+    <img [src]="foto" class="w-36 h-36 rounded-full object-cover">
+    <input type="file" accept="image/*" #fileInput class="hidden" (change)="cambiarFoto($event)">
+    <button (click)="fileInput.click()" class="px-4 py-1 bg-blue-600 text-white text-base rounded hover:bg-blue-700 transition">
+      Subir foto
+    </button>
   </div>
-  <div class="perfil-info">
-    <h1>{{ profesor.nombre }}</h1>
-    <p><strong>Especialidad:</strong> {{ profesor.especialidad }}</p>
+
+  <!-- Información del profesor -->
+  <div class="ml-4">
+    <h1 class="text-2xl font-bold mb-1 text-gray-900">{{ profesor.nombre }}</h1>
+    <p class="text-gray-700 text-base"><strong>Especialidad:</strong> {{ profesor.especialidad }}</p>
   </div>
-  <button class="logout-btn" (click)="cerrarSesion()">Cerrar sesión</button>
+
+  <!-- Botón de cerrar sesión -->
+  <button (click)="cerrarSesion()" class="ml-auto px-3 py-1 bg-red-600 text-white text-base rounded hover:bg-red-700 transition">
+    Cerrar sesión
+  </button>
 </header>
 
-<section>
-  <h2>Gestión de Cursos</h2>
-  <button class="bg-green" (click)="crearCurso()">+ Añadir Nuevo Curso</button>
-  <ul class="lista-cursos">
-    <li *ngFor="let curso of cursos; let i = index">
+<!-- Sección de cursos -->
+<section class="bg-white p-6 rounded-md shadow-md mt-10">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold text-gray-900">Gestión de Cursos</h2>
+    <button class="px-3 py-1 bg-green-600 text-white text-base rounded hover:bg-green-700 transition" (click)="crearCurso()">+ Añadir Nuevo Curso</button>
+  </div>
+  <ul>
+    <li *ngFor="let curso of cursos; let i = index" class="flex justify-between items-center py-2 border-b border-gray-200 text-gray-800 text-base">
       <span>{{ curso.nombre }}</span>
       <span>Estudiantes: {{ contarEstudiantes(curso.nombre) }}</span>
-      <div>
-        <button class="bg-blue" (click)="editarCurso(i)">Editar</button>
-        <button class="bg-red" (click)="eliminarCurso(i)">Eliminar</button>
+      <div class="flex space-x-2">
+        <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm" (click)="editarCurso(i)">Editar</button>
+        <button class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" (click)="eliminarCurso(i)">Eliminar</button>
       </div>
     </li>
   </ul>
 </section>
 
-<section>
-  <h2>Estado de los Estudiantes</h2>
-  <div class="lista-estudiantes-header">
+<!-- Sección de estudiantes -->
+<section class="bg-white p-6 rounded-md shadow-md mt-10">
+  <h2 class="text-xl font-bold mb-4 text-gray-900">Estado de los Estudiantes</h2>
+  
+  <!-- Encabezado de lista -->
+  <div class="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] font-bold border-b-2 border-gray-800 pb-2 mb-2 text-gray-900 text-base">
     <span>Correo</span>
     <span>Curso</span>
-    <span>Asistencia</span>
+    <span class="text-center">Asistencia</span>
     <span>Estatus</span>
     <span>Certificación</span>
   </div>
-  <ul class="lista-estudiantes">
-    <li *ngFor="let e of estudiantes">
+
+  <ul>
+    <li *ngFor="let e of estudiantes" class="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] items-center py-2 border-b border-gray-200 text-gray-800 text-base">
       <span>{{ e.correo }}</span>
       <span>{{ e.curso }}</span>
-      <span [class.asistencia-si]="e.asistencia" [class.asistencia-no]="!e.asistencia">
+      <span [ngClass]="e.asistencia ? 'text-green-600 font-bold text-lg text-center' : 'text-red-600 font-bold text-lg text-center'">
         {{ e.asistencia ? '✔' : '✖' }}
       </span>
       <span>{{ e.estado }}</span>
       <span>
-        <button class="btn-certificacion" [disabled]="e.estado !== 'Aprobado'" (click)="autorizarCertificacion(e.correo)">
+        <button class="px-2 py-1 bg-sky-500 text-white rounded disabled:opacity-50 text-sm" [disabled]="e.estado !== 'Aprobado'" (click)="autorizarCertificacion(e.correo)">
           Autorizar
         </button>
       </span>
     </li>
   </ul>
 </section>
+
+  

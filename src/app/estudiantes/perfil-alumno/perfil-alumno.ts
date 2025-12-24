@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './perfil-alumno.html',
-  styleUrls: ['./perfil-alumno.css']
+  
 })
 export class PerfilAlumnoComponent {
   nombreAlumno = 'Juan Pérez';
