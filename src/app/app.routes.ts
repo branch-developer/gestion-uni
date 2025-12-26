@@ -6,7 +6,7 @@ import { PerfilAlumnoComponent } from './estudiantes/perfil-alumno/perfil-alumno
 import { MisCursosComponent } from './estudiantes/mis-cursos/mis-cursos';
 import { CursosDisponiblesComponent } from './estudiantes/cursos-disponibles/cursos-disponibles';
 import { DetalleCursoComponent } from './estudiantes/detalle-curso/detalle-curso';
-import { EvaluacionComponent } from './estudiantes/evaluacion/evaluacion';
+import { EvaluacionesComponent } from './estudiantes/evaluacion/evaluacion';
 
 import { PerfilAdminCComponent } from './admin-c/perfil-admin-c/perfil-admin-c';
 import { PerfilProfesorComponent } from './profesor/perfil-profesor/perfil-profesor';
@@ -25,7 +25,7 @@ export const routes: Routes = [
       { path: 'perfil-alumno', component: PerfilAlumnoComponent },
       { path: 'mis-cursos', component: MisCursosComponent },
       { path: 'cursos-disponibles', component: CursosDisponiblesComponent },
-      { path: 'evaluacion', component: EvaluacionComponent },
+      { path: 'evaluacion', component: EvaluacionesComponent },
       { path: 'detalle-curso', component: DetalleCursoComponent }
     ]
   },

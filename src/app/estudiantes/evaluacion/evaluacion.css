@@ -1,1 +1,13 @@
 /* Estilos para el componente de evaluación */
+.container {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.text-success {
+  color: green;
+}
+.text-danger {
+  color: red;
+}
