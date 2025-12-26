@@ -1,63 +1,100 @@
-<div class="form-container">
-  <h2>Registro de Usuario</h2>
-
-  <form>
-    <!-- Grupo de datos personales -->
-    <div class="form-grid form-grid-2-cols">
-      <div class="form-group">
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" name="apellido" class="form-input" required>
+<div class="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+  
+  <!-- Sección Izquierda: Imagen y Branding (Visible en Desktop) -->
+  <div class="hidden lg:flex lg:w-1/2 relative bg-blue-900 overflow-hidden">
+    
+    <!-- Contenido Flotante -->
+    <div class="relative z-20 flex flex-col justify-center px-16 text-white h-full">
+      <div class="mb-8">
+        <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold tracking-wider uppercase mb-4">
+          Inscripciones Abiertas
+        </span>
+        <h2 class="text-5xl font-bold leading-tight mb-6">Impulsa tu carrera profesional</h2>
+        <p class="text-lg text-blue-100 leading-relaxed max-w-md">
+          Únete a una comunidad de aprendizaje innovadora. Accede a herramientas, mentores y conocimientos que transformarán tu futuro.
+        </p>
       </div>
 
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" class="form-input" required>
-      </div>
-
-      <div class="form-group">
-        <label for="correo">Correo Electrónico</label>
-        <input type="email" id="correo" name="correo" class="form-input" required>
-      </div>
-
-      <div class="form-group">
-        <label for="telefono">Teléfono</label>
-        <input type="tel" id="telefono" name="telefono"
-               class="form-input" required placeholder="(ej: 123-456-7890)">
-      </div>
+      <!-- Lista de beneficios -->
+      <ul class="space-y-4 text-blue-50">
+        <li class="flex items-center gap-3">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <span class="font-medium">Certificación reconocida</span>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          </div>
+          <span class="font-medium">Metodología práctica</span>
+        </li>
+      </ul>
     </div>
+  </div>
 
-    <!-- Clave y curso -->
-    <div class="form-grid mt-6">
-      <div class="form-group">
-        <label for="clave">Clave (Contraseña)</label>
-        <input type="password" id="clave" name="clave"
-               class="form-input" required minlength="8">
+  <!-- Sección Derecha: Formulario -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-16 overflow-y-auto" style="background-image: url('/img/cover rodriguez academia b.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="w-full max-w-lg bg-white/80 dark:bg-gray-800/80 p-8 rounded-lg shadow-lg">
+      
+      <div class="text-center lg:text-left mb-10">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Crear Cuenta</h2>
+        <p class="text-gray-500 dark:text-gray-400">Completa tus datos para comenzar tu viaje.</p>
       </div>
 
-      <div class="form-group">
-        <label for="curso">Curso de Interés</label>
-        <select id="curso" name="curso" class="form-select" required>
-          <option value="" disabled selected>Seleccione un curso</option>
-          <option value="estetica">Estética</option>
-          <option value="desarrollo_web">Desarrollo Web Full Stack</option>
-          <option value="presupuesto_administracion">Presupuesto y Administración Financiera</option>
-          <option value="programacion_python">Programación en Python</option>
-          <option value="comunicacion">Comunicación Organizacional</option>
-          <option value="otro">Otro</option>
-        </select>
-      </div>
-    </div>
+      <form class="space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none placeholder-gray-400" placeholder="Tu nombre">
+          </div>
+          <div>
+            <label for="apellido" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Apellido</label>
+            <input type="text" id="apellido" name="apellido" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none placeholder-gray-400" placeholder="Tu apellido">
+          </div>
+        </div>
 
-    <!-- Mensaje -->
-    <div class="form-group mt-6">
-      <label for="mensaje">Mensaje (Opcional)</label>
-      <textarea id="mensaje" name="mensaje" class="form-textarea"
-                placeholder="Escriba aquí sus comentarios o preguntas..."></textarea>
-    </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Correo Electrónico</label>
+          <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none placeholder-gray-400" placeholder="ejemplo@gmail.com">
+        </div>
 
-    <!-- Botón -->
-    <button type="submit" class="submit-button">
-      Registrarse
-    </button>
-  </form>
+        <div>
+          <label for="telefono" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none placeholder-gray-400" placeholder="(04XXXXXXX)">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label for="clave" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Contraseña</label>
+            <input type="password" id="clave" name="clave" required minlength="8" class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none placeholder-gray-400" placeholder="••••••••">
+          </div>
+          <div>
+            <label for="curso" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Curso de Interés</label>
+            <select id="curso" name="curso" required class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none">
+              <option value="" disabled selected>Seleccionar...</option>
+              <option value="estetica">Estética</option>
+              <option value="desarrollo_web">Desarrollo Web</option>
+              <option value="finanzas">Presupuesto y Administración Financiera</option>
+              <option value="python">Python</option>
+              <option value="comunicacion">Comunicación Organizacional</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="mensaje" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Mensaje (Opcional)</label>
+          <textarea id="mensaje" name="mensaje" rows="3" class="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none placeholder-gray-400" placeholder="¿Tienes alguna duda específica?"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-lg shadow-lg hover:shadow-blue-500/30 transition-all duration-200 transform hover:-translate-y-0.5">
+          Completar Registro
+        </button>
+
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
+          ¿Ya tienes cuenta? <a href="#" class="text-blue-600 hover:text-blue-500 font-semibold hover:underline">Inicia Sesión</a>
+        </p>
+      </form>
+    </div>
+  </div>
 </div>
