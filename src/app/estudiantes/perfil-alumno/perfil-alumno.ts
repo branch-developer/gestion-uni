@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-alumno',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './perfil-alumno.html',
-  
 })
 export class PerfilAlumnoComponent {
   nombreAlumno = 'Juan Pérez';
@@ -16,3 +15,4 @@ export class PerfilAlumnoComponent {
   descripcion = 'Estudiante de la universidad';
   gustos = 'Programación, música';
 }
+

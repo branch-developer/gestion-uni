@@ -15,17 +15,25 @@
   <!-- Tabs -->
   <div class="flex justify-center space-x-4 mb-8">
     <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-blue-600 bg-blue-100 text-blue-800 font-medium"routerLink="/estudiantes/perfil-alumno">
+      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
+      routerLink="/estudiantes/perfil-alumno"
+      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800"
+      [routerLinkActiveOptions]="{ exact: true }">
       Mi Perfil
       
     </button>
     <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium"routerLink="/estudiantes/mis-cursos">
+      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
+      routerLink="/estudiantes/mis-cursos"
+      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800">
       Mis Cursos
-       
+      
     </button>
+
     <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium"routerLink="/estudiantes/cursos-disponibles">
+      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
+      routerLink="/estudiantes/cursos-disponibles"
+      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800">
       Cursos Disponibles 
        
     </button>

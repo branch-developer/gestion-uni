@@ -1,0 +1,5 @@
+- [ ] Change font-family in src/css/index.css body to 'Lato', sans-serif
+- [ ] Change font-family in src/app/index/index.css body to 'Lato', sans-serif
+- [ ] Change font-family in src/app/index/inscripcion/inscripcion.css body to 'Lato', sans-serif
+- [ ] Change font-family in src/app/index/cursos/cursos.css: body and h3 to 'Lato', sans-serif
+- [ ] Change font-family in src/app/index/contacto/contacto.css: body, h2, input/textarea, btn-submit to 'Lato', sans-serif

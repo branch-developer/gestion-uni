@@ -1,53 +1,28 @@
 import { Routes } from '@angular/router';
 
-import { LoginComponent } from './login/login';
-
-import { PerfilAlumnoComponent } from './estudiantes/perfil-alumno/perfil-alumno';
-import { MisCursosComponent } from './estudiantes/mis-cursos/mis-cursos';
-import { CursosDisponiblesComponent } from './estudiantes/cursos-disponibles/cursos-disponibles';
-import { DetalleCursoComponent } from './estudiantes/detalle-curso/detalle-curso';
-import { EvaluacionesComponent } from './estudiantes/evaluacion/evaluacion';
-
-import { PerfilAdminCComponent } from './admin-c/perfil-admin-c/perfil-admin-c';
-import { PerfilProfesorComponent } from './profesor/perfil-profesor/perfil-profesor';
-
 export const routes: Routes = [
-  // Ruta por defecto: LOGIN
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-  // Login
-  { path: 'login', component: LoginComponent },
-
-  // Rutas de estudiantes
+  {
+    path: '',
+    loadChildren: () => import('./index/index-module').then(m => m.IndexModule)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login').then(m => m.LoginComponent)
+  },
   {
     path: 'estudiantes',
-    children: [
-      { path: 'perfil-alumno', component: PerfilAlumnoComponent },
-      { path: 'mis-cursos', component: MisCursosComponent },
-      { path: 'cursos-disponibles', component: CursosDisponiblesComponent },
-      { path: 'evaluacion', component: EvaluacionesComponent },
-      { path: 'detalle-curso', component: DetalleCursoComponent }
-    ]
+    loadChildren: () => import('./estudiantes/estudiantes-module').then(m => m.EstudiantesModule)
   },
-
-  // Rutas admin C
-  { path: 'admin-c', component: PerfilAdminCComponent },
-
-  // Rutas profesor
   {
-    path: 'profesor',
-    children: [
-      { path: 'perfil-profesor', component: PerfilProfesorComponent }
-    ]
+    path: 'profesor/perfil-profesor',
+    loadComponent: () => import('./profesor/perfil-profesor/perfil-profesor').then(m => m.PerfilProfesorComponent)
   },
-
-  // Módulo admin-p
+  {
+    path: 'admin-c',
+    loadComponent: () => import('./admin-c/perfil-admin-c/perfil-admin-c').then(m => m.PerfilAdminCComponent)
+  },
   {
     path: 'admin-p',
-    loadChildren: () =>
-      import('./admin-p/admin-p-module').then(m => m.AdminPModule)
-  },
-
-  // Wildcard al login
-  { path: '**', redirectTo: 'login' }
+    loadComponent: () => import('./admin-p/perfil-admin-p/perfil-admin-p').then(m => m.PerfilAdminPComponent)
+  }
 ];
