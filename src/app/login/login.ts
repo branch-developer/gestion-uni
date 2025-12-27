@@ -1,26 +1,43 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  
 })
 export class LoginComponent implements OnInit, OnDestroy {
   email: string = '';
   contrasena: string = '';
   rolSeleccionado: string = '';
+  mostrarContrasena: boolean = false;
 
   roles: string[] = ['alumno', 'profesor', 'adminC', 'adminP'];
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit(): void {
-    document.body.classList.add('login-background');
+    if (isPlatformBrowser(this.platformId)) {
+      // Usamos clases de utilidad de Tailwind directamente (ej: fondo gris)
+      document.body.classList.add('bg-gray-100');
+    }
   }
 
   ngOnDestroy(): void {
-    document.body.classList.remove('login-background');
+    if (isPlatformBrowser(this.platformId)) {
+      document.body.classList.remove('bg-gray-100');
+    }
+  }
+
+  selectRole(rol: string): void {
+    this.rolSeleccionado = rol;
+  }
+
+  togglePasswordVisibility(): void {
+    this.mostrarContrasena = !this.mostrarContrasena;
   }
 
   onSubmit(): void {
