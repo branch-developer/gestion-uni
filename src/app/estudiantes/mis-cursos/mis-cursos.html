@@ -1,20 +1,29 @@
-<div class="flex items-center justify-between m-5">
-  <h2 class="text-2xl font-bold">Mis Cursos y Progreso</h2>
+<div class="max-w-4xl mx-auto p-6 animate-in">
+  <div class="flex justify-between items-end mb-8">
+    <h2 class="text-3xl font-black text-slate-800 italic underline decoration-blue-500/30">Mis Cursos</h2>
+    <button (click)="volverPerfil()" class="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">Volver al perfil</button>
+  </div>
 
-  <a
-    [routerLink]="['../perfil-alumno']"
-    class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
-    Regresar al perfil
-  </a>
-</div>
+  <div class="grid gap-6">
+    @for (curso of cursosInscritos; track curso.id) {
+      <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 group hover:border-blue-300 transition-all">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="text-xl font-bold text-slate-800">{{ curso.titulo }}</h3>
+            <p class="text-sm text-slate-500">{{ curso.descripcion }}</p>
+          </div>
+          <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black">{{ curso.progreso }}%</span>
+        </div>
+        <!-- Progress Bar -->
+        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-6">
+          <div class="h-full bg-blue-600 transition-all duration-1000" [style.width.%]="curso.progreso"></div>
+        </div>
+        <button (click)="verDetalleCurso(curso)"
+        class="w-full py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-lg shadow-slate-200">
+       Continuar Aprendiendo
+        </button>
 
-<div class="bg-gray-100 rounded p-5 m-5 shadow-sm">
-  <h3 class="text-2xl mb-4">Matemática Avanzada</h3>
-  <p class="mb-2 text-base">Progreso del curso:</p>
-
-  <div class="w-full bg-gray-200 rounded overflow-hidden mb-4">
-    <div class="h-5 bg-green-600 text-white text-center font-bold leading-5" style="width: 60%;">
-      60%
-    </div>
+      </div>
+    }
   </div>
 </div>

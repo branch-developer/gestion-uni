@@ -1,55 +1,32 @@
-<div class="relative min-h-screen p-5 font-sans bg-gray-50">
-
-  <!-- Botón para cerrar sesión -->
-  <button 
-    class="absolute top-5 right-5 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-    routerLink="/login">
-    Cerrar Sesión
-  </button>
-
-  <!-- Encabezado del perfil -->
-  <div class="text-center mb-8">
-    <h1 class="text-3xl font-bold">Bienvenido, {{ nombreAlumno }}</h1>
-  </div>
+<div class="max-w-4xl mx-auto p-6 animate-in">
+  <header class="flex justify-between items-center mb-10">
+    <div>
+      <h1 class="text-3xl font-black text-slate-800">Hola, {{ nombreAlumno }} 👋</h1>
+      <p class="text-slate-500">Bienvenido a tu panel de aprendizaje</p>
+    </div>
+    <button routerLink="/login" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-bold hover:bg-red-50 hover:text-red-600 transition-all">Cerrar Sesión</button>
+  </header>
 
   <!-- Tabs -->
-  <div class="flex justify-center space-x-4 mb-8">
-    <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
-      routerLink="/estudiantes/perfil-alumno"
-      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800"
-      [routerLinkActiveOptions]="{ exact: true }">
-      Mi Perfil
-      
-    </button>
-    <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
-      routerLink="/estudiantes/mis-cursos"
-      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800">
-      Mis Cursos
-      
-    </button>
+  <nav class="flex gap-2 mb-8 bg-slate-200/50 p-1.5 rounded-2xl w-fit">
+    <button routerLink="/estudiantes/perfil-alumno" routerLinkActive="bg-white shadow-sm text-blue-600" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-700">Mi Perfil</button>
+    <button routerLink="/estudiantes/mis-cursos" routerLinkActive="bg-white shadow-sm text-blue-600" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-700">Mis Cursos</button>
+    <button routerLink="/estudiantes/cursos-disponibles" routerLinkActive="bg-white shadow-sm text-blue-600" class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-700">Explorar</button>
+  </nav>
 
-    <button 
-      class="px-5 py-2 rounded-t-lg border-b-2 border-transparent hover:border-gray-300 bg-gray-100 text-gray-700 font-medium" 
-      routerLink="/estudiantes/cursos-disponibles"
-      routerLinkActive="!border-blue-600 !bg-blue-100 !text-blue-800">
-      Cursos Disponibles 
-       
-    </button>
-    
-  </div>
-
-  <!-- Contenido del perfil -->
-  <div class="max-w-2xl mx-auto space-y-4">
-    <h2 class="text-2xl font-semibold mb-2">Mi Perfil</h2>
-    <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-5 space-y-2">
-      <p><strong>Nombre:</strong> {{ nombreAlumno }}</p>
-      <p><strong>Correo Electrónico:</strong> {{ correo }}</p>
-      <p><strong>Fecha de Inscripción:</strong> {{ fechaInscripcion }}</p>
-      <p><strong>Descripción:</strong> {{ descripcion }}</p>
-      <p><strong>Gustos:</strong> {{ gustos }}</p>
+  <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+      <span class="w-1.5 h-6 bg-blue-600 rounded-full"></span> Información Personal
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="space-y-4">
+        <div><p class="text-[10px] uppercase font-black text-slate-400">Nombre Completo</p><p class="font-bold">{{ nombreAlumno }}</p></div>
+        <div><p class="text-[10px] uppercase font-black text-slate-400">Email</p><p class="font-bold">{{ correo }}</p></div>
+      </div>
+      <div class="space-y-4">
+        <div><p class="text-[10px] uppercase font-black text-slate-400">Inscrito desde</p><p class="font-bold text-blue-600">{{ fechaInscripcion }}</p></div>
+        <div><p class="text-[10px] uppercase font-black text-slate-400">Intereses</p><p class="font-bold">{{ gustos }}</p></div>
+      </div>
     </div>
-
-   
+  </div>
 </div>

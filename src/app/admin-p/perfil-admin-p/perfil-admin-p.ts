@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 interface Pago {
   id: number;
@@ -12,7 +14,7 @@ interface Pago {
 @Component({
   selector: 'app-perfil-admin-p',
   standalone: true,
-  imports: [CommonModule], // Necesario para usar *ngFor en el HTML
+  imports: [CommonModule, FormsModule, RouterModule], // Necesario para usar *ngFor, ngModel, routerLink en el HTML
   templateUrl: './perfil-admin-p.html',
   
 })
@@ -27,17 +29,27 @@ export class PerfilAdminPComponent {
     // La vista ya tiene un ejemplo estático, este array puede estar vacío inicialmente
   ];
 
+  pagoSeleccionado: Pago | null = null;
+
+  get totalPagos(): number {
+    return this.pagosAprobados.reduce((acc, pago) => {
+      // Elimina el símbolo $ y convierte a número
+      const valor = parseFloat(pago.monto.replace(/[^0-9.-]+/g, ''));
+      return acc + (isNaN(valor) ? 0 : valor);
+    }, 0);
+  }
+
   cerrarSesion() {
     if (confirm('¿Deseas cerrar sesión?')) {
       window.location.href = '/login';
     }
   }
 
-  verDetalles(pago: any) {
+  verDetalles(pago: Pago) {
     alert(`Viendo detalles del pago de ${pago.alumno} para el curso ${pago.curso}.`);
   }
 
-  autorizarPago(pago: any) {
+  autorizarPago(pago: Pago) {
     if (confirm(`¿Autorizar el pago de ${pago.alumno} para ${pago.curso}?`)) {
       // Mover el pago a la lista de aprobados
       this.pagosAprobados.push(pago);
@@ -45,5 +57,13 @@ export class PerfilAdminPComponent {
       this.pagosPendientes = this.pagosPendientes.filter(p => p.id !== pago.id);
       alert('Pago autorizado.');
     }
+  }
+
+  seleccionarPago(pago: Pago) {
+    this.pagoSeleccionado = pago;
+  }
+
+  cambiarEstado(pago: Pago, estado: string) {
+    alert(`Cambiando estado del pago de ${pago.alumno} a ${estado}`);
   }
 }

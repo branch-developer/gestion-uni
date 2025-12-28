@@ -5,14 +5,16 @@ import { Router } from '@angular/router';
   selector: 'app-perfil-admin-c',
   standalone: true,
   templateUrl: './perfil-admin-c.html',
-  styleUrls: ['./perfil-admin-c.css']
 })
 export class PerfilAdminCComponent {
 
   constructor(private router: Router) {}
 
   logout() {
-    try { localStorage.clear(); sessionStorage.clear(); } catch (e) {}
+    try {
+      localStorage.clear();
+      sessionStorage.clear();
+    } catch (e) {}
     this.router.navigate(['/login']);
   }
 
@@ -40,6 +42,11 @@ export class PerfilAdminCComponent {
     if (!el) return;
 
     el.textContent = activo ? 'Activo' : 'Inactivo';
-    el.className = `status-text ${activo ? 'activo' : 'inactivo'}`;
+
+    // 🔥 IMPORTANTE: ahora las clases son Tailwind
+    el.className = `
+      font-bold px-2 py-1 rounded-md text-white w-20 text-center
+      ${activo ? 'bg-green-600' : 'bg-red-600'}
+    `;
   }
 }

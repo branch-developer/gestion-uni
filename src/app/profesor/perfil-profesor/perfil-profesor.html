@@ -1,72 +1,163 @@
-<!-- Header del perfil del profesor -->
-<header class="flex items-center gap-6 p-6 bg-white shadow-md rounded-md mt-10 relative">
-  <!-- Foto y botón de subir -->
-  <div class="flex flex-col items-center gap-2">
-    <img [src]="foto" class="w-36 h-36 rounded-full object-cover">
-    <input type="file" accept="image/*" #fileInput class="hidden" (change)="cambiarFoto($event)">
-    <button (click)="fileInput.click()" class="px-4 py-1 bg-blue-600 text-white text-base rounded hover:bg-blue-700 transition">
-      Subir foto
-    </button>
-  </div>
+<div class="min-h-screen flex bg-slate-50 text-slate-900">
 
-  <!-- Información del profesor -->
-  <div class="ml-4">
-    <h1 class="text-2xl font-bold mb-1 text-gray-900">{{ profesor.nombre }}</h1>
-    <p class="text-gray-700 text-base"><strong>Especialidad:</strong> {{ profesor.especialidad }}</p>
-  </div>
-
-  <!-- Botón de cerrar sesión -->
-  <button (click)="cerrarSesion()" class="ml-auto px-3 py-1 bg-red-600 text-white text-base rounded hover:bg-red-700 transition">
-    Cerrar sesión
-  </button>
-</header>
-
-<!-- Sección de cursos -->
-<section class="bg-white p-6 rounded-md shadow-md mt-10">
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold text-gray-900">Gestión de Cursos</h2>
-    <button class="px-3 py-1 bg-green-600 text-white text-base rounded hover:bg-green-700 transition" (click)="crearCurso()">+ Añadir Nuevo Curso</button>
-  </div>
-  <ul>
-    <li *ngFor="let curso of cursos; let i = index" class="flex justify-between items-center py-2 border-b border-gray-200 text-gray-800 text-base">
-      <span>{{ curso.nombre }}</span>
-      <span>Estudiantes: {{ contarEstudiantes(curso.nombre) }}</span>
-      <div class="flex space-x-2">
-        <button class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm" (click)="editarCurso(i)">Editar</button>
-        <button class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm" (click)="eliminarCurso(i)">Eliminar</button>
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col w-64 bg-slate-900 text-white p-6 sticky top-0 h-screen">
+    <div class="flex items-center gap-3 mb-10">
+      <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center font-bold text-xl">
+        P
       </div>
-    </li>
-  </ul>
-</section>
-
-<!-- Sección de estudiantes -->
-<section class="bg-white p-6 rounded-md shadow-md mt-10">
-  <h2 class="text-xl font-bold mb-4 text-gray-900">Estado de los Estudiantes</h2>
-  
-  <!-- Encabezado de lista -->
-  <div class="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] font-bold border-b-2 border-gray-800 pb-2 mb-2 text-gray-900 text-base">
-    <span>Correo</span>
-    <span>Curso</span>
-    <span class="text-center">Asistencia</span>
-    <span>Estatus</span>
-    <span>Certificación</span>
-  </div>
-
-  <ul>
-    <li *ngFor="let e of estudiantes" class="grid grid-cols-[2fr_2fr_1fr_1fr_1fr] items-center py-2 border-b border-gray-200 text-gray-800 text-base">
-      <span>{{ e.correo }}</span>
-      <span>{{ e.curso }}</span>
-      <span [ngClass]="e.asistencia ? 'text-green-600 font-bold text-lg text-center' : 'text-red-600 font-bold text-lg text-center'">
-        {{ e.asistencia ? '✔' : '✖' }}
+      <span class="text-xl font-bold italic">
+        Profesor
       </span>
-      <span>{{ e.estado }}</span>
-      <span>
-        <button class="px-2 py-1 bg-sky-500 text-white rounded disabled:opacity-50 text-sm" [disabled]="e.estado !== 'Aprobado'" (click)="autorizarCertificacion(e.correo)">
-          Autorizar
+    </div>
+
+    <nav class="flex-1 space-y-2">
+      <a class="flex items-center gap-3 p-3 bg-indigo-600 rounded-lg text-white">
+        Dashboard
+      </a>
+    </nav>
+
+    <button
+      (click)="cerrarSesion()"
+      class="flex items-center gap-3 p-3 mt-auto text-red-400 hover:bg-red-900/20 rounded-lg transition font-medium">
+      Cerrar Sesión
+    </button>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="flex-1 flex flex-col">
+
+    <!-- Topbar -->
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10">
+      <div class="flex items-center gap-4">
+        <img [src]="foto" class="w-14 h-14 rounded-full object-cover border-2 border-slate-200">
+        <div>
+          <h1 class="text-xl font-bold">{{ profesor.nombre }}</h1>
+          <p class="text-sm text-slate-500 italic">
+            {{ profesor.especialidad }}
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          #fileInput
+          hidden
+          (change)="cambiarFoto($event)"
+        />
+        <button
+          (click)="fileInput.click()"
+          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+          Cambiar Foto
         </button>
-      </span>
-    </li>
-  </ul>
-</section>
+      </div>
+    </header>
 
-  
+    <div class="p-8 space-y-8">
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border shadow-sm text-center">
+          <p class="text-sm text-slate-500">Cursos Activos</p>
+          <h3 class="text-3xl font-bold">{{ cursos.length }}</h3>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border shadow-sm text-center">
+          <p class="text-sm text-slate-500">Total Estudiantes</p>
+          <h3 class="text-3xl font-bold">{{ estudiantes.length }}</h3>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border shadow-sm text-center">
+          <p class="text-sm text-slate-500">Certificaciones Aprobadas</p>
+          <h3 class="text-3xl font-bold">{{ contarCertificaciones() }}</h3>
+        </div>
+      </div>
+
+      <!-- Gestión de Cursos -->
+      <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b bg-slate-50 flex justify-between items-center">
+          <h2 class="font-bold text-slate-800">Mis Cursos</h2>
+          <button (click)="crearCurso()" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+            + Nuevo Curso
+          </button>
+        </div>
+
+        <ul class="divide-y">
+          <li
+            *ngFor="let curso of cursos; let i = index"
+            class="px-6 py-4 flex justify-between items-center hover:bg-slate-50">
+            <div>
+              <p class="font-semibold">{{ curso.nombre }}</p>
+              <p class="text-sm text-slate-500">
+                Estudiantes inscritos: {{ contarEstudiantes(curso.nombre) }}
+              </p>
+            </div>
+            <div class="space-x-2">
+              <button
+                (click)="editarCurso(i)"
+                class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-sm">
+                Editar
+              </button>
+              <button
+                (click)="eliminarCurso(i)"
+                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm">
+                Eliminar
+              </button>
+            </div>
+          </li>
+          <li *ngIf="cursos.length === 0" class="px-6 py-8 text-center text-slate-500">
+            No tienes cursos creados.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Gestión de Estudiantes -->
+      <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b bg-slate-50">
+          <h2 class="font-bold text-slate-800">Estudiantes y Certificaciones</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-50 text-slate-500 uppercase">
+              <tr>
+                <th class="px-6 py-3">Correo</th>
+                <th class="px-6 py-3">Curso</th>
+                <th class="px-6 py-3">Estado</th>
+                <th class="px-6 py-3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr *ngFor="let est of estudiantes" class="hover:bg-slate-50">
+                <td class="px-6 py-3 font-medium">{{ est.correo }}</td>
+                <td class="px-6 py-3">{{ est.curso }}</td>
+                <td class="px-6 py-3">
+                  <span [class.text-green-600]="est.estado === 'Aprobado'" 
+                        [class.text-yellow-600]="est.estado === 'Viendo Curso'"
+                        [class.text-red-600]="est.estado === 'No Aprobado'"
+                        class="font-semibold">
+                    {{ est.estado }}
+                  </span>
+                </td>
+                <td class="px-6 py-3">
+                  <button 
+                    *ngIf="est.estado !== 'Aprobado'"
+                    (click)="autorizarCertificacion(est.correo)"
+                    class="text-indigo-600 hover:text-indigo-800 font-medium">
+                    Autorizar
+                  </button>
+                  <span *ngIf="est.estado === 'Aprobado'" class="text-green-600">
+                    ✓ Certificado
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>

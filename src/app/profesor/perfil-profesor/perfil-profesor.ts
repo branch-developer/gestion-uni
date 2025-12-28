@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-profesor',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './perfil-profesor.html',
-  
 })
 export class PerfilProfesorComponent {
+
+  constructor(private router: Router) {}
 
   profesor = {
     nombre: 'Nombre del Profesor',
@@ -50,6 +52,10 @@ export class PerfilProfesorComponent {
   }
 
   // --- ESTUDIANTES ---
+  contarCertificaciones() {
+    return this.estudiantes.filter(e => e.estado === 'Aprobado').length;
+  }
+
   autorizarCertificacion(correo: string) {
     alert(`Certificación autorizada para ${correo}`);
   }
@@ -64,10 +70,16 @@ export class PerfilProfesorComponent {
     }
   }
 
+  // --- LOGOUT ---
   cerrarSesion() {
     if (confirm('¿Deseas cerrar sesión?')) {
-      try { localStorage.clear(); sessionStorage.clear(); } catch (e) {}
-      window.location.href = '/';
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
+
+      // Redirige al login
+      this.router.navigate(['/login']);
     }
   }
 }
