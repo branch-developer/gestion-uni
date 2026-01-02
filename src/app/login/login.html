@@ -1,86 +1,39 @@
 <!-- Fondo Principal -->
-<div class="min-h-screen flex items-center justify-center bg-cover bg-center px-4 antialiased"
-     style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1523050853063-91589436026e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-    
-    <!-- Contenedor login -->
-    <div class="max-w-[400px] w-full bg-white/90 backdrop-blur-sm p-8 sm:p-[55px] rounded-2xl shadow-2xl">
-        
-        <!-- Logo -->
-        <div class="flex justify-center mb-4">
-            <div class="w-[80px] h-[80px] bg-[#274ebb] rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg">
-                AR
-            </div>
+<div class="relative min-h-screen flex items-center justify-center bg-gray-100">
+
+  <!-- Fondo con imagen y overlay -->
+  <div class="absolute inset-0">
+    <div class="absolute inset-0 bg-cover bg-center"
+         style="background-image: url('/img/cover rodriguez academia.png');"></div>
+    <div class="absolute inset-0 bg-black/50 bg-black/25"></div>
+  </div>
+
+  <!-- Contenedor login -->
+  <div class="relative max-w-[400px] w-full bg-white/90 backdrop-blur-md p-8 sm:p-12 rounded-2xl shadow-2xl flex flex-col items-center">
+      
+      <!-- Logo -->
+        <div class="w-30 h-30 mb-6">
+          <img src="/img/academia.png" alt="Logo Academia" class="w-full h-full object-contain">
         </div>
 
-        <!-- Títulos -->
-        <h1 class="text-center text-2xl font-extrabold mb-1 text-gray-900">
-            Academia Rodriguez
-        </h1>
-        <h2 class="text-center text-lg mb-8 text-gray-600 font-medium">
-            Iniciar Sesión
-        </h2>
-        
-        <form (ngSubmit)="onSubmit()">
-            <!-- Email -->
-            <div class="mb-4">
-                <label for="email" class="block mb-1 text-sm font-semibold text-gray-700">Correo Electrónico:</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    [(ngModel)]="email" 
-                    name="email" 
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
-                    placeholder="ejemplo@academia.com"
-                    required>
-            </div>
-            
-            <!-- Contraseña con botón de ver/ocultar -->
-            <div class="mb-6">
-                <label for="contrasena" class="block mb-1 text-sm font-semibold text-gray-700">Contraseña:</label>
-                <div class="relative">
-                    <input 
-                        [type]="mostrarContrasena ? 'text' : 'password'" 
-                        id="contrasena" 
-                        [(ngModel)]="contrasena" 
-                        name="contrasena" 
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all pr-10"
-                        placeholder="••••••••"
-                        required>
-                    
-                    <button type="button" (click)="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 focus:outline-none">
-                        <!-- Icono Ojo (Mostrar) -->
-                        <svg *ngIf="mostrarContrasena" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        <!-- Icono Ojo Tachado (Ocultar) -->
-                        <svg *ngIf="!mostrarContrasena" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Selección de Rol -->
-            <label class="block mb-3 text-sm font-semibold text-gray-700 text-center underline decoration-blue-500 underline-offset-4">Seleccione su rol:</label>
-            <div class="grid grid-cols-2 gap-2 mb-8">
-                <button 
-                    type="button" 
-                    *ngFor="let rol of roles"
-                    (click)="seleccionarRol(rol)"
-                    class="py-2 text-xs font-bold uppercase tracking-wider border rounded-lg cursor-pointer transition-colors"
-                    [class]="rolSeleccionado === rol 
-                        ? 'bg-[#274ebb] text-white border-[#274ebb]' 
-                        : 'border-gray-300 bg-white/50 hover:bg-blue-50 text-gray-900'">
-                    {{ rol === 'alumno' ? 'Estudiante' : rol }}
-                </button>
-            </div>
-            
-            <button type="submit" [disabled]="!rolSeleccionado" class="w-full py-4 bg-[#274ebb] text-white font-bold text-lg rounded-xl hover:bg-blue-800 shadow-lg hover:shadow-blue-200 transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
-                Iniciar Sesión
-            </button>
-        </form>
-        
-        <p class="text-center mt-6 text-xs text-gray-500 font-medium">Diseñado por el <span class="text-blue-600 font-bold">equipo TAU</span></p>
-    </div>
+      <!-- Títulos -->
+      <h1 class="text-2xl font-extrabold text-gray-900 mb-1 text-center">Academia Rodriguez</h1>
+      <h2 class="text-lg font-medium text-gray-600 mb-8 text-center">Iniciar Sesión</h2>
+      
+      <!-- Formulario -->
+      <form (ngSubmit)="onSubmit()" class="w-full flex flex-col gap-4">
+          <input type="email" name="correo" [(ngModel)]="correo" placeholder="Correo"
+                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:outline-none transition" required>
+          <input type="password" name="password" [(ngModel)]="password" placeholder="Contraseña"
+                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:outline-none transition" required>
+          <button type="submit"
+                  class="w-full py-3 mt-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+              Entrar
+          </button>
+      </form>
+      
+      <p class="text-center mt-6 text-xs text-gray-500 font-medium">
+          Diseñado por el <span class="text-blue-600 font-bold">equipo TAU</span>
+      </p>
+  </div>
 </div>

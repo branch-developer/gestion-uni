@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
@@ -8,4 +9,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './cursos.html',
   
 })
-export class CursosComponent {}
+export class CursosComponent {
+
+   constructor(private router: Router) {}
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+}
