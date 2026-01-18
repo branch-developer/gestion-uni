@@ -1,0 +1,141 @@
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-2xl shadow-lg animate-in">
+
+  <div class="flex justify-end mb-6">
+    <button (click)="router.navigate(['/dashboard/editar-curso', form.value.curso])"
+            class="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">
+      ← Volver al curso
+    </button>
+  </div>
+  
+  <div *ngIf="successMessage" class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg border border-green-200">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg border border-red-200">
+    {{ errorMessage }}
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-slate-800">Crear Evaluación</h2>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg px-4 py-2">
+        <span class="text-blue-700 font-bold">Puntaje Total: {{ puntajeTotal }}</span>
+      </div>
+    </div>
+
+      <!-- Curso -->
+      <div>
+        <label class="block font-semibold mb-2">Curso</label>
+        <input formControlName="curso" placeholder="ID del curso"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Título -->
+      <div>
+        <label class="block font-semibold mb-2">Título</label>
+        <input formControlName="titulo"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- Descripción -->
+      <div>
+        <label class="block font-semibold mb-2">Descripción</label>
+        <textarea formControlName="descripcion" rows="4"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <!-- Estado -->
+      <div>
+        <label class="block font-semibold mb-2">Estado</label>
+        <select formControlName="estado"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+          <option value="activa">Activa</option>
+          <option value="inactiva">Inactiva</option>
+        </select>
+      </div>
+
+      <!-- Preguntas -->
+      <div formArrayName="preguntas" class="space-y-6">
+        <h3 class="text-xl font-bold text-slate-800 mb-2">Preguntas</h3>
+
+        <div *ngFor="let pregunta of preguntas.controls; let i = index" [formGroupName]="i"
+            class="border border-gray-200 rounded-xl p-4 bg-gray-50 shadow-sm space-y-3">
+
+          <div class="flex justify-between items-center">
+            <h4 class="font-semibold text-slate-700">Pregunta {{ i + 1 }}</h4>
+            <button type="button"
+                    (click)="eliminarPregunta(i)"
+                    class="text-red-600 hover:text-red-400 text-sm font-bold">Eliminar</button>
+          </div>
+
+          <div>
+            <label class="block font-medium mb-1">Texto de la pregunta</label>
+            <input formControlName="texto"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-medium mb-1">Tipo</label>
+              <select formControlName="tipo" (change)="onTipoChange(i)"
+                      class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <option value="seleccion">Selección múltiple</option>
+                <option value="verdadero_falso">Verdadero/Falso</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-medium mb-1">Puntaje</label>
+              <input type="number" formControlName="puntaje"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <!-- Respuestas -->
+          <div formArrayName="respuestas" class="space-y-2 mt-2">
+            <h5 class="font-semibold mb-1">Respuestas</h5>
+
+          <div *ngFor="let resp of respuestas(i).controls; let j = index" [formGroupName]="j"
+              class="flex items-center gap-2">
+            
+            <input formControlName="texto" 
+                  [placeholder]="preguntas.at(i).get('tipo')?.value === 'verdadero_falso' ? '' : 'Respuesta'"
+                  [readonly]="preguntas.at(i).get('tipo')?.value === 'verdadero_falso'"
+                  class="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white" />
+            
+            <label class="flex items-center gap-1 text-sm">
+              <input type="checkbox" formControlName="es_correcta" 
+                    (change)="validarUnicaCorrecta(i, j)"
+                    class="accent-blue-600">
+              Correcta
+            </label>
+
+            <button *ngIf="preguntas.at(i).get('tipo')?.value !== 'verdadero_falso'"
+                    type="button" (click)="eliminarRespuesta(i, j)"
+                    class="text-red-600 hover:text-red-400 text-sm font-bold">Eliminar</button>
+          </div>
+
+            <button *ngIf="preguntas.at(i).get('tipo')?.value !== 'verdadero_falso'"
+                    type="button"
+                    (click)="agregarRespuesta(i)"
+                    class="text-blue-600 hover:text-blue-500 text-sm font-semibold mt-1">
+              + Agregar respuesta
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Botones principales -->
+
+    <div class="flex gap-2 mt-4">
+          <button type="button" (click)="agregarPregunta()" class="bg-green-500 text-white px-4 py-2 rounded">
+            Agregar pregunta
+          </button>
+          <button type="submit" [disabled]="submitting" class="bg-blue-600 text-white px-4 py-2 rounded">
+            {{ submitting ? 'Enviando...' : 'Guardar Evaluación' }}
+          </button>
+        </div>
+      </form> 
+    </div>

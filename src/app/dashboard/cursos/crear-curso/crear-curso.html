@@ -1,0 +1,133 @@
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+  <h2 class="text-3xl font-bold mb-6 text-gray-800">Crear Curso</h2>
+
+  <form [formGroup]="cursoForm" (ngSubmit)="guardarCurso()" class="space-y-6">
+
+    <!-- Título -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Título <span class="text-red-500">*</span></label>
+      <input 
+        formControlName="titulo" 
+        type="text" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Ingresa el título del curso"
+      />
+      <p *ngIf="cursoForm.get('titulo')?.touched && cursoForm.get('titulo')?.invalid" class="text-red-500 text-sm mt-1">
+        El título es obligatorio.
+      </p>
+    </div>
+
+    <!-- Descripción breve -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Descripción breve</label>
+      <input 
+        formControlName="descripcion_breve" 
+        type="text" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Ej: Curso introductorio de Angular"
+      />
+    </div>
+
+    <!-- Descripción -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Descripción</label>
+      <textarea 
+        formControlName="descripcion" 
+        rows="4" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Descripción detallada del curso"
+      ></textarea>
+    </div>
+
+    <!-- Imagen -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Imagen (URL)</label>
+      <input 
+        formControlName="imagen" 
+        type="text" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="https://ejemplo.com/imagen.jpg"
+      />
+    </div>
+
+    <!-- Precio -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Precio</label>
+      <input 
+        formControlName="precio" 
+        type="number" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="0.00"
+      />
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Estado</label>
+      <select 
+        formControlName="estado" 
+        class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+      </select>
+    </div>
+
+    <!-- Profesor -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Profesor</label>
+      <select formControlName="profesor" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="" disabled>Seleccione un profesor</option>
+        <option *ngFor="let p of profesores" [value]="p.id_usuario"> {{ p.nombre_completo }}</option>      
+      </select>
+    </div>
+
+    <hr class="my-6 border-gray-300"/>
+
+    <!-- Módulos -->
+    <h3 class="text-xl font-semibold mb-4 text-gray-800">Módulos</h3>
+    <div formArrayName="modulos" class="space-y-4">
+      <div *ngFor="let modulo of modulos.controls; let i = index" [formGroupName]="i" class="p-4 border border-gray-200 rounded-md bg-gray-50 flex gap-4 items-end">
+        <div class="flex-1">
+          <label class="block text-gray-700 mb-1">Título del módulo</label>
+          <input 
+            formControlName="titulo" 
+            placeholder="Título del módulo" 
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div class="w-24">
+          <label class="block text-gray-700 mb-1">Orden</label>
+          <input 
+            formControlName="orden" 
+            type="number" 
+            class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button 
+          type="button" 
+          (click)="eliminarModulo(i)" 
+          class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+    <button 
+      type="button" 
+      (click)="agregarModulo()" 
+      class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+    >
+      Agregar Módulo
+    </button>
+
+    <hr class="my-6 border-gray-300"/>
+
+    <!-- Botón Guardar -->
+    <button 
+      type="submit" 
+      class="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition"
+    >
+      Guardar Curso
+    </button>
+  </form>
+</div>

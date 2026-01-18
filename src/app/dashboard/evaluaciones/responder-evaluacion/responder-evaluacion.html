@@ -1,0 +1,27 @@
+<div class="p-6 bg-white shadow-md rounded-md max-w-4xl mx-auto" *ngIf="!cargando">
+  <h2 class="text-2xl font-bold mb-4">Responder Evaluación</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div formArrayName="preguntas" class="mb-4">
+      <div *ngFor="let pregunta of preguntas.controls; let i = index" [formGroupName]="i"
+           class="mb-4 p-4 border rounded bg-gray-50">
+
+        <p class="font-semibold mb-2">Pregunta {{i+1}}</p>
+
+        <div formArrayName="respuestas" class="ml-4">
+            <div *ngFor="let resp of respuestas(i).controls; let j = index" [formGroupName]="j" class="mb-2">
+                <label class="flex items-center gap-2">
+                <input type="checkbox" formControlName="seleccionado">
+                <span>{{ resp.get('texto')?.value }}</span>
+                </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Enviar Respuestas</button>
+  </form>
+</div>
+
+<div *ngIf="cargando" class="text-center p-6">Cargando evaluación...</div>

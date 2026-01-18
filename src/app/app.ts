@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-
+import { NotificacionComponent } from './shared/notificacion/notificacion';
 /** * MODELOS DE DATOS
  */
 interface Pago {
@@ -28,7 +28,7 @@ type Vista = 'admin' | 'perfil' | 'mis-cursos' | 'cursos-disponibles' | 'detalle
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  template: `<router-outlet></router-outlet>`
+  imports: [CommonModule, RouterOutlet, NotificacionComponent],
+  template: `<router-outlet></router-outlet> <app-notificacion></app-notificacion>`
 })
 export class AppComponent {}

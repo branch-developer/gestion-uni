@@ -1,0 +1,77 @@
+<div class="max-w-4xl mx-auto p-6 animate-in bg-white rounded-3xl shadow-sm border border-slate-200">
+  <h2 class="text-3xl font-black text-slate-800 mb-6">Crear Lección</h2>
+
+  <form [formGroup]="leccionForm" (ngSubmit)="submit()" class="space-y-6">
+
+    <!-- Módulo -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Módulo</label>
+      <select formControlName="modulo" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="">Seleccione un módulo</option>
+        <option *ngFor="let mod of modulos" [value]="mod.id">{{ mod.titulo }}</option>
+      </select>
+    </div>
+
+    <!-- Título -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Título</label>
+      <input type="text" formControlName="titulo" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <!-- Contenido -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Contenido</label>
+      <textarea formControlName="contenido" rows="4" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    </div>
+
+    <!-- Orden -->
+    <div>
+      <label class="block text-gray-700 font-medium mb-1">Orden</label>
+      <input type="number" formControlName="orden" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <!-- Recursos -->
+    <div formArrayName="recursos" class="space-y-4">
+      <h3 class="text-xl font-bold text-slate-800">Recursos</h3>
+      <div *ngFor="let recurso of recursos.controls; let i=index" [formGroupName]="i" class="border border-gray-200 rounded-xl p-4 shadow-sm space-y-3">
+        
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Tipo</label>
+          <select formControlName="tipo" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="video">Video</option>
+            <option value="pdf">PDF</option>
+            <option value="archivo">Archivo</option>
+            <option value="enlace">Enlace</option>
+          </select>
+        </div>
+
+        <div *ngIf="recurso.value.tipo === 'enlace' || recurso.value.tipo === 'video'">
+          <label class="block text-gray-700 font-medium mb-1">
+            {{ recurso.value.tipo === 'video' ? 'URL de YouTube' : 'Enlace externo' }}
+          </label>
+          <input type="text" formControlName="url_enlace" 
+                placeholder="https://www.youtube.com/watch?v=..."
+                class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div *ngIf="recurso.value.tipo === 'pdf' || recurso.value.tipo === 'archivo'">
+          <label class="block text-gray-700 font-medium mb-1">Archivo</label>
+          <input type="file" (change)="onFileChange($event, i)" class="w-full" />
+        </div>
+
+        <div>
+          <label class="block text-gray-700 font-medium mb-1">Descripción</label>
+          <input type="text" formControlName="descripcion" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <button type="button" (click)="eliminarRecurso(i)" class="px-4 py-2 bg-red-600 text-white rounded-xl font-bold hover:bg-red-500 transition-all shadow">Eliminar Recurso</button>
+      </div>
+
+      <button type="button" (click)="agregarRecurso()" class="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-500 transition-all shadow">Agregar Recurso</button>
+    </div>
+
+    <!-- Botón Crear Lección -->
+    <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-500 transition-all shadow-lg shadow-slate-200">Crear Lección</button>
+
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<aside class="fixed top-16 left-0 w-64 bottom-0 bg-slate-900 text-white overflow-y-auto">
+  <div class="flex flex-col h-full p-4">
+
+    <!-- Avatar -->
+    <div class="flex items-center gap-3 mb-6 shrink-0">
+      <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center font-bold">
+        {{ usuario?.nombre_completo?.[0] | uppercase }}
+      </div>
+      <span class="font-bold italic">{{ usuario?.nombre_completo }}</span>
+    </div>
+
+  <!-- Menú -->
+  <nav class="flex-1 space-y-2">
+    <ng-container *ngFor="let link of links">
+      <div *ngIf="link.sublinks?.length; else simpleLink">
+        <span class="px-3 py-2 font-semibold">{{ link.nombre }}</span>
+        <div class="ml-3 space-y-1">
+          <a *ngFor="let sub of link.sublinks" [routerLink]="sub.ruta"
+             class="flex items-center gap-3 p-2 hover:bg-indigo-600/80 rounded-lg">
+            {{ sub.nombre }}
+          </a>
+        </div>
+      </div>
+
+      <ng-template #simpleLink>
+        <a [routerLink]="link.ruta"
+           class="flex items-center gap-3 p-3 hover:bg-indigo-600/80 rounded-lg">
+          {{ link.nombre }}
+        </a>
+      </ng-template>
+    </ng-container>
+  </nav>
+
+</div>
+</aside>

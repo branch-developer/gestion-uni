@@ -1,0 +1,42 @@
+<div *ngIf="cursoActivo()" class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow animate-in">
+
+  <!-- Header -->
+  <div class="flex justify-between items-start mb-8">
+    <h1 class="text-4xl font-bold">{{ cursoActivo()?.titulo }}</h1>
+    <button (click)="volverCursos()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+      ← Regresar
+    </button>
+  </div>
+
+  <!-- Descripción -->
+  <p class="text-gray-700 mb-6">{{ cursoActivo()?.descripcion }}</p>
+
+  <!-- Módulos y lecciones -->
+  <div *ngFor="let modulo of cursoActivo()?.modulos ?? []" class="mb-6">
+    <h2 class="text-2xl font-semibold mb-2">{{ modulo.titulo }}</h2>
+    <ul class="ml-4 list-disc">
+      <li *ngFor="let leccion of modulo.lecciones ?? []">
+        {{ leccion.titulo }}
+        <span *ngIf="!cursoActivo()?.inscrito && !leccion.contenido" class="text-gray-400 italic">(Preview)</span>
+        <button *ngIf="cursoActivo()?.estadoInscripcion === 'aprobado'"
+                (click)="irALeccion(leccion)"
+                class="ml-2 text-blue-600 hover:underline">
+          Ver lección
+        </button>
+        <div *ngIf="cursoActivo()?.estadoInscripcion === 'pendiente'"
+            class="text-yellow-600 font-bold mt-2">
+          Pago pendiente. No puedes acceder al curso hasta que sea aprobado.
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Botón Inscripción si no está inscrito -->
+  <div *ngIf="!cursoActivo()?.inscrito && cursoActivo()?.estado !== 'activo'" class="mt-8 text-yellow-600 font-bold">
+    <button (click)="inscribirse()"
+            class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold">
+      Inscribirme
+    </button>
+  </div>
+
+</div>

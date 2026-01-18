@@ -1,0 +1,117 @@
+<div class="max-w-5xl mx-auto p-6 animate-in">
+  <div class="flex justify-between items-end mb-8">
+    <h2 class="text-3xl font-black text-slate-800 italic underline decoration-blue-500/30">
+      Historial de Pagos
+    </h2>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-3xl shadow-sm border border-slate-200">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Curso</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Método</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Monto</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Referencia</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Estado</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Motivo</th>
+          <th class="px-6 py-4 text-center font-black text-slate-600">Acción</th>
+          <th class="px-6 py-4 text-center font-black text-slate-600">Comprobante</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y">
+        <tr
+          *ngFor="let p of pagos"
+          class="hover:bg-slate-50 transition">
+
+          <!-- Curso -->
+          <td class="px-6 py-4 font-bold text-slate-800">
+            {{ p.curso_nombre }}
+          </td>
+
+          <!-- Método -->
+          <td class="px-6 py-4">
+            <span
+              class="px-3 py-1 rounded-full text-xs font-black"
+              [ngClass]="{
+                'bg-blue-100 text-blue-700': p.metodo_pago === 'transferencia',
+                'bg-purple-100 text-purple-700': p.metodo_pago === 'pago_movil'
+              }">
+              {{ p.metodo_pago | titlecase }}
+            </span>
+          </td>
+
+          <!-- Monto -->
+          <td class="px-6 py-4 font-black text-slate-900">
+            {{ p.monto | currency }}
+          </td>
+
+          <!-- Referencia -->
+          <td class="px-6 py-4 font-mono text-slate-700 tracking-wide">
+            {{ p.referencia || '—' }}
+          </td>
+
+          <!-- Estado -->
+          <td class="px-6 py-4">
+            <span
+              class="px-3 py-1 rounded-full text-xs font-black"
+              [ngClass]="{
+                'bg-yellow-100 text-yellow-700': p.estado === 'pendiente',
+                'bg-green-100 text-green-700': p.estado === 'aprobado',
+                'bg-red-100 text-red-700': p.estado === 'rechazado'
+              }">
+              {{ p.estado | titlecase }}
+            </span>
+          </td>
+
+          <!-- Motivo -->
+          <td class="px-6 py-4 text-slate-600 max-w-xs truncate">
+            {{ p.motivo_rechazo || '—' }}
+          </td>
+
+          <!-- Acción -->
+          <td class="px-6 py-4 text-center">
+            <button
+              *ngIf="p.estado === 'rechazado' && rolUsuario === 'estudiante'"
+              (click)="reintentarPago(p)"
+              class="text-blue-600 font-bold hover:underline">
+              Reintentar
+            </button>
+            <span *ngIf="p.estado !== 'rechazado' && rolUsuario === 'estudiante'" class="text-slate-400">
+              —
+            </span>
+          </td>
+
+          <!-- Comprobante -->
+          <td class="px-6 py-4 text-center">
+            <ng-container *ngIf="p.comprobante_url; else noFile">
+
+              <img
+                *ngIf="p.comprobante_url.endsWith('.jpg') || p.comprobante_url.endsWith('.png') || p.comprobante_url.endsWith('.jpeg')"
+                [src]="p.comprobante_url"
+                class="h-10 w-10 mx-auto rounded-lg border shadow-sm cursor-pointer
+                       hover:scale-110 transition"
+                (click)="verComprobante(p.comprobante_url)"
+              />
+
+              <a
+                *ngIf="p.comprobante_url.endsWith('.pdf')"
+                [href]="p.comprobante_url"
+                target="_blank"
+                class="text-blue-600 font-bold hover:underline">
+                PDF
+              </a>
+
+            </ng-container>
+
+            <ng-template #noFile>
+              <span class="text-slate-400">—</span>
+            </ng-template>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

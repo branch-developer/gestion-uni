@@ -1,0 +1,135 @@
+<div class="max-w-5xl mx-auto p-6 bg-white rounded-3xl shadow-lg animate-in">
+  <h2 class="text-3xl font-bold text-slate-800 mb-6">Editar Curso</h2>
+
+  <form [formGroup]="cursoForm" (ngSubmit)="guardarCurso()" class="space-y-6">
+
+    <!-- Información General del Curso -->
+    <div class="grid gap-6 md:grid-cols-2">
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Título</label>
+        <input formControlName="titulo" type="text"
+               class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <div *ngIf="cursoForm.get('titulo')?.touched && cursoForm.get('titulo')?.invalid"
+             class="text-red-600 text-sm mt-1">
+          El título es obligatorio.
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Precio</label>
+        <input formControlName="precio" type="number"
+               class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-1">Descripción breve</label>
+        <input formControlName="descripcion_breve" type="text"
+               class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-1">Descripción completa</label>
+        <textarea formControlName="descripcion" rows="4"
+                  class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Imagen (URL)</label>
+        <input formControlName="imagen" type="text"
+               class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Estado</label>
+        <select formControlName="estado"
+                class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-2">
+        <label class="block text-gray-700 font-medium mb-1">Profesor</label>
+        <select formControlName="profesor"
+                class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option *ngFor="let prof of profesores" [value]="prof.id">{{ prof.nombre }}</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="my-6 border-slate-200" />
+
+    <!-- Módulos -->
+    <h3 class="text-xl font-semibold text-slate-800 mb-4">Módulos</h3>
+    <div formArrayName="modulos" class="space-y-4">
+
+      <div *ngFor="let modulo of modulos.controls; let i = index" [formGroupName]="i"
+           class="bg-white border border-gray-200 rounded-3xl shadow-sm p-4 hover:border-blue-300 transition-all">
+
+        <div class="flex justify-between items-center mb-3">
+          <h4 class="text-lg font-bold text-slate-800">
+            {{ modulo.get('titulo')?.value || 'Nuevo Módulo' }}
+          </h4>
+          <button type="button" (click)="eliminarModulo(i)"
+                  class="px-4 py-2 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-500 transition-colors">
+            Eliminar
+          </button>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label class="block text-gray-600 font-medium mb-1">Título del módulo</label>
+            <input formControlName="titulo" placeholder="Título del módulo"
+                   class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-gray-600 font-medium mb-1">Orden</label>
+            <input formControlName="orden" type="number"
+                   class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <!-- Mini resumen de lecciones si existe -->
+          <div formArrayName="lecciones" class="md:col-span-2 mt-2 space-y-1">
+            <div *ngFor="let leccion of getLecciones(modulo).controls; let j = index" [formGroupName]="j" class="flex justify-between items-center">
+              <span class="text-sm text-gray-700">{{ leccion.get('titulo')?.value }}</span>
+              <button type="button"
+                      (click)="verLeccion(leccion.get('id')?.value)"
+                      class="px-3 py-1 bg-blue-600 text-white rounded-xl text-xs hover:bg-blue-500">
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <!-- Botones de acciones -->
+          <div class="md:col-span-2 flex gap-2 mt-2">
+            <button type="button"
+                    (click)="agregarLeccion(modulo)"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-500 transition-colors">
+              Agregar Lección
+            </button>
+
+            <button type="button"
+                    (click)="agregarEvaluacion(modulo)"
+                    class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-500 transition-colors">
+              Agregar Evaluación
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="button" (click)="agregarModulo()"
+            class="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-500 transition-colors mt-4">
+      Agregar Módulo
+    </button>
+
+    <hr class="my-6 border-slate-200" />
+
+    <button type="submit"
+            class="w-full py-3 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-500 transition-colors shadow-lg">
+      Guardar Cambios
+    </button>
+  </form>
+</div>

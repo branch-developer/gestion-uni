@@ -1,0 +1,42 @@
+<div *ngFor="let leccion of lecciones" class="mb-10 p-6 border-b border-slate-200">
+  <h3 class="text-2xl font-bold text-slate-800">{{ leccion.titulo }}</h3>
+  <div [innerHTML]="leccion.contenido" class="prose max-w-none my-4"></div>
+
+  <div class="space-y-4">
+    <div *ngFor="let recurso of leccion.recursos">
+      <ng-container [ngSwitch]="recurso.tipo">
+        
+        <div *ngSwitchCase="'video'" class="aspect-video w-full max-w-2xl">
+          <iframe *ngIf="recurso.url_enlace" 
+                  [src]="recurso.url_enlace | safeUrl" 
+                  class="w-full h-full rounded-xl shadow"
+                  allowfullscreen></iframe>
+          
+          <video *ngIf="recurso.archivo" 
+                 [src]="recurso.archivo | safeUrl" 
+                 controls 
+                 class="w-full rounded-xl shadow"></video>
+        </div>
+
+        <div *ngSwitchCase="'pdf'">
+          <a [href]="recurso.archivo" target="_blank" class="flex items-center text-red-600 hover:underline font-medium">
+            <span class="mr-2">📄</span> {{ recurso.descripcion || 'Ver PDF' }}
+          </a>
+        </div>
+
+        <div *ngSwitchCase="'archivo'">
+          <a [href]="recurso.archivo" target="_blank" class="flex items-center text-slate-600 hover:underline font-medium">
+            <span class="mr-2">📁</span> {{ recurso.descripcion || 'Descargar archivo' }}
+          </a>
+        </div>
+
+        <div *ngSwitchCase="'enlace'">
+          <a [href]="recurso.url_enlace" target="_blank" class="flex items-center text-blue-600 hover:underline font-medium">
+            <span class="mr-2">🔗</span> {{ recurso.descripcion || recurso.url_enlace }}
+          </a>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>

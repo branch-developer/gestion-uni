@@ -1,0 +1,155 @@
+<div class="max-w-5xl mx-auto p-6 animate-in">
+  <div class="flex justify-between items-end mb-8">
+    <h2 class="text-3xl font-black text-slate-800 italic underline decoration-blue-500/30">
+      Pagos Pendientes
+    </h2>
+  </div>
+
+  <div class="overflow-x-auto bg-white rounded-3xl shadow-sm border border-slate-200">
+    <table class="min-w-full text-sm">
+      <thead class="bg-slate-50 border-b">
+        <tr>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Estudiante</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Curso</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Método</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Monto</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Referencia</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">Estado</th>
+          <th class="px-6 py-4 text-left font-black text-slate-600">comprobante</th>
+          <th class="px-6 py-4 text-center font-black text-slate-600">Acciones</th>
+          <th class="px-6 py-4 text-center font-black text-slate-600">Motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of pagos" class="border-t">
+          <!-- Nombre del estudiante -->
+          <td class="px-2 py-1 font-medium">
+            {{ p.inscripcion_usuario_nombre }}
+          </td>
+
+          <!-- Nombre del curso -->
+          <td class="px-2 py-1">
+            {{ p.curso_nombre }}
+          </td>
+
+          <!-- Método de pago badge -->
+          <td class="px-2 py-1">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-white text-xs font-semibold"
+                  [ngClass]="{
+                    'bg-blue-400': p.metodo_pago === 'transferencia',
+                    'bg-purple-400': p.metodo_pago === 'pago_movil'
+                  }">
+              {{ p.metodo_pago | titlecase }}
+            </span>
+          </td>
+
+          <!-- Monto -->
+          <td class="px-2 py-1">{{ p.monto | currency }}</td>
+
+          <!-- Referencia -->
+          <td class="px-6 py-4 font-mono text-slate-700 tracking-wide">
+            {{ p.referencia || '—' }}
+          </td>
+
+          <!-- Estado badge -->
+          <td class="px-2 py-1">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-white text-xs font-semibold"
+                  [ngClass]="{
+                    'bg-yellow-400': p.estado === 'pendiente',
+                    'bg-green-400': p.estado === 'aprobado',
+                    'bg-red-400': p.estado === 'rechazado'
+                  }">
+              {{ p.estado | titlecase }}
+            </span>
+          </td>
+
+          <!-- Comprobante -->
+          <td class="px-2 py-1 text-center relative group">
+            <ng-container *ngIf="p.captura_comprobante; else noFile">
+              <img *ngIf="p.captura_comprobante.endsWith('.jpg') || p.captura_comprobante.endsWith('.jpeg') || p.captura_comprobante.endsWith('.png')"
+                  [src]="p.captura_comprobante"
+                  alt="Comprobante"
+                  class="h-10 sm:h-12 w-10 sm:w-12 mx-auto cursor-pointer border rounded shadow-sm transition transform hover:scale-110 hover:shadow-md"
+                  (click)="verComprobante(p.captura_comprobante)" />
+              <a *ngIf="p.captura_comprobante.endsWith('.pdf')" [href]="p.captura_comprobante" target="_blank"
+                class="text-blue-600 hover:underline text-xs sm:text-sm">PDF</a>
+            </ng-container>
+            <ng-template #noFile>
+              <span class="text-gray-400">—</span>
+            </ng-template>
+          </td>
+
+          <!-- Acciones -->
+          <td class="px-2 py-1 flex gap-2">
+            <button *ngIf="p.estado === 'pendiente'"
+                    (click)="abrirModal(p)"
+                    class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs">
+              Revisar
+            </button>
+            <span *ngIf="p.estado !== 'pendiente'" class="text-gray-400">—</span>
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="modalPago"
+       class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300">
+    <div class="bg-white rounded-lg w-11/12 sm:w-1/2 p-4 relative transform transition-transform duration-300 scale-95 sm:scale-100">
+      <h3 class="text-lg font-semibold mb-4">Revisar Pago - {{ modalPago.curso_nombre }}</h3>
+
+    <div class="mb-4">
+      <p><strong>Estudiante:</strong> {{ modalPago.inscripcion_usuario_nombre }}</p>
+      <p><strong>Curso:</strong> {{ modalPago.curso_nombre }}</p>
+      <p><strong>Monto:</strong> {{ modalPago.monto | currency }}</p>
+      <p><strong>Método:</strong> {{ modalPago.metodo_pago | titlecase }}</p>
+      <p><strong>Referencia:</strong> {{ modalPago.referencia || '—' }}</p>
+      <p><strong>Estado actual:</strong> {{ modalPago.estado | titlecase }}</p>
+      <p><strong>Fecha de pago:</strong> {{ modalPago.fecha_pago | date:'short' }}</p>
+      <p *ngIf="modalPago.estado === 'rechazado'"><strong>Motivo de rechazo:</strong> {{ modalPago.motivo_rechazo }}</p>
+    </div>
+
+    <!-- Comprobante dentro del modal -->
+    <div class="mb-4">
+      <p><strong>Comprobante:</strong></p>
+      <ng-container *ngIf="modalPago.captura_comprobante; else noFileModal">
+        <img *ngIf="modalPago.captura_comprobante.endsWith('.jpg') || modalPago.captura_comprobante.endsWith('.jpeg') || modalPago.captura_comprobante.endsWith('.png')"
+            [src]="modalPago.captura_comprobante"
+            alt="Comprobante"
+            class="h-32 mx-auto border rounded shadow-sm cursor-pointer"
+            (click)="verComprobante(modalPago.captura_comprobante)" />
+        <a *ngIf="modalPago.captura_comprobante.endsWith('.pdf')" [href]="modalPago.captura_comprobante" target="_blank"
+          class="text-blue-600 hover:underline text-sm">Ver PDF</a>
+      </ng-container>
+      <ng-template #noFileModal>
+        <span class="text-gray-400">No hay archivo</span>
+      </ng-template>
+    </div>    
+
+      <div class="mb-4">
+        <label class="block mb-1 font-semibold">Motivo de rechazo (opcional)</label>
+        <textarea [(ngModel)]="motivoRechazo" rows="3" class="w-full border rounded px-2 py-1"></textarea>
+      </div>
+
+      <!-- Confirmación al aprobar/rechazar -->
+      <div *ngIf="confirmMessage" class="mb-2 p-2 bg-green-100 text-green-700 rounded text-sm">
+        {{ confirmMessage }}
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button (click)="aprobarPagoModal()" [disabled]="!modalPago.comprobante_url"
+                class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed">
+          Aprobar
+        </button>
+        <button (click)="rechazarPagoModal()" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+          Rechazar
+        </button>
+        <button (click)="cerrarModal()" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

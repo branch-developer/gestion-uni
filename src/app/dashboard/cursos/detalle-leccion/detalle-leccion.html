@@ -1,0 +1,54 @@
+<!-- Botón Volver al curso -->
+  <div class="flex justify-end items-end mb-8">
+    <button (click)="volverAlCurso()" class="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors"> Volver al curso </button>
+  </div>
+
+  <div *ngIf="leccion" class="max-w-4xl mx-auto p-6 bg-white rounded-3xl shadow-lg animate-in">
+    <!-- Título de la lección -->
+    <h2 class="text-3xl font-bold text-slate-800 mb-4">{{ leccion.titulo }}</h2>
+  
+    <!-- Contenido -->
+    <div class="prose prose-slate mb-6" [innerHTML]="leccion.contenido"></div>
+  
+    <!-- Recursos -->
+    <h3 class="text-2xl font-semibold text-slate-800 mb-4">Recursos</h3>
+
+    <div *ngFor="let recurso of leccion.recursos" class="mb-6 border border-gray-200 rounded-2xl p-4 shadow-sm">
+      <ng-container [ngSwitch]="recurso.tipo">
+
+      <!-- Video -->
+      <ng-container *ngSwitchCase="'video'">
+        <div *ngIf="recurso.url_enlace" class="aspect-video w-full mb-4">
+          <iframe class="w-full h-full rounded-xl shadow-sm" [src]="recurso.url_enlace | safeUrl" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <video *ngIf="recurso.archivo && !recurso.url_enlace" class="w-full rounded-xl shadow-sm" controls>
+          <source [src]="recurso.archivo | safeUrl" type="video/mp4">
+        </video>
+      </ng-container>
+
+      <!-- PDF -->
+      <ng-container *ngSwitchCase="'pdf'">
+        <div *ngIf="recurso.archivo" class="w-full">
+          <iframe [src]="recurso.archivo | safeUrl" class="w-full h-96 rounded-xl border"></iframe>
+          <div class="mt-2">
+             <a [href]="recurso.archivo" target="_blank" class="text-red-600 font-bold hover:underline"> Abrir PDF en pestaña nueva </a>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Archivo -->
+      <ng-container *ngSwitchCase="'archivo'">
+        <a *ngIf="recurso.archivo" [href]="recurso.archivo" target="_blank" class="flex items-center text-blue-600 font-bold p-2 bg-blue-50 rounded-lg">
+          <span class="mr-2">Descargar:</span> {{ recurso.descripcion || 'Archivo adjunto' }}
+        </a>
+      </ng-container>
+
+      <!-- Enlace externo -->
+      <ng-container *ngSwitchCase="'enlace'">
+        <a *ngIf="recurso.url_enlace" [href]="recurso.url_enlace" target="_blank" class="flex items-center text-green-600 font-bold p-2 bg-green-50 rounded-lg">
+          <span class="mr-2"> Enlace:</span> {{ recurso.descripcion || recurso.url_enlace }}
+        </a>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

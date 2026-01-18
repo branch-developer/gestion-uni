@@ -1,0 +1,26 @@
+<div class="p-6 bg-white shadow-md rounded-md max-w-5xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">Historial de Evaluaciones</h2>
+
+  <div *ngIf="cargando" class="text-center p-6">Cargando...</div>
+
+  <table *ngIf="!cargando" class="w-full table-auto border-collapse">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="border px-4 py-2">Curso</th>
+        <th class="border px-4 py-2">Evaluación</th>
+        <th class="border px-4 py-2">Nota</th>
+        <th class="border px-4 py-2">Estado</th>
+        <th class="border px-4 py-2">Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let intento of intentos" class="hover:bg-gray-50">
+        <td class="border px-4 py-2">{{ intento.evaluacion.curso }}</td>
+        <td class="border px-4 py-2">{{ intento.evaluacion.titulo }}</td>
+        <td class="border px-4 py-2">{{ intento.nota_total ?? '-' }}</td>
+        <td class="border px-4 py-2">{{ estadoEtiqueta(intento.estado) }}</td>
+        <td class="border px-4 py-2">{{ intento.fecha_fin | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

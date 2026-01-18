@@ -1,0 +1,53 @@
+<header class="bg-gray-900 text-white shadow-md fixed w-full z-50">
+  <nav class="container mx-auto flex items-center justify-between px-6 py-3">
+    
+    <!-- Logo -->
+    <a routerLink="/" class="text-xl font-bold uppercase tracking-wide">
+      <span class="text-blue-600">Rodriguez</span>
+      <span> Academia Integral</span>
+    </a>
+
+    <!-- Menú Desktop / Tablet (md+) -->
+    <ul class="hidden md:flex items-center space-x-8 font-semibold text-white">
+      <li><a routerLink="/index" class="hover:text-blue-400">Inicio</a></li>
+      <li><a routerLink="/cursos" class="hover:text-blue-400">Cursos</a></li>
+      <li><a routerLink="/contacto" class="hover:text-blue-400">Contacto</a></li>
+      <li><a routerLink="/sobrenosotros" class="hover:text-blue-400">Sobre Nosotros</a></li>
+    </ul>
+
+    <!-- Botones Desktop / Tablet -->
+    <div class="hidden md:flex items-center gap-x-3">
+      <a routerLink="/inscripcion"
+         class="px-5 py-2 rounded-md font-semibold hover:bg-blue-600 transition duration-200">
+        Registrarse
+      </a>
+      <button (click)="goToLogin()"
+              class="px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-500 font-semibold transition duration-200">
+        Iniciar Sesión
+      </button>
+    </div>
+
+    <!-- Hamburger Móvil -->
+    <button class="md:hidden focus:outline-none" (click)="toggleMenu()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path *ngIf="!menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+        <path *ngIf="menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 6l12 12M6 18L18 6" />
+      </svg>
+    </button>
+
+  </nav>
+
+  <!-- Menú Móvil -->
+  <div *ngIf="menuOpen" class="md:hidden bg-gray-800 text-white px-6 py-4">
+    <ul class="flex flex-col gap-3">
+      <li><a routerLink="/index" (click)="menuOpen=false">Inicio</a></li>
+      <li><a routerLink="/cursos" (click)="menuOpen=false">Cursos</a></li>
+      <li><a routerLink="/contacto" (click)="menuOpen=false">Contacto</a></li>
+      <li><a routerLink="/sobrenosotros" (click)="menuOpen=false">Sobre Nosotros</a></li>
+      <li><a routerLink="/inscripcion" (click)="menuOpen=false">Registrarse</a></li>
+      <li><button (click)="goToLogin(); menuOpen=false" class="w-full text-left">Iniciar Sesión</button></li>
+    </ul>
+  </div>
+</header>

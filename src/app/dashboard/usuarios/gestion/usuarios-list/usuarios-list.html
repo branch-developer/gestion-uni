@@ -1,0 +1,280 @@
+<div class="min-h-screen bg-slate-50 px-6 py-8">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-1.5 bg-blue-600 rounded-full"></div>
+        <h2 class="text-3xl font-bold text-slate-800">Gestión de Usuarios</h2>
+      </div>
+      <button
+        routerLink="/dashboard/usuarios/crear"
+        class="flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-xl font-semibold
+               hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-600/30">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Nuevo Usuario
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200">
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Nombre Completo
+              </th>
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Usuario
+              </th>
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Correo
+              </th>
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Rol
+              </th>
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Estado
+              </th>
+              <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Fecha Registro
+              </th>
+              <th class="px-6 py-4 text-center text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <ng-container *ngFor="let usuario of usuarios">
+
+              <tr *ngIf="!isEditing(usuario)" class="hover:bg-slate-50/50 transition-colors">
+                <td class="px-6 py-4 text-sm font-medium text-slate-900">
+                  {{ usuario.nombre_completo }}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600">
+                  {{ usuario.username }}
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600">
+                  {{ usuario.correo }}
+                </td>
+                <td class="px-6 py-4 text-sm">
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+                        [ngClass]="{
+                          'bg-purple-100 text-purple-700': usuario.rol === 'AdminC',
+                          'bg-orange-100 text-orange-700': usuario.rol === 'AdminP',
+                          'bg-blue-100 text-blue-700': usuario.rol === 'profesor',
+                          'bg-green-100 text-green-700': usuario.rol === 'estudiante'
+                        }">
+                    {{ usuario.rol }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm">
+                  <span *ngIf="usuario.estado" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                    Activo
+                  </span>
+                  <span *ngIf="!usuario.estado" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                    Inactivo
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-slate-600">
+                  {{ usuario.fecha_registro | date:'dd/MM/yyyy' }}
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center justify-center gap-2">
+                    <button
+                      (click)="startEdit(usuario)"
+                      class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      title="Editar">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+
+                    <button
+                      (click)="startPasswordChange(usuario)"
+                      class="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                      title="Cambiar contraseña">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                      </svg>
+                    </button>
+
+                    <button
+                      *ngIf="usuario.estado"
+                      (click)="desactivar(usuario)"
+                      class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      title="Desactivar">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                      </svg>
+                    </button>
+
+                    <button
+                      *ngIf="!usuario.estado"
+                      (click)="activar(usuario)"
+                      class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                      title="Activar">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngIf="isEditing(usuario)" class="bg-blue-50/30">
+                <td colspan="7" class="px-6 py-6">
+                  <form [formGroup]="editForm" class="space-y-4">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="h-6 w-1 bg-blue-600 rounded-full"></div>
+                      <h3 class="text-lg font-bold text-slate-800">Editando: {{ usuario.nombre_completo }}</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Nombre Completo
+                        </label>
+                        <input
+                          type="text"
+                          formControlName="nombre_completo"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Usuario
+                        </label>
+                        <input
+                          type="text"
+                          formControlName="username"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Correo
+                        </label>
+                        <input
+                          type="email"
+                          formControlName="correo"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Rol
+                        </label>
+                        <select
+                          formControlName="rol"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                      <button
+                        type="button"
+                        (click)="saveEdit(usuario)"
+                        class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold text-sm
+                               hover:bg-blue-700 active:scale-[0.98] transition-all">
+                        Guardar Cambios
+                      </button>
+                      <button
+                        type="button"
+                        (click)="cancelEdit()"
+                        class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-lg font-semibold text-sm
+                               hover:bg-slate-300 active:scale-[0.98] transition-all">
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+
+              <tr *ngIf="isChangingPassword(usuario)" class="bg-amber-50/30">
+                <td colspan="7" class="px-6 py-6">
+                  <form [formGroup]="passwordForm" class="space-y-4">
+                    <div class="flex items-center gap-3 mb-4">
+                      <div class="h-6 w-1 bg-amber-600 rounded-full"></div>
+                      <h3 class="text-lg font-bold text-slate-800">Cambiar contraseña: {{ usuario.nombre_completo }}</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Nueva Contraseña
+                        </label>
+                        <input
+                          type="password"
+                          formControlName="newPassword"
+                          placeholder="Mínimo 6 caracteres"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none">
+                        <p *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched"
+                           class="mt-1 text-xs text-red-600">
+                          La contraseña debe tener al menos 6 caracteres
+                        </p>
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                          Confirmar Contraseña
+                        </label>
+                        <input
+                          type="password"
+                          formControlName="confirmPassword"
+                          placeholder="Repite la contraseña"
+                          class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                                 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none">
+                      </div>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                      <button
+                        type="button"
+                        (click)="savePassword(usuario)"
+                        class="px-5 py-2.5 bg-amber-600 text-white rounded-lg font-semibold text-sm
+                               hover:bg-amber-700 active:scale-[0.98] transition-all">
+                        Cambiar Contraseña
+                      </button>
+                      <button
+                        type="button"
+                        (click)="cancelPasswordChange()"
+                        class="px-5 py-2.5 bg-slate-200 text-slate-700 rounded-lg font-semibold text-sm
+                               hover:bg-slate-300 active:scale-[0.98] transition-all">
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </td>
+              </tr>
+
+            </ng-container>
+          </tbody>
+        </table>
+
+        <div *ngIf="usuarios.length === 0" class="text-center py-12">
+          <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <p class="text-slate-500 font-medium">No hay usuarios registrados</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

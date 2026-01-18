@@ -1,0 +1,17 @@
+<h2>Mis Inscripciones</h2>
+<table class="table-auto w-full border">
+  <thead>
+    <tr>
+      <th>Curso</th>
+      <th>Estado</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of inscripciones">
+      <td>{{ isCursoObject(i.curso) ? i.curso.titulo : i.curso }}</td>
+      <td>{{ i.estado }}</td>
+      <td>{{ i.fecha_inscripcion | date:'short' }}</td>
+    </tr>
+  </tbody>
+</table>

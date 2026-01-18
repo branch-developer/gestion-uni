@@ -85,13 +85,17 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                
-                
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            {
+              "glob": "**/*",
+              "input": "public",
+              "output": "/"
+            },
+            {
+              "glob": "**/*",
+              "input": "src/assets",
+              "output": "/assets"
+            }
+          ],
             "styles": [
               "src/styles.css"
             ]
@@ -101,14 +105,6 @@
     }
   },
   "cli": {
-<<<<<<< HEAD
-<<<<<<< HEAD
     "analytics": "9ae6aac5-3f41-4873-a5ac-2a7e5aa6428c"
-=======
-    "analytics": "9c8b543f-0998-4b8e-9455-68fea2e8ed97"
->>>>>>> deiberlyn
-=======
-    "analytics": "77c8c9af-984c-408c-8f47-8efec73af0d0"
->>>>>>> aa753d09a6f0af39f23b039f0fdbb90ec36c0051
   }
 }

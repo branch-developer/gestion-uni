@@ -1,0 +1,41 @@
+<div class="max-w-4xl mx-auto p-6 animate-in">
+
+  <!-- Header -->
+  <div class="flex justify-between items-end mb-8">
+    <h2 class="text-3xl font-black text-slate-800 italic underline decoration-blue-500/30">
+      Cursos Disponibles
+    </h2>
+
+    <button routerLink="/dashboard/perfil-alumno"
+      class="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">
+      Volver al perfil
+    </button>
+  </div>
+
+  <!-- Catálogo -->
+  <div class="grid gap-6">
+    <div *ngFor="let curso of catalogo"
+      class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200
+             group hover:border-blue-300 transition-all">
+
+      <div class="mb-4">
+        <h3 class="text-xl font-bold text-slate-800">
+          {{ curso.titulo }}
+        </h3>
+        <p class="text-sm text-slate-500 mt-1">
+          {{ curso.descripcion }}
+        </p>
+      </div>
+
+      <!-- Acciones -->
+      <div class="flex mt-6">
+        <button
+          [routerLink]="['/dashboard/detalle-curso', curso.id]"
+          class="w-full py-3 bg-slate-900 text-white rounded-2xl font-bold">
+          Ver Detalles
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

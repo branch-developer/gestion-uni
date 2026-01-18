@@ -1,52 +1,63 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
-
-export interface Curso {
-  id_curso: number;
-  titulo: string;
-  descripcion_breve?: string;
-  fecha_inscripcion?: string;
-}
-
-export interface Alumno {
-  nombre_completo: string;
-  correo: string;
-  telefono?: string;
-  cedula?: string;
-  fecha_registro?: string;
-}
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Curso } from '../core/models/curso';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CursoService {
-  private baseUrl = 'http://localhost:8000/api/';
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+export class CursosService {
 
-  private getToken(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('access_token');
-    }
-    return null;
+  private cursosAlumno$ = new BehaviorSubject<Curso[]>([]);
+  cursosAlumnoObservable$ = this.cursosAlumno$.asObservable();
+
+  private apiUrl = 'http://127.0.0.1:8000/api/cursos/';
+
+  constructor(private http: HttpClient) {}
+
+  getCursos(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  getAlumno(): Observable<Alumno> {
-    const token = this.getToken();
-    return this.http.get<Alumno>(`${this.baseUrl}usuarios/me/`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
-    });
+  getCurso(id: number): Observable<Curso> {
+    return this.http.get<Curso>(`${this.apiUrl}${id}/`);
+  }
+
+  getAlumno(id: string): Observable<any> {
+    return this.http.get(`/api/alumnos/${id}`);
+  }
+
+  crearCurso(curso: Curso): Observable<Curso> {
+    return this.http.post<Curso>(this.apiUrl, curso);
+  }
+
+  actualizarCurso(id: number, curso: Curso): Observable<Curso> {
+    return this.http.put<Curso>(`${this.apiUrl}${id}/`, curso);
+  }
+
+  eliminarCurso(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}${id}/`);
+  }
+
+  listarCursosDisponibles(): Observable<Curso[]> {
+    return this.http.get<Curso[]>(`${this.apiUrl}disponibles/`);
   }
 
   getMisCursos(): Observable<Curso[]> {
-    const token = this.getToken();
-    return this.http.get<Curso[]>(`${this.baseUrl}cursos/mis_cursos/`, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {}
-    });
+    return this.http.get<Curso[]>(`${this.apiUrl}mis_cursos/`);
   }
+
+  getMisCursosAlumno(): Observable<Curso[]> {
+    return this.http.get<Curso[]>(`${this.apiUrl}mis-cursos-alumno/`);
+  }
+
+  actualizarCursosAlumno() {
+    this.getMisCursosAlumno().subscribe((cursos) => this.cursosAlumno$.next(cursos));
+  }
+
+  getMisCursosProfesor(): Observable<Curso[]> {
+    return this.http.get<Curso[]>(`${this.apiUrl}mis_cursos_profesor/`);
+  }
+
 }
