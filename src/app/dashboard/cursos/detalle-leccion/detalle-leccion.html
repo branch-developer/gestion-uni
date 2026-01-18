@@ -1,54 +1,90 @@
-<!-- Botón Volver al curso -->
-  <div class="flex justify-end items-end mb-8">
-    <button (click)="volverAlCurso()" class="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors"> Volver al curso </button>
+<div class="min-h-screen bg-slate-50 py-12 px-4">
+  
+  <div class="max-w-4xl mx-auto mb-6 flex justify-between items-center">
+    <button (click)="volverAlCurso()" 
+      class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-blue-600 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      {{ (authService.getRol() === 'profesor') ? 'Volver a edición' : 'Volver al contenido del curso' }}
+    </button>
   </div>
 
-  <div *ngIf="leccion" class="max-w-4xl mx-auto p-6 bg-white rounded-3xl shadow-lg animate-in">
-    <!-- Título de la lección -->
-    <h2 class="text-3xl font-bold text-slate-800 mb-4">{{ leccion.titulo }}</h2>
-  
-    <!-- Contenido -->
-    <div class="prose prose-slate mb-6" [innerHTML]="leccion.contenido"></div>
-  
-    <!-- Recursos -->
-    <h3 class="text-2xl font-semibold text-slate-800 mb-4">Recursos</h3>
+  <div *ngIf="leccion" class="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden animate-in">
+    
+    <div class="p-8 border-b border-slate-100 bg-white">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="bg-blue-100 text-blue-600 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full">
+          Lección Actual
+        </span>
+      </div>
+      <h2 class="text-4xl font-black text-slate-800 leading-tight">{{ leccion.titulo }}</h2>
+    </div>
 
-    <div *ngFor="let recurso of leccion.recursos" class="mb-6 border border-gray-200 rounded-2xl p-4 shadow-sm">
-      <ng-container [ngSwitch]="recurso.tipo">
+    <div class="p-8">
+      <div class="prose prose-slate prose-lg max-w-none mb-12 text-slate-600 leading-relaxed" [innerHTML]="leccion.contenido">
+      </div>
 
-      <!-- Video -->
-      <ng-container *ngSwitchCase="'video'">
-        <div *ngIf="recurso.url_enlace" class="aspect-video w-full mb-4">
-          <iframe class="w-full h-full rounded-xl shadow-sm" [src]="recurso.url_enlace | safeUrl" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <video *ngIf="recurso.archivo && !recurso.url_enlace" class="w-full rounded-xl shadow-sm" controls>
-          <source [src]="recurso.archivo | safeUrl" type="video/mp4">
-        </video>
-      </ng-container>
+      <div class="mt-12">
+        <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+          <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Material de Estudio
+        </h3>
 
-      <!-- PDF -->
-      <ng-container *ngSwitchCase="'pdf'">
-        <div *ngIf="recurso.archivo" class="w-full">
-          <iframe [src]="recurso.archivo | safeUrl" class="w-full h-96 rounded-xl border"></iframe>
-          <div class="mt-2">
-             <a [href]="recurso.archivo" target="_blank" class="text-red-600 font-bold hover:underline"> Abrir PDF en pestaña nueva </a>
+        <div class="grid gap-6">
+          <div *ngFor="let recurso of leccion.recursos" class="group bg-slate-50 rounded-2xl border border-slate-200 p-6 transition-all hover:bg-white hover:shadow-md">
+            
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">{{ recurso.tipo }}</span>
+              <svg *ngIf="recurso.tipo === 'video'" class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168l4.2 2.8a1 1 0 010 1.664l-4.2 2.8A1 1 0 018 13.56V7.44a1 1 0 011.555-.832z"/></svg>
+            </div>
+
+            <ng-container [ngSwitch]="recurso.tipo">
+              <div *ngSwitchCase="'video'" class="space-y-4">
+                <div *ngIf="recurso.url_enlace" class="aspect-video w-full overflow-hidden rounded-xl shadow-lg bg-black">
+                  <iframe class="w-full h-full" [src]="recurso.url_enlace | safeUrl" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <video *ngIf="recurso.archivo && !recurso.url_enlace" class="w-full rounded-xl shadow-lg" controls>
+                  <source [src]="recurso.archivo | safeUrl" type="video/mp4">
+                </video>
+              </div>
+
+              <div *ngSwitchCase="'pdf'" class="space-y-4">
+                <div *ngIf="recurso.archivo" class="w-full">
+                  <iframe [src]="recurso.archivo | safeUrl" class="w-full h-[500px] rounded-xl border border-slate-200 shadow-inner"></iframe>
+                  <a [href]="recurso.archivo" target="_blank" class="mt-4 flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-600 rounded-xl font-bold hover:bg-red-600 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    Abrir PDF en pantalla completa
+                  </a>
+                </div>
+              </div>
+
+              <div *ngSwitchDefault>
+                <a [href]="recurso.archivo || recurso.url_enlace" target="_blank" 
+                   class="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-400 transition-colors">
+                  <div class="flex items-center gap-3">
+                    <div class="p-2 bg-blue-50 rounded-lg">
+                      <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </div>
+                    <span class="font-bold text-slate-700">{{ recurso.descripcion || 'Descargar material' }}</span>
+                  </div>
+                  <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </ng-container>
+
+            <p *ngIf="recurso.descripcion && recurso.tipo !== 'archivo'" class="mt-4 text-slate-500 text-sm italic leading-relaxed">
+              {{ recurso.descripcion }}
+            </p>
           </div>
         </div>
-      </ng-container>
+      </div>
+    </div>
 
-      <!-- Archivo -->
-      <ng-container *ngSwitchCase="'archivo'">
-        <a *ngIf="recurso.archivo" [href]="recurso.archivo" target="_blank" class="flex items-center text-blue-600 font-bold p-2 bg-blue-50 rounded-lg">
-          <span class="mr-2">Descargar:</span> {{ recurso.descripcion || 'Archivo adjunto' }}
-        </a>
-      </ng-container>
-
-      <!-- Enlace externo -->
-      <ng-container *ngSwitchCase="'enlace'">
-        <a *ngIf="recurso.url_enlace" [href]="recurso.url_enlace" target="_blank" class="flex items-center text-green-600 font-bold p-2 bg-green-50 rounded-lg">
-          <span class="mr-2"> Enlace:</span> {{ recurso.descripcion || recurso.url_enlace }}
-        </a>
-      </ng-container>
-    </ng-container>
+    <div class="p-8 bg-slate-50 border-t border-slate-100 text-center">
+      <p class="text-slate-500 text-sm">¿Terminaste de estudiar este material? Puedes volver al temario para continuar con la siguiente lección.</p>
+    </div>
   </div>
 </div>

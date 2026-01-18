@@ -25,7 +25,8 @@ export class CursosService {
   }
 
   getAlumno(id: string): Observable<any> {
-    return this.http.get(`/api/alumnos/${id}`);
+    // Cambiamos 'alumnos' por 'usuarios', que es la ruta que Django reconoce
+    return this.http.get(`http://127.0.0.1:8000/api/usuarios/${id}/`);
   }
 
   crearCurso(curso: Curso): Observable<Curso> {

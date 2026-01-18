@@ -25,10 +25,11 @@ export class CrearEvaluacion {
     private route: ActivatedRoute
   ) {
     // Tomamos el cursoId de la URL si existe
-    this.cursoId = Number(this.route.snapshot.paramMap.get('cursoId'));
+    this.cursoId = Number(this.route.snapshot.queryParamMap.get('cursoId'));
+    const moduloId = Number(this.route.snapshot.queryParamMap.get('moduloId'));
 
     this.form = this.fb.group({
-      curso: [this.cursoId, Validators.required],
+      curso: [this.cursoId || null, Validators.required],
       titulo: ['', Validators.required],
       descripcion: [''],
       estado: ['activa', Validators.required],

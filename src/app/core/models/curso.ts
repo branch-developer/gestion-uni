@@ -54,7 +54,7 @@ export interface Curso {
   fecha_creacion?: string;
   progreso?: number;       // porcentaje completado
   paginas?: Pagina[];      // contenido del curso
-  evaluacion?: Evaluacion; // evaluaciones relacionadas
+  evaluaciones?: Evaluacion[]; // evaluaciones relacionadas
   pagos?: Pago[];          // pagos asociados
   profesor: number; // ID del profesor
   modulos?: Modulo[];
@@ -73,5 +73,6 @@ export interface CursoDetalle {
   estado?: 'activo' | 'inactivo' | 'borrador'; 
   estadoInscripcion?: 'pendiente' | 'aprobado' | 'rechazado';
   modulos?: Modulo[];
+  evaluaciones?: Evaluacion[];
 }
 

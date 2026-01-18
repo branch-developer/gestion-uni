@@ -108,17 +108,39 @@
                     class="px-4 py-2 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-500 transition-colors">
               Agregar Lección
             </button>
-
-            <button type="button"
-                    (click)="agregarEvaluacion(modulo)"
-                    class="px-4 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-500 transition-colors">
-              Agregar Evaluación
-            </button>
           </div>
 
         </div>
       </div>
     </div>
+
+          <!-- Mini resumen de evaluaciones si existe -->
+          <hr class="my-6 border-slate-200" />
+
+          <h3 class="text-xl font-semibold text-slate-800 mb-4">Evaluaciones del curso</h3>
+
+          <div class="space-y-2">
+            <div *ngFor="let eval of cursoEvaluaciones"
+                class="flex justify-between items-center bg-white p-3 border border-gray-200 rounded-xl shadow-sm">
+
+              <span class="text-gray-700 font-medium">
+                {{ eval.titulo }}
+              </span>
+
+              <button type="button"
+                      (click)="verEvaluacion(eval.id)"
+                      class="px-3 py-1 bg-purple-600 text-white rounded-xl text-xs hover:bg-purple-500">
+                Ver
+              </button>
+            </div>
+          </div>
+
+          <button type="button"
+                  (click)="agregarEvaluacion()"
+                  class="mt-3 px-5 py-2 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-500">
+            Agregar Evaluación
+          </button>
+
 
     <button type="button" (click)="agregarModulo()"
             class="px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-500 transition-colors mt-4">

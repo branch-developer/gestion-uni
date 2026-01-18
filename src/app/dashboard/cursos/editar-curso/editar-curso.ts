@@ -30,6 +30,8 @@ export class EditarCursoComponent implements OnInit {
     private router: Router
   ) {}
 
+  cursoEvaluaciones: any[] = [];
+
   ngOnInit(): void {
     this.cursoId = Number(this.route.snapshot.paramMap.get('id'));
     this.cursoForm = this.fb.group({
@@ -84,11 +86,16 @@ export class EditarCursoComponent implements OnInit {
   }
 
   // Navegar a crear evaluación para el curso
-  agregarEvaluacion(modulo: FormGroup): void {
-    const moduloId = modulo.get('id')?.value;
+  agregarEvaluacion(): void {
     this.router.navigate(['/dashboard/evaluaciones/crear'], {
-      queryParams: { cursoId: this.cursoId, moduloId }
+      queryParams: { cursoId: this.cursoId }
     });
+  }
+
+  verEvaluacion(evaluacionId: number): void {
+    this.router.navigate(
+      ['/dashboard/evaluaciones/detalle', evaluacionId]
+    );
   }
 
   // Devuelve el FormArray de lecciones de un módulo
@@ -126,6 +133,7 @@ export class EditarCursoComponent implements OnInit {
           profesor: curso.profesor
         });
 
+        this.cursoEvaluaciones = curso.evaluaciones || [];
         // Limpiar modulos existentes
         this.modulos.clear();
 

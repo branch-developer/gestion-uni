@@ -1,41 +1,71 @@
-<div *ngIf="cursoActivo()" class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow animate-in">
+<div *ngIf="cursoActivo() as curso" class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow animate-in">
 
-  <!-- Header -->
-  <div class="flex justify-between items-start mb-8">
-    <h1 class="text-4xl font-bold">{{ cursoActivo()?.titulo }}</h1>
-    <button (click)="volverCursos()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-      ← Regresar
+  <div class="flex justify-between items-start mb-8 border-b pb-4">
+    <div>
+      <h1 class="text-4xl font-bold text-slate-800">{{ curso.titulo }}</h1>
+      <p class="text-blue-600 font-medium">Profesor: {{ curso.profesor }}</p>
+    </div>
+    <button (click)="volverCursos()" class="bg-slate-500 hover:bg-slate-600 text-white px-4 py-2 rounded-lg transition">
+      ← {{ (cursoActivo()?.inscrito) ? 'Volver a Mis Cursos' : 'Ver Cursos Disponibles' }}
     </button>
   </div>
 
-  <!-- Descripción -->
-  <p class="text-gray-700 mb-6">{{ cursoActivo()?.descripcion }}</p>
-
-  <!-- Módulos y lecciones -->
-  <div *ngFor="let modulo of cursoActivo()?.modulos ?? []" class="mb-6">
-    <h2 class="text-2xl font-semibold mb-2">{{ modulo.titulo }}</h2>
-    <ul class="ml-4 list-disc">
-      <li *ngFor="let leccion of modulo.lecciones ?? []">
-        {{ leccion.titulo }}
-        <span *ngIf="!cursoActivo()?.inscrito && !leccion.contenido" class="text-gray-400 italic">(Preview)</span>
-        <button *ngIf="cursoActivo()?.estadoInscripcion === 'aprobado'"
-                (click)="irALeccion(leccion)"
-                class="ml-2 text-blue-600 hover:underline">
-          Ver lección
-        </button>
-        <div *ngIf="cursoActivo()?.estadoInscripcion === 'pendiente'"
-            class="text-yellow-600 font-bold mt-2">
-          Pago pendiente. No puedes acceder al curso hasta que sea aprobado.
-        </div>
-      </li>
-    </ul>
+  <div *ngIf="curso.inscrito" class="mb-6">
+    <span *ngIf="curso.estadoInscripcion === 'aprobado'" class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">
+      Inscripción Aprobada - Acceso Total
+    </span>
+    <span *ngIf="curso.estadoInscripcion === 'pendiente'" class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold">
+      Pago Pendiente de Validación
+    </span>
   </div>
 
-  <!-- Botón Inscripción si no está inscrito -->
-  <div *ngIf="!cursoActivo()?.inscrito && cursoActivo()?.estado !== 'activo'" class="mt-8 text-yellow-600 font-bold">
+  <div class="mb-10">
+    <h3 class="text-lg font-bold mb-2">Acerca de este curso</h3>
+    <p class="text-gray-700 leading-relaxed">{{ curso.descripcion }}</p>
+  </div>
+
+  <div class="space-y-8">
+    <div *ngFor="let modulo of curso.modulos" class="border rounded-xl p-6 bg-slate-50">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+        <span class="bg-blue-600 text-white w-8 h-8 flex items-center justify-center rounded-full text-sm">{{ modulo.orden }}</span>
+        {{ modulo.titulo }}
+      </h2>
+      
+      <div class="grid gap-3">
+        <div *ngFor="let leccion of modulo.lecciones" class="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="font-medium text-slate-700">{{ leccion.titulo }}</span>
+          </div>
+
+          <button *ngIf="curso.estadoInscripcion === 'aprobado'"
+                  (click)="irALeccion(leccion)"
+                  class="text-sm bg-blue-50 text-blue-600 px-3 py-1.5 rounded-md hover:bg-blue-600 hover:text-white transition font-bold">
+            Ver Contenido
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="curso.estadoInscripcion === 'aprobado'" class="mt-12 p-8 bg-blue-900 text-white rounded-2xl shadow-xl">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div>
+        <h2 class="text-2xl font-bold mb-2">Examen Final del Curso</h2>
+        <p class="text-blue-100">Pon a prueba tus conocimientos para obtener tu certificación.</p>
+      </div>
+      <button (click)="irAEvaluacion()" 
+              class="bg-white text-blue-900 px-8 py-3 rounded-xl font-black hover:bg-blue-50 transition transform active:scale-95">
+        TOMAR EVALUACIÓN
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!curso.inscrito" class="mt-8 border-t pt-8 text-center">
+    <p class="mb-4 text-slate-600 font-medium">¿Te interesa este curso? Comienza tu aprendizaje hoy mismo.</p>
     <button (click)="inscribirse()"
-            class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-bold">
-      Inscribirme
+            class="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-lg shadow-orange-200 transition-all hover:-translate-y-1">
+      INSCRIBIRME AHORA
     </button>
   </div>
 

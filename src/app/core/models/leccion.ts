@@ -12,6 +12,7 @@ export interface Leccion {
   modulo: number;
   titulo: string;
   contenido: string;
+  curso_id: number;
   orden: number;
   recursos: RecursoLeccion[];
 }

@@ -47,7 +47,8 @@ export class DetalleCursoComponent implements OnInit {
           descripcion: curso.descripcion!,
           profesor: curso.profesor!,
           inscrito: curso.inscrito ?? false,
-          estadoInscripcion: curso.estadoInscripcion, // 🔥 CLAVE
+          estadoInscripcion: curso.estadoInscripcion,
+          evaluaciones: curso.evaluaciones,      
           modulos: curso.modulos?.map((m) => ({
             id: m.id!,
             titulo: m.titulo!,
@@ -55,7 +56,7 @@ export class DetalleCursoComponent implements OnInit {
             lecciones: m.lecciones?.map((l) => ({
               id: l.id!,
               titulo: l.titulo!,
-              contenido: curso.estadoInscripcion === 'aprobado'
+              contenido: curso.estadoInscripcion === 'aprobado' 
                 ? l.contenido
                 : null,
               orden: l.orden!
@@ -75,13 +76,24 @@ export class DetalleCursoComponent implements OnInit {
     return this.cursoActivo();
   }
 
-  volverCursos() {
-    this.router.navigate(['/dashboard/cursos-disponibles']);
+  volverCursos(): void {
+    // Obtenemos el curso actual (puedes usar tu señal o variable de curso)
+    const curso = this.cursoActivo();
+
+    if (curso && curso.inscrito) {
+      // Si está inscrita, vuelve a su lista personal
+      this.router.navigate(['/dashboard/mis-cursos']);
+    } else {
+      // Si no está inscrita (es un visitante), vuelve a la tienda/explorador
+      this.router.navigate(['/dashboard/cursos-disponibles']);
+    }
   }
 
   irALeccion(leccion: Leccion) {
     if (!this.cursoActivo()?.inscrito) return;
-    this.router.navigate(['/dashboard/cursos/lecciones', leccion.id]);
+    
+    // La ruta debe coincidir con: dashboard + curso/detalle-leccion/ + ID
+    this.router.navigate(['/dashboard/curso/detalle-leccion', leccion.id]);
   }
 
   inscribirse() {
@@ -99,8 +111,17 @@ export class DetalleCursoComponent implements OnInit {
 
   irAEvaluacion() {
     const curso = this.cursoActivo();
-    if (!curso) return;
-    this.router.navigate(['/dashboard/evaluaciones/responder', curso.id]);
+    
+    // Verificamos si hay evaluaciones en el curso
+    if (curso?.evaluaciones && curso.evaluaciones.length > 0) {
+      // Tomamos el ID de la primera evaluación (o la que consideres principal)
+      const evaluacionId = curso.evaluaciones[0].id;
+      
+      // Navegamos a la ruta de detalle donde el alumno responde
+      this.router.navigate(['/dashboard/evaluaciones/detalle', evaluacionId]);
+    } else {
+      alert('No hay evaluaciones asignadas a este curso.');
+    }
   }
 
 

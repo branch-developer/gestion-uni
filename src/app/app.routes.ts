@@ -128,6 +128,11 @@ export const routes: Routes = [
         path: 'evaluaciones/calificaciones',
         loadComponent: () => import('./dashboard/evaluaciones/calificaciones/calificaciones').then(m => m.Calificaciones)
       },
+      {
+        path: 'evaluaciones/detalle/:id',
+        loadComponent: () => import('./dashboard/evaluaciones/detalle-evaluacion/detalle-evaluacion').then(m => m.DetalleEvaluacion)
+      },
+
 
       // Pagos
       {

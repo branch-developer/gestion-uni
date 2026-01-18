@@ -77,16 +77,12 @@ export class AuthService {
     /**
    * Actualizar usuario (solo campos editables)
    */
-  updateUsuario(id: number, data: any) {
-    const payload = {
-      nombre_completo: data.nombre_completo,
-      correo: data.correo,
-      telefono: data.telefono
-    };
-    const token = this.getToken();
-    return this.http.patch(`${this.apiUrl}${id}/`, payload, {
-      headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
-    });
-  }
+    updateUsuario(id: number, data: any): Observable<any> {
+      const payload = {
+        nombre_completo: data.nombre_completo,
+        correo: data.correo,
+      };
+      return this.http.patch(`${this.apiUrl}usuarios/${id}/`, payload);
+    }
 }
 
