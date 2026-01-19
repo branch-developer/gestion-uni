@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { UsersService } from '../../../../services/users';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificacionService } from '../../../../services/notificacion';
 
 @Component({
   selector: 'app-usuarios-form',
@@ -22,7 +23,8 @@ export class UsuariosFormComponent implements OnInit {
     private fb: FormBuilder,
     private usersService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notify: NotificacionService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +58,10 @@ export class UsuariosFormComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        alert('Error al cargar usuario');
+        
+        this.notify.show('Error al cargar los datos del usuario', 'error');
+        
+        // Redirección inmediata
         this.router.navigate(['/dashboard/usuarios']);
       }
     });
@@ -65,9 +70,20 @@ export class UsuariosFormComponent implements OnInit {
   submitForm() {
     if (this.usuarioForm.invalid) {
       this.markFormGroupTouched(this.usuarioForm);
-      alert('Por favor completa todos los campos correctamente');
+      const passwordControl = this.usuarioForm.get('password');
+    if (passwordControl?.invalid && !this.isEditMode) {
+      if (passwordControl?.errors?.['required']) {
+        this.notify.show('La contraseña es obligatoria para nuevos usuarios', 'error');
+      } else if (passwordControl?.errors?.['minlength']) {
+        this.notify.show('La contraseña debe tener al menos 6 caracteres', 'error');
+      }
       return;
     }
+
+    // Mensaje genérico para otros campos
+    this.notify.show('Por favor revisa los campos marcados en rojo', 'error');
+    return;
+  }
 
     this.submitting = true;
     const data = { ...this.usuarioForm.value };
@@ -82,14 +98,23 @@ export class UsuariosFormComponent implements OnInit {
 
     request.subscribe({
       next: () => {
-        alert(this.usuarioToEdit ? 'Usuario actualizado con éxito' : 'Usuario creado con éxito');
+        // Definimos el mensaje según la acción
+        const mensaje = this.usuarioToEdit 
+          ? 'Usuario actualizado con éxito' 
+          : 'Usuario creado con éxito';
+
+        // Llamamos al servicio de notificación visual
+        this.notify.show(mensaje, 'success');
+
         this.submitting = false;
         this.router.navigate(['/dashboard/usuarios']);
       },
       error: (err) => {
         console.error(err);
         const errorMsg = err.error?.detail || err.error?.message || 'Error al procesar la solicitud';
-        alert(errorMsg);
+        
+        this.notify.show(errorMsg, 'error');
+        
         this.submitting = false;
       }
     });
