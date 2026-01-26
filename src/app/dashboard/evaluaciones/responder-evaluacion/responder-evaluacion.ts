@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Evaluaciones } from '../../../services/evaluaciones';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface RespuestaForm {
   id: FormControl<number>;
@@ -29,9 +29,10 @@ export class ResponderEvaluacion implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: Evaluaciones,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router    
   ) {
-    // ⚠ Inicialización correcta tipada
+    // Inicialización correcta tipada
     this.form = this.fb.group({
       preguntas: this.fb.array<FormGroup<PreguntaForm>>([])
     });
@@ -90,19 +91,28 @@ export class ResponderEvaluacion implements OnInit {
       const preguntaId = preguntaGroup.get('id')!.value;
       const respuestasArray = preguntaGroup.get('respuestas') as FormArray<FormGroup<RespuestaForm>>;
 
-      respuestasArray.controls
-        .filter(r => r.get('seleccionado')!.value)
-        .forEach(r => {
-          payload.respuestas.push({
-            pregunta: preguntaId,
-            respuesta: r.get('id')!.value
-          });
+      respuestasArray.controls.forEach(r => {
+          if (r.get('seleccionado')!.value) {
+            payload.respuestas.push({
+              pregunta: preguntaId,
+              respuesta: r.get('id')!.value // Enviamos el ID numérico
+            });
+          }
         });
-    });
+      });
 
-    this.service.responderEvaluacion(payload).subscribe({
-      next: res => console.log('Respuestas enviadas', res),
-      error: err => console.error(err)
-    });
-  }
+      if (payload.respuestas.length < this.preguntas.length) {
+        alert('Por favor responde todas las preguntas');
+        return;
+      }
+
+      this.service.responderEvaluacion(payload).subscribe({
+          next: res => {
+            console.log('Evaluación procesada por el servidor:', res);
+            // Redirigir al historial o mostrar resultado
+            this.router.navigate(['/dashboard/calificaciones']);
+          },
+          error: err => console.error('Error al enviar:', err)
+        });
+      }
 }

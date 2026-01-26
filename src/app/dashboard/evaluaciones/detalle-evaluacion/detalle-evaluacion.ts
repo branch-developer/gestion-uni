@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Evaluaciones } from '../../../services/evaluaciones';
+import { CursosService } from '../../../services/cursos';
+import { Leccion } from '../../../core/models/leccion';
 
 @Component({
   selector: 'app-detalle-evaluacion',
@@ -14,12 +16,15 @@ export class DetalleEvaluacion implements OnInit {
   evaluacion: any;
   respuestasUsuario: any[] = []; // Guarda el texto o ID de la opción seleccionada
   enviado: boolean = false;
+  aprobado: boolean = false;
   puntajeFinal: number = 0;
   totalPosible: number = 0;
+  leccion!: Leccion;
 
   constructor(
     private route: ActivatedRoute,
-    private evaluacionesService: Evaluaciones
+    private evaluacionesService: Evaluaciones,
+    private cursosService: CursosService
   ) {}
 
   ngOnInit(): void {
@@ -46,24 +51,41 @@ export class DetalleEvaluacion implements OnInit {
       return;
     }
 
-    let puntosGanados = 0;
+    // Mapear al formato que espera el nuevo backend
+    const payload = {
+        evaluacion: this.evaluacion.id,
+        respuestas: this.evaluacion.preguntas.map((p: any, index: number) => {
+            // Buscamos el objeto respuesta cuyo texto coincide con lo seleccionado
+            const rSeleccionada = p.respuestas.find((r: any) => r.texto === this.respuestasUsuario[index]);
+            return {
+                pregunta: p.id,
+                respuesta: rSeleccionada.id
+            };
+        })
+    };
 
-    this.evaluacion.preguntas.forEach((pregunta: any, index: number) => {
-      const respuestaSeleccionada = this.respuestasUsuario[index];
-      // Buscamos en el array de respuestas de la pregunta cuál es la correcta
-      const opcionCorrecta = pregunta.respuestas.find((r: any) => r.es_correcta === true || r.es_correcta === 1);
+    this.evaluacionesService.responderEvaluacion(payload).subscribe({
+        next: (res) => {
+            // Usamos el operador !! o aseguramos que aprobado exista
+            this.aprobado = !!res.aprobado; 
+            
+            if (this.aprobado) {
+                // Notifica al BehaviorSubject del servicio de cursos para refrescar datos
+                this.cursosService.actualizarCursosAlumno(); 
+            }
 
-      if (opcionCorrecta && respuestaSeleccionada === opcionCorrecta.texto) {
-        puntosGanados += pregunta.puntaje;
-      }
+            // El backend nos devuelve el porcentaje (aseguramos que sea número)
+            this.puntajeFinal = res.porcentaje ?? 0;
+            this.enviado = true;
+            
+            // Scroll al inicio para ver el mensaje de éxito/resultado
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+        error: (err) => {
+            console.error('Error al guardar evaluación:', err);
+            alert('Hubo un problema al enviar tus respuestas. Por favor, intenta de nuevo.');
+        }
     });
+}
 
-    this.puntajeFinal = (puntosGanados / this.totalPosible) * 100;
-    this.enviado = true;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  get aprobado(): boolean {
-    return this.puntajeFinal >= 70; // Umbral de aprobación
-  }
 }

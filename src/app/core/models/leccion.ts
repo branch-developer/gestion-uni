@@ -15,4 +15,5 @@ export interface Leccion {
   curso_id: number;
   orden: number;
   recursos: RecursoLeccion[];
+  siguiente_leccion_id?: number | null;
 }

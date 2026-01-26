@@ -24,4 +24,8 @@ export class Lecciones {
   crearLeccion(leccion: any): Observable<Leccion> {
     return this.http.post<Leccion>(this.baseUrl, leccion);
   }
+
+  completarLeccion(leccionId: number) {
+    return this.http.post(`${this.baseUrl}${leccionId}/completar/`, {});
+  }
 }

@@ -3,6 +3,7 @@
 
     <div *ngIf="enviado" class="bg-white shadow-2xl rounded-3xl overflow-hidden transform transition-all animate-in fade-in zoom-in duration-500">
       <div class="p-10 text-center">
+        
         <div [ngClass]="aprobado ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'" 
              class="inline-flex items-center justify-center w-24 h-24 rounded-full mb-6">
           <svg *ngIf="aprobado" class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

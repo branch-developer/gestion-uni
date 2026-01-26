@@ -13,31 +13,48 @@
           <h3 class="text-xl font-bold text-slate-800">{{ curso.titulo }}</h3>
           <p class="text-sm text-slate-500">{{ curso.descripcion_breve }}</p>
         </div>
-        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black">{{ curso.progreso }}%</span>
+        <span *ngIf="rolUsuario !== 'profesor'" 
+              [ngClass]="curso.progreso === 100 ? 'text-green-600' : 'text-blue-700'" 
+              class="text-xs font-black">
+          {{ curso.progreso }}%
+        </span>
       </div>
 
       <!-- Progress Bar -->
-      <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-6">
-        <div class="h-full bg-blue-600 transition-all duration-1000" [style.width.%]="curso.progreso"></div>
+      <div *ngIf="rolUsuario !== 'profesor'" class="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-6">
+        <div class="h-full transition-all duration-1000" 
+             [style.width.%]="curso.progreso" 
+             [ngClass]="curso.progreso === 100 ? 'bg-green-500' : 'bg-blue-600'"> 
+        </div>
       </div>
 
       <!-- Botón según rol -->
       <div class="flex">
         <button *ngIf="rolUsuario === 'profesor' && curso.profesor === usuarioActual.id_usuario"
-                (click)="editarCurso(curso)"
-                class="flex-1 py-3 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-500 transition-all shadow-lg shadow-slate-200 mr-2">
-          Editar Curso
+                  (click)="editarCurso(curso)"
+                  class="flex-1 py-3 bg-green-600 text-white rounded-2xl font-bold hover:bg-green-500 transition-all shadow-lg shadow-slate-200 mr-2">
+            Editar Curso
         </button>
 
-       <button *ngIf="!(rolUsuario === 'profesor' && curso.profesor === usuarioActual.id_usuario)"
+        <button *ngIf="!(rolUsuario === 'profesor' && curso.profesor === usuarioActual.id_usuario)"
                 [disabled]="curso.estadoInscripcion !== 'aprobado'"
                 (click)="verDetalleCurso(curso)"
-                class="flex-1 py-3 rounded-2xl font-bold text-white"
+                class="flex-1 py-3 rounded-2xl font-bold text-white transition-all"
                 [ngClass]="{
                   'bg-slate-400 cursor-not-allowed': curso.estadoInscripcion !== 'aprobado',
-                  'bg-slate-900 hover:bg-blue-600 shadow-lg shadow-slate-200 ml-2': curso.estadoInscripcion === 'aprobado'
+                  'bg-slate-900 hover:bg-blue-600 shadow-lg shadow-slate-200 ml-2': curso.estadoInscripcion === 'aprobado' && (curso.progreso ?? 0) < 100,
+                  'bg-green-600 hover:bg-green-700 shadow-green-100': (curso.progreso ?? 0) === 100 
                 }">
-          {{ curso.estadoInscripcion === 'aprobado' ? 'Continuar Aprendiendo' : 'Pago pendiente' }}
+
+          <span *ngIf="curso.estadoInscripcion === 'pendiente'">Pago Pendiente</span>
+          
+          <span *ngIf="curso.estadoInscripcion === 'aprobado' && (curso.progreso ?? 0) < 100">
+            Continuar Aprendiendo
+          </span>
+          
+          <span *ngIf="(curso.progreso ?? 0) === 100">
+            Curso Completado
+          </span>    
         </button>
       </div>
     </div>

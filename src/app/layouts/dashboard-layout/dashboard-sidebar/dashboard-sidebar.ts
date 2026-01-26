@@ -38,7 +38,7 @@ export class DashboardSidebar {
     switch (rol) {
       case 'profesor':
         return [
-          { nombre: 'Dashboard', ruta: '/dashboard/perfil-profesor' },
+          { nombre: 'Inicio', ruta: '/dashboard/perfil-profesor' },
           {
               nombre: `Cursos`,
               sublinks: [
@@ -56,7 +56,7 @@ export class DashboardSidebar {
 
       case 'adminc':
         return [
-          { nombre: 'Dashboard', ruta: '/dashboard/perfil-admin-c' },
+          { nombre: 'Inicio', ruta: '/dashboard/perfil-admin-c' },
           {
             nombre: 'Cursos',
             sublinks: [
@@ -75,7 +75,7 @@ export class DashboardSidebar {
 
       case 'adminp':
         return [
-          { nombre: 'Dashboard', ruta: '/dashboard/perfil-admin-p' },
+          { nombre: 'Inicio', ruta: '/dashboard/perfil-admin-p' },
           {
             nombre: 'Pagos',
             sublinks: [
@@ -87,7 +87,7 @@ export class DashboardSidebar {
 
       default:
         return [
-          { nombre: 'Dashboard', ruta: '/dashboard/perfil-alumno' },
+          { nombre: 'Perfil', ruta: '/dashboard/perfil-alumno' },
           { nombre: 'Mis Cursos', ruta: '/dashboard/mis-cursos' },
           { nombre: 'Cursos Disponibles', ruta: '/dashboard/cursos-disponibles' },          
           {

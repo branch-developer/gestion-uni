@@ -58,9 +58,7 @@ export class UsuariosFormComponent implements OnInit {
       },
       error: (err) => {
         console.error(err);
-        
-        this.notify.show('Error al cargar los datos del usuario', 'error');
-        
+      
         // Redirección inmediata
         this.router.navigate(['/dashboard/usuarios']);
       }
@@ -71,20 +69,8 @@ export class UsuariosFormComponent implements OnInit {
     if (this.usuarioForm.invalid) {
       this.markFormGroupTouched(this.usuarioForm);
       const passwordControl = this.usuarioForm.get('password');
-    if (passwordControl?.invalid && !this.isEditMode) {
-      if (passwordControl?.errors?.['required']) {
-        this.notify.show('La contraseña es obligatoria para nuevos usuarios', 'error');
-      } else if (passwordControl?.errors?.['minlength']) {
-        this.notify.show('La contraseña debe tener al menos 6 caracteres', 'error');
-      }
-      return;
-    }
-
-    // Mensaje genérico para otros campos
-    this.notify.show('Por favor revisa los campos marcados en rojo', 'error');
     return;
   }
-
     this.submitting = true;
     const data = { ...this.usuarioForm.value };
 
@@ -98,32 +84,27 @@ export class UsuariosFormComponent implements OnInit {
 
     request.subscribe({
       next: () => {
-        // Definimos el mensaje según la acción
-        const mensaje = this.usuarioToEdit 
-          ? 'Usuario actualizado con éxito' 
-          : 'Usuario creado con éxito';
-
-        // Llamamos al servicio de notificación visual
-        this.notify.show(mensaje, 'success');
 
         this.submitting = false;
         this.router.navigate(['/dashboard/usuarios']);
       },
       error: (err) => {
         console.error(err);
-        const errorMsg = err.error?.detail || err.error?.message || 'Error al procesar la solicitud';
-        
-        this.notify.show(errorMsg, 'error');
         
         this.submitting = false;
       }
     });
   }
 
+  showCancelModal = false;
+
   cancelForm() {
-    if (confirm('¿Deseas cancelar? Los cambios no guardados se perderán.')) {
-      this.router.navigate(['/dashboard/usuarios']);
-    }
+    this.showCancelModal = true;
+  }
+
+  confirmCancel() {
+    this.showCancelModal = false;
+    this.router.navigate(['/dashboard/usuarios']);
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

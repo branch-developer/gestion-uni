@@ -5,6 +5,7 @@ import { Leccion } from '../../../core/models/leccion';
 import { CommonModule } from '@angular/common';
 import { SafeUrlPipe } from '../../../shared/pipes/safe-url.pipe';
 import { AuthService } from '../../../services/auth';
+import { CursosService } from '../../../services/cursos';
 
 @Component({
   selector: 'app-detalle-leccion',
@@ -12,53 +13,73 @@ import { AuthService } from '../../../services/auth';
   imports: [CommonModule, SafeUrlPipe],
   templateUrl: './detalle-leccion.html',
 })
-
 export class DetalleLeccion implements OnInit {
   private route = inject(ActivatedRoute);
   private leccionesService = inject(Lecciones);
   private router = inject(Router);
   public authService = inject(AuthService);
+  private cursosService = inject(CursosService); // Corregido nombre de variable
 
-  leccion!: Leccion;
+  leccion: Leccion | null = null;
   cursoId!: number;
+  cargando: boolean = false;
 
   ngOnInit(): void {
-    const leccionId = this.route.snapshot.paramMap.get('leccionId');
-    if (!leccionId) {
-      console.error('No se proporcionó leccionId en la URL');
-      return;
-    }
-
-    this.leccionesService.getLeccionById(+leccionId).subscribe({
-      next: (data) => {this.leccion = data; this.cursoId = data.curso_id; },
-      error: (err) => {
-        console.error('Error al cargar la lección', err);
-        alert('No se pudo cargar la lección.');
+    // Escuchamos cambios en los parámetros de la URL de forma reactiva
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('leccionId');
+      if (id) {
+        this.cargarDatosLeccion(+id);
       }
     });
   }
 
-  get esProfesor(): boolean {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    return user.rol === 'profesor';
+  cargarDatosLeccion(id: number): void {
+    this.cargando = true;
+    this.leccion = null; // Limpiar para evitar errores de renderizado
+
+    this.leccionesService.getLeccionById(id).subscribe({
+      next: (data) => {
+        this.leccion = data;
+        this.cursoId = data.curso_id || 0;
+        this.cargando = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll arriba al cambiar lección
+      },
+      error: (err) => {
+        console.error('Error al cargar lección', err);
+        this.cargando = false;
+        this.router.navigate(['/dashboard/mis-cursos']);
+      }
+    });
   }
 
   volverAlCurso(): void {
-    if (!this.cursoId) {
-      this.router.navigate(['/dashboard/mis-cursos']);
-      return;
-    }
-
-    // Usamos el método getRol() de AuthService
     const rol = this.authService.getRol();
-
-    if (rol === 'profesor') {
-      // Si es profesor, a la edición
-      this.router.navigate(['/dashboard/editar-curso', this.cursoId]);
+    const targetRoute = rol === 'profesor' ? '/dashboard/editar-curso' : '/dashboard/detalle-curso';
+    
+    if (this.cursoId) {
+      this.router.navigate([targetRoute, this.cursoId]);
     } else {
-      // Si es estudiante, al detalle/temario
-      this.router.navigate(['/dashboard/detalle-curso', this.cursoId]);
+      this.router.navigate(['/dashboard/mis-cursos']);
     }
   }
 
+  completarYSiguiente() {
+    if (!this.leccion) return;
+
+    this.leccionesService.completarLeccion(this.leccion.id).subscribe({
+      next: () => {
+        this.cursosService.actualizarCursosAlumno();
+
+        if (this.leccion?.siguiente_leccion_id) {
+          // Navegamos a la siguiente lección dentro del mismo componente
+          this.router.navigate(['/dashboard/curso/detalle-leccion', this.leccion.siguiente_leccion_id]);
+        } else {
+          alert('¡Felicidades! Has terminado todas las lecciones del curso.');
+          this.router.navigate(['/dashboard/detalle-curso', this.cursoId]);
+        }
+      },
+      error: (err) => console.error('Error al completar lección', err)
+    });
+  }
 }
