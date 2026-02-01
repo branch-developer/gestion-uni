@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class Evaluaciones {
   private baseUrl = 'http://127.0.0.1:8000/api/evaluaciones/';
+  private intentosUrl = 'http://127.0.0.1:8000/api/intentos/';
 
   constructor(private http: HttpClient) {}
 
@@ -58,4 +59,31 @@ export class Evaluaciones {
   getIntentos(): Observable<any> {
     return this.http.get(`${this.baseUrl}intentos/`, { responseType: 'json' });
   }
+
+  autorizarCertificado(intentoId: number): Observable<any> {
+    return this.http.post(`${this.intentosUrl}${intentoId}/autorizar/`, {});
+  }
+
+  getPendientesAutorizacion(cursoId?: number): Observable<any[]> {
+    const params = cursoId ? `?curso_id=${cursoId}` : '';
+    return this.http.get<any[]>(`${this.intentosUrl}pendientes_autorizacion/${params}`);
+  }
+
+  // En tu archivo de servicio Evaluaciones
+  getAutorizadosPorCurso(cursoId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.intentosUrl}list_autorizados/?curso_id=${cursoId}`);
+  }
+
+  getTodosLosAutorizados(): Observable<any[]> {
+    // Este llama al endpoint que creamos en tu ViewSet de Django
+    return this.http.get<any[]>(`${this.intentosUrl}list_autorizados/`);
+  }
+
+  exportarAutorizadosCSV(cursoId: number): Observable<Blob> {
+    return this.http.get(
+      `${this.intentosUrl}exportar_autorizados/?curso_id=${cursoId}`,
+      { responseType: 'blob' }
+    );
+  }
+  
 }

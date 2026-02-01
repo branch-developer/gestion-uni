@@ -17,6 +17,9 @@ export class LoginComponent {
   private router = inject(Router);
 
   onSubmit() {
+    localStorage.clear();
+    sessionStorage.clear();
+
     this.authService.login(this.correo, this.password).subscribe({
       next: (res) => {
         console.log('¡Respuesta recibida!', res);
@@ -28,7 +31,6 @@ export class LoginComponent {
 
         // Normalizamos el rol a minúscula
         const rol = res.usuario.rol.toLowerCase();
-        console.log('El rol es:', rol);
 
         // Redirigir según rol
         if (rol === 'estudiante') {

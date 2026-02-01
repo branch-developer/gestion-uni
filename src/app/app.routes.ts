@@ -133,6 +133,15 @@ export const routes: Routes = [
         loadComponent: () => import('./dashboard/evaluaciones/detalle-evaluacion/detalle-evaluacion').then(m => m.DetalleEvaluacion)
       },
 
+      // Certificados
+      {
+        path: 'certificados/exportar',
+        loadComponent: () => import('./dashboard/certificados/exportar-certificados/exportar-certificados').then(m => m.ExportarCertificados)
+      },
+      {
+        path: 'certificados/autorizar',
+        loadComponent: () => import('./dashboard/certificados/autorizar-certificados/autorizar-certificados').then(m => m.AutorizarCertificados)
+      },
 
       // Pagos
       {

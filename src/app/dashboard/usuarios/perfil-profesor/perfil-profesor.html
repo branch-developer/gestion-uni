@@ -3,32 +3,27 @@
   <!-- Contenido -->
   <main class="flex-1 flex flex-col">
 
-    <!-- Topbar -->
-    <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10">
-      <div class="flex items-center gap-4">
-        <img [src]="foto" class="w-14 h-14 rounded-full object-cover border-2 border-slate-200">
-        <div>
-          <h1 class="text-xl font-bold">{{ profesor.nombre }}</h1>
-          <p class="text-sm text-slate-500 italic">
-            {{ profesor.especialidad }}
-          </p>
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-20 w-full shadow-sm">
+        <div class="flex flex-col">
+            <h1 class="text-2xl font-bold text-slate-800 capitalize leading-tight">
+                {{ usuarioActual?.rol || 'Profesor' }}
+            </h1>
+            <p class="text-sm text-slate-500 italic hidden md:block">
+                Gestión de curso, progreso y recordatorios
+            </p>
         </div>
-      </div>
 
-      <div>
-        <input
-          type="file"
-          accept="image/*"
-          #fileInput
-          hidden
-          (change)="cambiarFoto($event)"
-        />
-        <button
-          (click)="fileInput.click()"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
-          Cambiar Foto
-        </button>
-      </div>
+        <div class="flex items-center gap-4 ml-auto">
+            <div class="text-right hidden sm:block">
+                <p class="text-sm font-bold text-slate-700 leading-tight">
+                    {{ usuarioActual?.nombre_completo }}
+                </p>
+                <p class="text-xs text-indigo-500 font-medium">
+                    {{ usuarioActual?.correo }}
+                </p>
+            </div>
+        </div>
     </header>
 
     <div class="p-8 space-y-8">
@@ -90,49 +85,67 @@
       </section>
 
       <!-- Gestión de Estudiantes -->
-      <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b bg-slate-50">
-          <h2 class="font-bold text-slate-800">Estudiantes y Certificaciones</h2>
-        </div>
+    <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+      <div class="px-6 py-4 border-b bg-slate-50 flex justify-between items-center">
+        <h2 class="font-bold text-slate-800">Historial de Estudiantes y Certificaciones</h2>
+        <button (click)="autorizar()" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+            Autorizar 
+        </button>
+      </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 text-slate-500 uppercase">
-              <tr>
-                <th class="px-6 py-3">Correo</th>
-                <th class="px-6 py-3">Curso</th>
-                <th class="px-6 py-3">Estado</th>
-                <th class="px-6 py-3">Acciones</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y">
-              <tr *ngFor="let est of estudiantes" class="hover:bg-slate-50">
-                <td class="px-6 py-3 font-medium">{{ est.correo }}</td>
-                <td class="px-6 py-3">{{ est.curso }}</td>
-                <td class="px-6 py-3">
-                  <span [class.text-green-600]="est.estado === 'Aprobado'" 
-                        [class.text-yellow-600]="est.estado === 'Viendo Curso'"
-                        [class.text-red-600]="est.estado === 'No Aprobado'"
-                        class="font-semibold">
-                    {{ est.estado }}
-                  </span>
-                </td>
-                <td class="px-6 py-3">
-                  <button 
-                    *ngIf="est.estado !== 'Aprobado'"
-                    (click)="autorizarCertificacion(est.correo)"
-                    class="text-indigo-600 hover:text-indigo-800 font-medium">
-                    Autorizar
-                  </button>
-                  <span *ngIf="est.estado === 'Aprobado'" class="text-green-600">
-                    ✓ Certificado
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-50 text-slate-500 uppercase">
+            <tr>
+              <th class="px-6 py-3">Estudiante</th>
+              <th class="px-6 py-3">Curso</th>
+              <th class="px-6 py-3 text-center">Nota</th>
+              <th class="px-6 py-3 text-center">Estado</th>
+              <th class="px-6 py-3">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr *ngFor="let est of estudiantes" class="hover:bg-slate-50">
+              <td class="px-6 py-3">
+                <p class="font-bold text-slate-800">{{ est.estudiante_nombre }}</p>
+                <p class="text-xs text-slate-500">{{ est.estudiante_correo }}</p>
+              </td>
+              <td class="px-6 py-3">
+                <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">
+                  {{ est.curso_nombre }}
+                </span>
+              </td>
+              <td class="px-6 py-3 text-center font-semibold">
+                {{ est.nota_total ?? '-' }}
+              </td>
+              <td class="px-6 py-3 text-center">
+                <span [class]="est.aprobado ? 'text-green-600 font-bold' : 'text-red-600'">
+                  {{ est.aprobado ? 'Aprobado' : 'Reprobado' }}
+                </span>
+              </td>
+              <td class="px-6 py-3">
+                <span 
+                  *ngIf="est.aprobado && !est.autorizado_profesor"
+                  class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md text-xs transition">
+                  Autorizar
+              </span>
+
+                <span *ngIf="est.aprobado && est.autorizado_profesor" class="text-green-600 font-bold flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  Certificado
+                </span>
+
+                <span *ngIf="!est.aprobado" class="text-slate-400 italic text-xs">
+                  Sin acciones
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     </div>
   </main>

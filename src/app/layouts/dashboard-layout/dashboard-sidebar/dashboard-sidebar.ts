@@ -50,6 +50,10 @@ export class DashboardSidebar {
                   nombre: 'Crear Curso',
                   ruta: '/dashboard/crear-curso'
                 },
+                {
+                  nombre: 'Autorizar Certificados',
+                  ruta: '/dashboard/certificados/autorizar'
+                },
               ]
           },          
         ];
@@ -63,6 +67,10 @@ export class DashboardSidebar {
               { nombre: 'Lista de cursos', ruta: '/dashboard/cursos-disponibles' },
               { nombre: 'Crear Curso', ruta: '/dashboard/crear-curso' }
             ]
+          },
+          {
+            nombre: 'Exportar Certificados',
+            ruta: '/dashboard/certificados/exportar'
           },
           {
             nombre: 'Usuarios',

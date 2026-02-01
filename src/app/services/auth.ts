@@ -41,6 +41,13 @@ export class AuthService {
     return user ? JSON.parse(user) : null;
   }
 
+  // cuenta de usuarios registrados
+  getUsuarios(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.get<any[]>(`${this.apiUrl}usuarios/`, { headers });
+  }
+
  // Devuelve el usuario logueado con sus cursos y módulos
   getUsuarioCompleto(): Observable<any> {
     const token = this.getToken();
@@ -48,7 +55,7 @@ export class AuthService {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
     }).pipe(
       tap(usuario => {
-        this._usuario = usuario;              // actualiza _usuario
+        this._usuario = usuario;  // actualiza _usuario
         localStorage.setItem('usuario', JSON.stringify(usuario)); // opcional
       })
     );

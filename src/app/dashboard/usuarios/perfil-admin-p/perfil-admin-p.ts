@@ -1,69 +1,84 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-interface Pago {
-  id: number;
-  alumno: string;
-  curso: string;
-  monto: string;
-  fecha: string;
-}
+import { RouterModule, Router } from '@angular/router';
+import { Pagos } from '../../../services/pagos'; 
+import { Pago } from '../../../core/models/pago'; 
+import { AuthService } from '../../../services/auth';
 
 @Component({
   selector: 'app-perfil-admin-p',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule], // Necesario para usar *ngFor, ngModel, routerLink en el HTML
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './perfil-admin-p.html',
-  
 })
-export class PerfilAdminPComponent {
+export class PerfilAdminPComponent implements OnInit {
+  private pagosService = inject(Pagos);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-  // Datos de ejemplo para que la vista funcione
-  pagosPendientes: Pago[] = [
-    { id: 2, alumno: 'Ana Gómez', curso: 'JavaScript Avanzado', monto: '$95', fecha: '21/12/2025' }
-  ];
+  pagosPendientes: Pago[] = [];
+  pagosAprobados: Pago[] = [];
+  modalPago: Pago | null = null;
+  motivoRechazo: string = '';
 
-  pagosAprobados: Pago[] = [
-    // La vista ya tiene un ejemplo estático, este array puede estar vacío inicialmente
-  ];
+  usuarioActual: any;
+  rolUsuario: string = '';
 
-  pagoSeleccionado: Pago | null = null;
-
-  get totalPagos(): number {
-    return this.pagosAprobados.reduce((acc, pago) => {
-      // Elimina el símbolo $ y convierte a número
-      const valor = parseFloat(pago.monto.replace(/[^0-9.-]+/g, ''));
-      return acc + (isNaN(valor) ? 0 : valor);
-    }, 0);
+  ngOnInit(): void {
+    this.usuarioActual = this.authService.getUsuario();
+    this.cargarDatos();
   }
 
-  cerrarSesion() {
-    if (confirm('¿Deseas cerrar sesión?')) {
-      window.location.href = '/login';
+  cargarDatos() {
+    // Cargar Pendientes
+    this.pagosService.pagosPendientes().subscribe(data => this.pagosPendientes = data);
+    
+    // Cargar Historial para los Aprobados (o crear un método en el service que solo traiga aprobados)
+    this.pagosService.misPagos().subscribe(data => {
+      this.pagosAprobados = data.filter(p => p.estado === 'aprobado');
+    });
+  }
+
+  get totalDineroAprobado(): number {
+    return this.pagosAprobados.reduce((acc, p) => acc + parseFloat(p.monto.toString()), 0);
+  }
+
+  abrirModal(p: Pago) {
+    this.modalPago = p;
+    this.motivoRechazo = '';
+  }
+
+  aprobarPago() {
+    this.router.navigate(['/dashboard/pagos/aprobar']);
+  }
+
+  historialPagos() {
+    this.router.navigate(['/dashboard/pagos/historial']);
+  }
+
+  cerrarModal() {
+    this.modalPago = null;
+  }
+
+  rechazarPago() {
+    if (!this.modalPago || !this.motivoRechazo) {
+      alert('Por favor ingrese un motivo');
+      return;
     }
+    this.pagosService.rechazarPago(this.modalPago.id, this.motivoRechazo).subscribe(() => {
+      this.cargarDatos();
+      this.cerrarModal();
+      alert('Pago rechazado');
+    });
   }
 
-  verDetalles(pago: Pago) {
-    alert(`Viendo detalles del pago de ${pago.alumno} para el curso ${pago.curso}.`);
+  verComprobante(url: string) {
+    window.open(url, '_blank');
   }
 
-  autorizarPago(pago: Pago) {
-    if (confirm(`¿Autorizar el pago de ${pago.alumno} para ${pago.curso}?`)) {
-      // Mover el pago a la lista de aprobados
-      this.pagosAprobados.push(pago);
-      // Eliminar el pago de la lista de pendientes
-      this.pagosPendientes = this.pagosPendientes.filter(p => p.id !== pago.id);
-      alert('Pago autorizado.');
-    }
-  }
-
-  seleccionarPago(pago: Pago) {
-    this.pagoSeleccionado = pago;
-  }
-
-  cambiarEstado(pago: Pago, estado: string) {
-    alert(`Cambiando estado del pago de ${pago.alumno} a ${estado}`);
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

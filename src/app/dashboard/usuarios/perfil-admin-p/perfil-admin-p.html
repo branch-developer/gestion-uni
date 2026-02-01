@@ -1,104 +1,167 @@
 <div class="min-h-screen flex bg-slate-50 text-slate-900">
-
-  <!-- Contenido -->
   <main class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-20 w-full shadow-sm">
+        <div class="flex flex-col">
+            <h1 class="text-2xl font-bold text-slate-800 capitalize leading-tight">
+                {{ usuarioActual?.rol || 'AdminP' }}
+            </h1>
+            <p class="text-sm text-slate-500 italic hidden md:block">
+                Verificación y Control de Pagos
+            </p>
+        </div>
 
-    <!-- Topbar -->
-    <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-800">Admin P</h1>
-        <p class="text-sm text-slate-500 italic">
-          Verificación y control de pagos
-        </p>
-      </div>
-      <div class="text-right">
-        <p class="text-sm font-semibold">Administrador de Pagos</p>
-        <p class="text-xs text-slate-400">adminp@ejemplo.com</p>
-      </div>
+        <div class="flex items-center gap-6 ml-auto">
+          <div class="text-right hidden sm:block pr-6 ">
+            <p class="text-sm font-bold text-slate-700 leading-tight">
+              {{ usuarioActual?.nombre_completo }}
+            </p>
+            <p class="text-xs text-indigo-500 font-medium">
+              {{ usuarioActual?.correo }}
+            </p>
+          </div>
+        </div>
     </header>
 
-    <div class="p-8 space-y-8">
-
-      <!-- Stats -->
+    <div class="p-8 space-y-8 animate-in">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border shadow-sm">
-          <p class="text-sm text-slate-500">Pagos Pendientes</p>
-          <h3 class="text-3xl font-bold">{{ pagosPendientes.length }}</h3>
+       
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-indigo-200 transition-colors">
+          <p class="text-slate-500 text-sm font-medium">Pendientes</p>
+          <h3 class="text-3xl font-bold text-slate-800 mt-1">{{ pagosPendientes.length }}</h3>
+          <p class="text-xs text-slate-400 mt-2">Pagos pendientes</p>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border shadow-sm">
-          <p class="text-sm text-slate-500">Pagos Aprobados</p>
-          <h3 class="text-3xl font-bold">{{ pagosAprobados.length }}</h3>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-200 transition-colors">
+          <p class="text-slate-500 text-sm font-medium">Aprobados</p>
+          <h3 class="text-3xl font-bold text-emerald-600 mt-1">{{ pagosAprobados.length }}</h3>
+          <p class="text-xs text-slate-400 mt-2">Total pagos aprobados</p>        
         </div>
 
-        <div class="bg-white p-6 rounded-2xl border shadow-sm">
-          <p class="text-sm text-slate-500">Monto Total</p>
-          <h3 class="text-3xl font-bold">${{ totalPagos }}</h3>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-200 transition-colors">
+          <p class="text-slate-500 text-sm font-medium">Recaudado</p>
+          <h3 class="text-3xl font-bold text-slate-800 mt-1">{{ totalDineroAprobado | currency }}</h3>
+          <p class="text-xs text-slate-400 mt-2">Total monto recaudado</p>
         </div>
       </div>
 
-      <!-- Pagos Pendientes -->
-      <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b bg-slate-50">
-          <h2 class="font-bold text-slate-800">
-            Pagos Pendientes de Verificación
-          </h2>
+    <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-bounce-in">
+        <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
+            <div>
+                <h2 routerLink="/dashboard/certificados/exportar" class="font-bold text-slate-800 text-lg cursor-pointer">
+                    Pagos por Verificar
+                </h2>
+                <p class="text-xs text-slate-500">Listado de pagos pendientes</p>
+            </div>
+            <button (click)="aprobarPago()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium shadow-sm transition-all">
+                Aprobar Pagos
+            </button>
+        </div>      
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50 border-b border-slate-200">
+              <tr class="text-[11px] uppercase tracking-wider font-bold text-slate-500">
+                <th class="px-6 py-4 text-left">Estudiante</th>
+                <th class="px-6 py-4 text-left">Curso</th>
+                <th class="px-6 py-4 text-left">Monto</th>
+                <th class="px-6 py-4 text-left">Referencia</th>
+                <th class="px-6 py-4 text-center">Comprobante</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr *ngFor="let p of pagosPendientes" class="hover:bg-slate-50 transition">
+                <td class="px-6 py-4 font-bold">{{ p.inscripcion_usuario_nombre }}</td>
+                <td class="px-6 py-4">{{ p.curso_nombre }}</td>
+                <td class="px-6 py-4 font-black">{{ p.monto | currency }}</td>
+                <td class="px-6 py-4 font-mono">{{ p.referencia || '—' }}</td>
+                <td class="px-6 py-4 text-center">
+                  <img *ngIf="p.captura_comprobante" [src]="p.captura_comprobante" 
+                       (click)="verComprobante(p.captura_comprobante)"
+                       class="h-10 w-10 mx-auto rounded border cursor-pointer hover:scale-110 transition">
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <table class="w-full text-left">
-          <thead class="bg-slate-50 text-xs uppercase text-slate-500">
-            <tr>
-              <th class="px-6 py-4">Alumno</th>
-              <th class="px-6 py-4">Curso</th>
-              <th class="px-6 py-4">Monto</th>
-              <th class="px-6 py-4">Fecha</th>
-              <th class="px-6 py-4 text-right">Acciones</th>
-            </tr>
-          </thead>
-
-          <tbody class="divide-y">
-            <tr *ngFor="let pago of pagosPendientes" class="hover:bg-slate-50">
-              <td class="px-6 py-4 font-medium">{{ pago.alumno }}</td>
-              <td class="px-6 py-4">{{ pago.curso }}</td>
-              <td class="px-6 py-4">${{ pago.monto }}</td>
-              <td class="px-6 py-4">{{ pago.fecha }}</td>
-              <td class="px-6 py-4 text-right space-x-2">
-                <button
-                  (click)="verDetalles(pago)"
-                  class="px-3 py-1 text-sm bg-indigo-500 text-white rounded hover:bg-indigo-600">
-                  Ver
-                </button>
-                <button
-                  (click)="autorizarPago(pago)"
-                  class="px-3 py-1 text-sm bg-emerald-500 text-white rounded hover:bg-emerald-600">
-                  Autorizar
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </section>
 
-      <!-- Pagos Aprobados -->
-      <section class="bg-white rounded-2xl border shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b bg-slate-50">
-          <h2 class="font-bold text-slate-800">Pagos Aprobados</h2>
+      <section class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden animate-bounce-in">
+        <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
+
+          <div>
+            <h2 routerLink="/dashboard/certificados/exportar" class="font-bold text-slate-800 text-lg cursor-pointer">
+              Historial de Pagos
+            </h2>
+            <p class="text-xs text-slate-500">Listado de pagos</p>
+          </div>
+          <button (click)="historialPagos()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors">
+            Historial de Pagos
+          </button>
         </div>
 
-        <ul class="divide-y">
-          <li
-            *ngFor="let pago of pagosAprobados"
-            class="px-6 py-4 flex justify-between items-center">
-            <span>
-              {{ pago.alumno }} – {{ pago.curso }}
-            </span>
-            <span class="text-emerald-600 font-semibold">
-              ${{ pago.monto }} ✔
-            </span>
-          </li>
-        </ul>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50 border-b border-slate-200">
+              <tr class="text-[11px] uppercase tracking-wider font-bold text-slate-500">
+                <th class="px-6 py-4 text-left">Estudiante</th>
+                <th class="px-6 py-4 text-left">Curso</th>
+                <th class="px-6 py-4 text-left">Método</th>
+                <th class="px-6 py-4 text-left">Monto</th>
+                <th class="px-6 py-4 text-left">Referencia</th>
+                <th class="px-6 py-4 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+              <tr *ngFor="let p of pagosAprobados" class="hover:bg-emerald-50/30 transition">
+                <td class="px-6 py-4 font-bold">{{ p.inscripcion_usuario_nombre }}</td>
+                <td class="px-6 py-4">{{ p.curso_nombre }}</td>
+                <td class="px-6 py-4">
+                    <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase">
+                        {{ p.metodo_pago }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 font-black">{{ p.monto | currency }}</td>
+                <td class="px-6 py-4 font-mono text-slate-500">{{ p.referencia }}</td>
+                <td class="px-6 py-4 text-center">
+                  <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-black">
+                    Aprobado
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
-
     </div>
   </main>
+
+  <div *ngIf="modalPago" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-3xl w-full max-w-lg p-8 shadow-2xl animate-in zoom-in-95">
+      <h3 class="text-2xl font-black text-slate-800 mb-6">Revisar Pago</h3>
+      
+      <div class="space-y-3 mb-6 text-slate-600">
+        <p><strong>Estudiante:</strong> {{ modalPago.inscripcion_usuario_nombre }}</p>
+        <p><strong>Curso:</strong> {{ modalPago.curso_nombre }}</p>
+        <p><strong>Referencia:</strong> {{ modalPago.referencia }}</p>
+        <p><strong>Monto:</strong> <span class="text-slate-900 font-black">{{ modalPago.monto | currency }}</span></p>
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-sm font-bold text-slate-700 mb-2">Motivo de rechazo (solo si rechaza)</label>
+        <textarea [(ngModel)]="motivoRechazo" class="w-full border border-slate-200 rounded-2xl p-4 focus:ring-2 focus:ring-blue-500 outline-none" rows="3" placeholder="Ej: Comprobante ilegible..."></textarea>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <button (click)="aprobarPago()" class="w-full bg-emerald-500 text-white font-black py-3 rounded-2xl hover:bg-emerald-600 transition">
+          Aprobar
+        </button>
+        <button (click)="rechazarPago()" class="w-full bg-red-100 text-red-600 font-black py-3 rounded-2xl hover:bg-red-200 transition">
+          Rechazar
+        </button>
+        <button (click)="cerrarModal()" class="w-full text-slate-400 font-bold py-2 hover:text-slate-600 transition">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

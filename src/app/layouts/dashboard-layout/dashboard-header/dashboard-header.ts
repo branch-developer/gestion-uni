@@ -31,7 +31,11 @@ export class DashboardHeader {
 
   confirmLogout() {
     this.auth.logout(); // acción real de logout
-    this.router.navigate(['/login']);
+    try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
+      this.router.navigate(['/login']);
     this.logoutModalOpen = false;
   }
 }

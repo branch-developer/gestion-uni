@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EvaluacionComponent } from './evaluacion.component';
+import { ExportarCertificados } from './exportar-certificados';
 
-describe('EvaluacionComponent', () => {
-  let component: EvaluacionComponent;
-  let fixture: ComponentFixture<EvaluacionComponent>;
+describe('ExportarCertificados', () => {
+  let component: ExportarCertificados;
+  let fixture: ComponentFixture<ExportarCertificados>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EvaluacionComponent]
+      imports: [ExportarCertificados]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EvaluacionComponent);
+    fixture = TestBed.createComponent(ExportarCertificados);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
