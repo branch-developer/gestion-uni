@@ -33,17 +33,28 @@
     </nav>
 </div>
 
-<section class="relative py-16">
-  <!-- Contenedor de fondo con imagen y overlay -->
-  <div class="absolute inset-0" style="background-image: url('/img/cover%20rodriguez%20academia.png'); background-size: contain; background-position: center;">
-    <!-- Overlay para legibilidad del texto -->
-    <div class="absolute inset-0 bg-gray-50/70 dark:bg-gray-900/70"></div>
-  </div>
+<div class="fixed inset-0 -z-10" style="background-image: url('/img/cover%20rodriguez%20academia.png'); background-size: cover; background-position: center;"></div>
+
+<section class="relative py-16 px-4">
+  <div class="max-w-7xl mx-auto bg-white/80 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_rgba(8,_112,_184,_0.5)] border border-white/60 overflow-hidden relative p-8 md:p-12 ring-1 ring-white/50">
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply blob blob-1"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-purple-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply blob blob-2"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply blob blob-3"></div>
 
   <div class="relative z-10 courses-container">
 
+  <div class="text-center mb-16">
+    <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
+      Nuestros <span class="text-blue-600">Cursos</span>
+    </h2>
+    <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+  </div>
+
   <!-- Curso 1 -->
   <article class="course-card">
+    <div class="absolute top-5 right-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-20">
+      POPULAR
+    </div>
     <div class="course-content">
       <h3>Comunicación Organizacional</h3>
       <p>
@@ -52,7 +63,7 @@
         conceptos base y metodologías que pueda aplicar en todo tipo de
         organizaciones, empresas, instituciones, fundaciones y Ongs.
       </p>
-      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete Ahora!</a>
     </div>
     <div class="course-image">
       <img src="/img/comunicacion%20organizacional.jpeg"
@@ -69,7 +80,7 @@
         participantes las herramientas y conocimientos necesarios para
         desarrollarse en el mundo de la belleza.
       </p>
-      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+      <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete Ahora!</a>
     </div>
     <div class="course-image">
       <img src="/img/estetica.jpeg" alt="Estética" />
@@ -86,6 +97,7 @@
         facilitación de debates y la gestión de reuniones remotas.
       </p>
       <a routerLink="/inscripcion" class="btn-inscribete">Inscríbete</a>
+
     </div>
     <div class="course-image">
       <img src="/img/presupuesto%20y%20administracion%20financiera.jpeg"
@@ -93,6 +105,7 @@
     </div>
   </article>
 
+</div>
 </div>
 
 </section>
@@ -107,7 +120,7 @@
           <p class="text-gray-400 mb-3 text-sm leading-relaxed">
             Tu éxito es nuestra prioridad. Ofrecemos cursos de alta calidad para
             ayudarte a alcanzar tus metas académicas y profesionales.
-          </p>
+
           <div class="flex flex-col space-y-1 text-gray-300 text-sm">
             <span class="flex items-center"><i class="fas fa-phone mr-2 text-blue-500"></i> TLF: 0424-973-5868</span>
             <span class="flex items-center"><i class="fas fa-envelope mr-2 text-blue-500"></i> @rodriguez.academiaintegral</span>
