@@ -1,90 +1,87 @@
-<!-- HERO / CURSOS -->
-<section class="relative py-20">
-  <!-- Fondo -->
-  <div
-    class="absolute inset-0 bg-cover bg-center"
-    style="background-image: url('/img/cover rodriguez academia.png');">
-    <div class="absolute inset-0 bg-white/60"></div>
-  </div>
+<style>
+  @keyframes float {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+  .animate-float { animation: float 10s infinite ease-in-out; }
+</style>
 
-  <!-- Contenido -->
-  <div class="relative z-10 max-w-7xl mx-auto px-6 space-y-16">
+<div class="fixed inset-0 -z-10 bg-cover bg-center" style="background-image: url('/img/cover%20rodriguez%20academia.png');"></div>
 
-    <!-- Curso 1 (Texto izquierda / Imagen derecha) -->
-      <article class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col-reverse md:flex-row">      <div class="md:w-1/2 p-8 flex flex-col justify-center">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">
-          Comunicación Organizacional
-        </h3>
-        <p class="text-gray-700 text-sm leading-relaxed mb-6">
-          Tiene como objetivo principal evidenciar el potencial que tiene la
-          Comunicación en las organizaciones y que los participantes cuenten con los
-          conceptos base y metodologías que pueda aplicar en todo tipo de
-          organizaciones, empresas, instituciones, fundaciones y Ongs.
-        </p>
-        <a
-          routerLink="/inscripcion"
-          class="w-fit bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition">
-          Inscríbete
-        </a>
+<section class="relative py-16 px-4 font-['Lato',_sans-serif]">
+  <div class="max-w-7xl mx-auto bg-white/80 backdrop-blur-2xl rounded-[30px] shadow-[0_20px_60px_rgba(8,112,184,0.5)] border border-white/60 overflow-hidden relative p-8 md:p-12 ring-1 ring-white/50">
+    
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply animate-float"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-purple-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply animate-float [animation-delay:2s]"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-500/40 rounded-full blur-3xl pointer-events-none mix-blend-multiply animate-float [animation-delay:4s]"></div>
+
+    <div class="relative z-10 max-w-[1200px] mx-auto flex flex-col gap-[60px]">
+      
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
+          Nuestros <span class="text-blue-600">Cursos</span>
+        </h2>
+        <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
       </div>
 
-      <div class="md:w-1/2 h-64 md:h-[320px]">
-        <img
-          src="/img/comunicacion organizacional.jpeg"
-          alt="Comunicación Organizacional"
-          class="w-full h-full object-cover">
-      </div>
-    </article>
+      <article class="group relative flex flex-col md:flex-row md:even:flex-row-reverse bg-white rounded-[15px] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-white/60 transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:-translate-y-[15px] hover:scale-[1.02] hover:shadow-[0_30px_60px_rgba(39,78,187,0.25)] hover:border-blue-800/30">
+        <div class="absolute top-5 right-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-20">
+          POPULAR
+        </div>
+        
+        <div class="flex-1 p-8 md:p-[50px] flex flex-col justify-center">
+          <h3 class="relative text-[2rem] font-bold mb-[25px] pb-[15px] leading-tight bg-gradient-to-r from-[#1a3a8f] to-[#00c6ff] bg-clip-text text-transparent after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#274ebb] after:to-[#00c6ff] after:rounded-full">
+            Comunicación Organizacional
+          </h3>
+          <p class="text-[#444] leading-[1.9] text-[1.15rem] mb-[25px]">
+            Tiene como objetivo principal evidenciar el potencial que tiene la Comunicación en las organizaciones y que los participantes cuenten con conceptos base.
+          </p>
+          <a routerLink="/inscripcion" class="group/btn inline-flex items-center self-start px-8 py-3 bg-gradient-to-br from-[#1a3a8f] to-[#00c6ff] text-white font-bold rounded-full shadow-[0_5px_15px_rgba(39,78,187,0.4)] transition-all hover:-translate-y-1 hover:scale-105 hover:shadow-[0_8px_25px_rgba(39,78,187,0.6)]">
+            Inscríbete Ahora! <span class="ml-2 transition-transform group-hover/btn:translate-x-2">→</span>
+          </a>
+        </div>
 
-    <!-- Curso 2 (Imagen izquierda / Texto derecha) -->
-      <article class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col-reverse md:flex-row">      <div class="md:w-1/2 p-8 flex flex-col justify-center">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">
-          Estética
-        </h3>
-        <p class="text-gray-700 text-sm leading-relaxed mb-6">
-        Ofrecemos un curso de belleza integral diseñado para proporcionar a los
-        participantes las herramientas y conocimientos necesarios para
-        desarrollarse en el mundo de la belleza.
-        </p>
-        <a
-          routerLink="/inscripcion"
-          class="w-fit bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition">
-          Inscríbete
-        </a>
-      </div>
+        <div class="flex-1 min-h-[350px] overflow-hidden">
+          <img src="/img/comunicacion%20organizacional.jpeg" alt="Comunicación" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-115 group-hover:rotate-2" />
+        </div>
+      </article>
 
-      <div class="md:w-1/2 h-64 md:h-[320px]">
-        <img
-          src="/img/estetica.jpeg"
-          alt="Estética"
-          class="w-full h-full object-cover">
-      </div>
-    </article>
+      <article class="group relative flex flex-col md:flex-row md:even:flex-row-reverse bg-white rounded-[15px] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-white/60 transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:-translate-y-[15px] hover:scale-[1.02] hover:shadow-[0_30px_60px_rgba(39,78,187,0.25)] hover:border-blue-800/30">
+        <div class="flex-1 p-8 md:p-[50px] flex flex-col justify-center">
+          <h3 class="relative text-[2rem] font-bold mb-[25px] pb-[15px] leading-tight bg-gradient-to-r from-[#1a3a8f] to-[#00c6ff] bg-clip-text text-transparent after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#274ebb] after:to-[#00c6ff] after:rounded-full">
+            Estética
+          </h3>
+          <p class="text-[#444] leading-[1.9] text-[1.15rem] mb-[25px]">
+            Ofrecemos un curso de belleza integral diseñado para proporcionar a los participantes las herramientas necesarias para el mundo de la belleza.
+          </p>
+          <a routerLink="/inscripcion" class="group/btn inline-flex items-center self-start px-8 py-3 bg-gradient-to-br from-[#1a3a8f] to-[#00c6ff] text-white font-bold rounded-full shadow-[0_5px_15px_rgba(39,78,187,0.4)] transition-all hover:-translate-y-1 hover:scale-105">
+            Inscríbete Ahora! <span class="ml-2 transition-transform group-hover/btn:translate-x-2">→</span>
+          </a>
+        </div>
+        <div class="flex-1 min-h-[350px] overflow-hidden">
+          <img src="/img/estetica.jpeg" alt="Estética" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-115 group-hover:rotate-2" />
+        </div>
+      </article>
 
-    <!-- Curso 3 (Texto izquierda / Imagen derecha) -->
-      <article class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col-reverse md:flex-row">      <div class="md:w-1/2 p-8 flex flex-col justify-center">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">
-          Presupuesto y Administración Financiera
-        </h3>
-        <p class="text-gray-700 text-sm leading-relaxed mb-6">
-        Equipate con habilidades para llevar a cabo reuniones efectivas y
-        productivas. Los cursos cubren el establecimiento de agendas, la
-        facilitación de debates y la gestión de reuniones remotas.
-        </p>
-        <a
-          routerLink="/inscripcion"
-          class="w-fit bg-blue-600 text-white px-6 py-2 rounded-md font-semibold hover:bg-blue-700 transition">
-          Inscríbete
-        </a>
-      </div>
+      <article class="group relative flex flex-col md:flex-row md:even:flex-row-reverse bg-white rounded-[15px] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.1)] border border-white/60 transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:-translate-y-[15px] hover:scale-[1.02] hover:shadow-[0_30px_60px_rgba(39,78,187,0.25)] hover:border-blue-800/30">
+        <div class="flex-1 p-8 md:p-[50px] flex flex-col justify-center">
+          <h3 class="relative text-[2rem] font-bold mb-[25px] pb-[15px] leading-tight bg-gradient-to-r from-[#1a3a8f] to-[#00c6ff] bg-clip-text text-transparent after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#274ebb] after:to-[#00c6ff] after:rounded-full">
+            Presupuesto y Finanzas
+          </h3>
+          <p class="text-[#444] leading-[1.9] text-[1.15rem] mb-[25px]">
+            Equípate con habilidades para llevar a cabo reuniones efectivas. Cubre agendas, facilitación de debates y gestión remota.
+          </p>
+          <a routerLink="/inscripcion" class="group/btn inline-flex items-center self-start px-8 py-3 bg-gradient-to-br from-[#1a3a8f] to-[#00c6ff] text-white font-bold rounded-full shadow-[0_5px_15px_rgba(39,78,187,0.4)] transition-all hover:-translate-y-1 hover:scale-105">
+            Inscríbete <span class="ml-2 transition-transform group-hover/btn:translate-x-2">→</span>
+          </a>
+        </div>
+        <div class="flex-1 min-h-[350px] overflow-hidden">
+          <img src="/img/presupuesto%20y%20administracion%20financiera.jpeg" alt="Presupuesto" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-115 group-hover:rotate-2" />
+        </div>
+      </article>
 
-      <div class="md:w-1/2 h-64 md:h-[320px]">
-        <img
-          src="/img/presupuesto y administracion financiera.jpeg"
-          alt="Presupuesto y Administración Financiera"
-          class="w-full h-full object-cover">
-      </div>
-    </article>
-
+    </div>
   </div>
 </section>
